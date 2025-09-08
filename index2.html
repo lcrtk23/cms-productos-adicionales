@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ticket Interface - CSS Only</title>
+  <style>
+    /* CSS Reset básico */
+    .tmpe-container *,
+    .tmpe-modal-overlay *,
+    .tmpe-sidebar-panel * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    /* Eliminar los estilos de aislamiento general que estaban causando conflictos */
+    
+    .tmpe-container {
+      width: 800px !important;
+      max-width: 800px !important;
+      margin: 0 auto !important;
+      background: #FAFBFC;
+      position: relative;
+      z-index: 1;
+      box-sizing: border-box !important;
+      overflow: hidden !important;
+      box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    @media (max-width: 800px) {
+      .tmpe-container {
+        width: 100% !important;
+      }
+    }
+
+
+
+    /* Tarjetas de ticket - Desktop */
+    .tmpe-ticket-item {
+      display: flex;
+      align-items: center;
+      padding: 20px 24px;
+      background: #fff;
+      border-bottom: 1px solid #D6D6D6;
+      position: relative;
+      justify-content: space-between;
+      gap: 24px;
+      transition: background-color 0.2s ease;
+    }
+
+    /* IMAGEN DEL CANAL - Estilos para los contenedores de logos */
+    .tmpe-logo-container {
+      width: 56px;
+      height: 56px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* IMAGEN DEL CANAL - Colores de fondo específicos para cada canal */
+    .tmpe-logo-interbank {
+      background: #1A1A1A;
+    }
+
+    .tmpe-logo-ticketmaster {
+      background: #0744BD;
+    }
+
+    /* IMAGEN DEL CANAL - Estilos para las imágenes de los logos */
+    .tmpe-logo-img {
+      width: 65%;
+      height: 65%;
+      object-fit: contain;
+    }
+
+
+
+
+
+
+
+    .tmpe-info-container {
+      flex: 1;
+    }
+
+    /* NOMBRE DEL BOTÓN - Estilos para los títulos de los canales de venta */
+    .tmpe-container .tmpe-ticket-title,
+    .tmpe-modal-overlay .tmpe-ticket-title,
+    .tmpe-sidebar-panel .tmpe-ticket-title {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #262626;
+      letter-spacing: 0.4px;
+      line-height: 20px; /* 100% */
+    }
+
+    /* FECHA Y HORA - Estilos para el texto de fecha y hora de inicio */
+    .tmpe-container .tmpe-date-text,
+    .tmpe-modal-overlay .tmpe-date-text,
+    .tmpe-sidebar-panel .tmpe-date-text {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      color: #7D7D7D;
+      font-size: 16px;
+      font-weight: 400;
+      letter-spacing: 0.32px; /* 2% de 16px */
+      line-height: 20px; /* 125% */
+    }
+
+    .tmpe-status-container {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tmpe-container .tmpe-status-badge,
+    .tmpe-modal-overlay .tmpe-status-badge,
+    .tmpe-sidebar-panel .tmpe-status-badge {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      border: 1px solid #D6D6D6;
+      border-radius: 4px;
+      padding: 4px 8px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      height: 22px;
+      letter-spacing: 0.24px; /* 2% de 12px */
+      line-height: 20px; /* 167% */
+    }
+
+    .tmpe-status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .tmpe-dot-available {
+      background: #048851;
+    }
+
+    .tmpe-dot-soon {
+      background: #646464;
+    }
+
+    /* Estilo de enlace según diseño Figma */
+    .tmpe-container .tmpe-link-details,
+    .tmpe-modal-overlay .tmpe-link-details,
+    .tmpe-sidebar-panel .tmpe-link-details {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background: white;
+      color: #024DDF;
+      border: 1px solid #024DDF;
+      border-radius: 4px;
+      padding: 16px 40px;
+      font-size: 16px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      margin-left: auto;
+      text-decoration: none;
+      letter-spacing: 0.32px; /* 2% de 16px */
+      line-height: 24px; /* 150% */
+      height: 48px;
+      min-width: 150px;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .tmpe-link-mobile {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #024DDF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      cursor: pointer;
+      color: white;
+      text-decoration: none;
+      transition: background-color 0.2s ease;
+    }
+
+    /* Estilos del sidebar */
+    .tmpe-toggle-input {
+      display: none;
+    }
+
+    .tmpe-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 99999;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .tmpe-sidebar-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100%;
+      max-width: 550px;
+      height: 100%;
+      background: white;
+      box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      z-index: 100000;
+    }
+
+    /* Técnica CSS para usar los enlaces como activadores de los paneles */
+    #tmpe-toggle-1:target ~ .tmpe-overlay-1,
+    #tmpe-toggle-2:target ~ .tmpe-overlay-2 {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    #tmpe-toggle-1:target ~ .tmpe-overlay-1 .tmpe-sidebar-panel,
+    #tmpe-toggle-2:target ~ .tmpe-overlay-2 .tmpe-sidebar-panel {
+      transform: translateX(0);
+    }
+
+    .tmpe-sidebar-header {
+      background: #F6F6F6;
+      padding: 16px;
+      text-align: center;
+      position: relative;
+      border-bottom: 1px solid #EBEBEB;
+    }
+
+    .tmpe-container .tmpe-sidebar-title-text,
+    .tmpe-modal-overlay .tmpe-sidebar-title-text,
+    .tmpe-sidebar-panel .tmpe-sidebar-title-text {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      margin: 0;
+      color: #262626;
+      letter-spacing: 0.32px; /* 2% */
+      line-height: 24px; /* 150% */
+    }
+
+    .tmpe-back-button {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      border: none;
+      background: none;
+      display: flex;
+      align-items: center;
+      padding: 0;
+      text-decoration: none;
+    }
+
+    .tmpe-arrow-back {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border: solid #121212;
+      border-width: 0 2px 2px 0;
+      transform: rotate(135deg);
+      margin-right: 5px;
+    }
+
+    .tmpe-close-button {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      text-decoration: none;
+    }
+
+    .tmpe-close-button:before,
+    .tmpe-close-button:after {
+      content: '';
+      position: absolute;
+      width: 15px;
+      height: 2px;
+      background: #121212;
+      top: 50%;
+      left: 50%;
+    }
+
+    .tmpe-close-button:before {
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    .tmpe-close-button:after {
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+
+    .tmpe-sidebar-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+    }
+
+    .tmpe-event-summary {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .tmpe-content-section {
+      margin-bottom: 24px;
+    }
+
+    .tmpe-container .tmpe-section-heading,
+    .tmpe-modal-overlay .tmpe-section-heading,
+    .tmpe-sidebar-panel .tmpe-section-heading {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      color: #262626;
+      letter-spacing: 0.32px; /* 2% */
+      line-height: 24px; /* 150% */
+    }
+
+    /* IMAGEN DEL MAPA - Estilos para el contenedor del mapa de precios */
+    .tmpe-price-map {
+      width: 100%;
+      border-radius: 4px;
+      border: 1px solid #EBEBEB;
+      overflow: hidden;
+    }
+
+    /* IMAGEN DEL MAPA - Estilos para la imagen del mapa */
+    .tmpe-price-map-img {
+      width: 100%;
+      display: block;
+    }
+
+    /* INFORMACIÓN ADICIONAL - Estilos para textos informativos */
+    .tmpe-container .tmpe-note-text,
+    .tmpe-modal-overlay .tmpe-note-text,
+    .tmpe-sidebar-panel .tmpe-note-text {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      color: #646464;
+      font-size: 14px;
+      line-height: 21px; /* 150% */
+      letter-spacing: 0.28px; /* 2% */
+      margin-top: 16px;
+      font-weight: 400;
+    }
+
+    .tmpe-sidebar-footer {
+      padding: 16px 24px;
+      border-top: 1px solid #EBEBEB;
+      background: #fff;
+      box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .tmpe-container .tmpe-buy-button,
+    .tmpe-modal-overlay .tmpe-buy-button,
+    .tmpe-sidebar-panel .tmpe-buy-button {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      display: block;
+      width: 100%;
+      background: #024DDF;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      letter-spacing: 0.32px; /* 2% */
+      line-height: 24px; /* 150% */
+    }
+
+    /* Default state - Desktop first */
+    .tmpe-desktop-view {
+      display: block;
+    }
+    
+    .tmpe-mobile-view {
+      display: none;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 768px) {
+      .tmpe-desktop-view {
+        display: none;
+      }
+      
+      .tmpe-mobile-view {
+        display: block;
+        box-shadow: 0px 1px 4px 0px rgba(18, 18, 18, 0.15);
+      }
+      
+      .tmpe-ticket-item {
+        padding: 0;
+        gap: 0;
+        align-items: stretch;
+      }
+      
+      .tmpe-ticket-link {
+        display: flex;
+        width: 100%;
+        padding: 20px 12px;
+        gap: 16px;
+        align-items: flex-start;
+        text-decoration: none !important;
+        color: inherit;
+        cursor: pointer;
+      }
+      
+      .tmpe-logo-container {
+        width: 42px;
+        height: 40px;
+        margin-right: 0;
+        border-radius: 2.68px;
+        margin-top: 0;
+        align-self: flex-start;
+      }
+      
+      .tmpe-container .tmpe-ticket-title,
+      .tmpe-modal-overlay .tmpe-ticket-title,
+      .tmpe-sidebar-panel .tmpe-ticket-title {
+        font-size: 18px;
+        line-height: 20px;
+        letter-spacing: 0.32px;
+        color: #121212;
+        margin-bottom: 2px;
+      }
+
+      .tmpe-container .tmpe-date-text,
+      .tmpe-modal-overlay .tmpe-date-text,
+      .tmpe-sidebar-panel .tmpe-date-text {
+        font-size: 14px;
+        margin-left: 0;
+        line-height: 20px;
+        letter-spacing: 0.28px;
+        color: #828282;
+      }
+      
+      .tmpe-status-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+      }
+
+      .tmpe-container .tmpe-status-badge,
+      .tmpe-modal-overlay .tmpe-status-badge,
+      .tmpe-sidebar-panel .tmpe-status-badge {
+        font-size: 12px;
+        letter-spacing: 0.24px; /* 2% de 12px */
+        line-height: 20px; /* 167% */
+        color: #121212;
+      }
+      
+      .tmpe-sidebar-panel {
+        max-width: 100%;
+      }
+
+      .tmpe-link-mobile {
+        width: 36px;
+        height: 36px;
+        background: white;
+        border: 1px solid #024DDF;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        align-self: flex-start;
+        margin-top: 0;
+      }
+    }
+
+    /* Desktop hover effect */
+    @media (min-width: 769px) {
+      .tmpe-ticket-item:hover {
+        background-color: #F6F6F6;
+      }
+      
+      .tmpe-link-details:hover {
+        background-color: #024DDF;
+        color: white;
+      }
+      
+      .tmpe-link-details:hover svg polyline {
+        stroke: white;
+      }
+    }
+    
+    /* Mobile hover/active effects */
+    @media (max-width: 768px) {
+      .tmpe-ticket-link:hover, 
+      .tmpe-ticket-link:active {
+        background-color: #F6F6F6;
+      }
+      
+      .tmpe-ticket-link:hover .tmpe-link-mobile, 
+      .tmpe-ticket-link:active .tmpe-link-mobile {
+        background-color: #0035A0;
+      }
+      
+      .tmpe-ticket-link:hover .tmpe-link-mobile svg path, 
+      .tmpe-ticket-link:active .tmpe-link-mobile svg path {
+        stroke: white;
+      }
+    }
+
+    .tmpe-discount-info {
+        margin-bottom: 16px;
+    }
+
+    .tmpe-discount-text {
+        color: #646464;
+        font-size: 14px;
+        line-height: 1.4;
+        margin: 0 0 8px 0;
+        font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    .tmpe-discount-title {
+        color: #262626;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .tmpe-discount-list {
+        color: #646464;
+        font-size: 14px;
+        line-height: 1.4;
+        margin: 8px 0;
+        padding-left: 20px;
+        font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        list-style-type: disc;
+    }
+
+    .tmpe-discount-list li {
+        margin-bottom: 4px;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="tmpe-container">
+  <!-- Vista Desktop -->
+  <div class="tmpe-desktop-view">
+    <!-- Ticket 1 - FAST PASS -->
+    <div class="tmpe-ticket-item">
+      <!-- IMAGEN DEL CANAL - Logo del canal Ticketmaster -->
+      <div class="tmpe-logo-container tmpe-logo-ticketmaster">
+        <img class="tmpe-logo-img" src="https://prod-assets.tmlat.com/T_9318699a9f.svg" alt="Ticketmaster">
+      </div>
+      <div class="tmpe-info-container">
+        <!-- NOMBRE DEL BOTÓN - Título del canal de venta -->
+        <h2 class="tmpe-ticket-title">FAST PASS</h2>
+        <div class="tmpe-status-container">
+          <!-- FECHA Y HORA - Información complementario o subitulo del ticket -->
+          <span class="tmpe-date-text">Adicionalo a la compra de tu entrada </span>
+        </div>
+      </div>
+      <a href="#tmpe-toggle-1" class="tmpe-link-details">
+        Más Información
+        <svg width="20" height="20" viewBox="0 0 20 20">
+          <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+    
+    <!-- Ticket 2 - PAQUETE VIP -->
+    <div class="tmpe-ticket-item">
+      <!-- IMAGEN DEL CANAL - Logo del canal Ticketmaster -->
+      <div class="tmpe-logo-container tmpe-logo-ticketmaster">
+        <img class="tmpe-logo-img" src="https://prod-assets.tmlat.com/T_9318699a9f.svg" alt="Ticketmaster">
+      </div>
+      <div class="tmpe-info-container">
+        <!-- NOMBRE DEL BOTÓN - Título del canal de venta -->
+        <h2 class="tmpe-ticket-title">PAQUETE VIP</h2>
+        <div class="tmpe-status-container">
+          <!-- FECHA Y HORA - Información de inicio de venta -->
+          <span class="tmpe-date-text">Incluye entrada platinium</span>
+        </div>
+      </div>
+      <a href="#tmpe-toggle-2" class="tmpe-link-details">
+        Más Información
+        <svg width="20" height="20" viewBox="0 0 20 20">
+          <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </a>
+</div>
+  </div>
+  
+  <!-- Vista Mobile -->
+  <div class="tmpe-mobile-view">
+    <!-- Ticket 1 - FAST PASS -->
+    <div class="tmpe-ticket-item">
+      <a href="#tmpe-toggle-1" class="tmpe-ticket-link">
+        <!-- IMAGEN DEL CANAL - Logo del canal Ticketmaster (versión móvil) -->
+        <div class="tmpe-logo-container tmpe-logo-ticketmaster">
+          <img class="tmpe-logo-img" src="https://prod-assets.tmlat.com/T_9318699a9f.svg" alt="Ticketmaster">
+        </div>
+        <div class="tmpe-info-container">
+          <!-- NOMBRE DEL BOTÓN - Título del canal de venta (versión móvil) -->
+          <h2 class="tmpe-ticket-title">FAST PASS</h2>
+          <div class="tmpe-status-container">
+            <!-- FECHA Y HORA - Información de inicio de venta (versión móvil) -->
+            <span class="tmpe-date-text">Adicionalo a la compra de tu entrada </span>
+          </div>
+        </div>
+        <div class="tmpe-link-mobile">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M9 6L15 12L9 18" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </a>
+    </div>
+    
+    <!-- Ticket 2 - PAQUETE VIP -->
+    <div class="tmpe-ticket-item">
+      <a href="#tmpe-toggle-2" class="tmpe-ticket-link">
+        <!-- IMAGEN DEL CANAL - Logo del canal Ticketmaster (versión móvil) -->
+        <div class="tmpe-logo-container tmpe-logo-ticketmaster">
+          <img class="tmpe-logo-img" src="https://prod-assets.tmlat.com/T_9318699a9f.svg" alt="Ticketmaster">
+        </div>
+        <div class="tmpe-info-container">
+          <!-- NOMBRE DEL BOTÓN - Título del canal de venta (versión móvil) -->
+          <h2 class="tmpe-ticket-title">PAQUETE VIP</h2>
+          <div class="tmpe-status-container">
+            <!-- FECHA Y HORA - Información de inicio de venta (versión móvil) -->
+            <span class="tmpe-date-text">Incluye entrada platinium</span>
+          </div>
+        </div>
+        <div class="tmpe-link-mobile">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M9 6L15 12L9 18" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+
+<!-- Anclas para los paneles -->
+<div id="tmpe-toggle-1"></div>
+<div id="tmpe-toggle-2"></div>
+
+
+<!-- Sidebars -->
+<!-- Sidebar for Ticket 1 - FAST PASS -->
+<div class="tmpe-modal-overlay tmpe-overlay-1">
+  <div class="tmpe-sidebar-panel">
+    <div class="tmpe-sidebar-header">
+      <a href="#" class="tmpe-back-button">
+        <span class="tmpe-arrow-back"></span>
+      </a>
+      <h2 class="tmpe-sidebar-title-text">Más Información</h2>
+      <a href="#" class="tmpe-close-button"></a>
+    </div>
+    <div class="tmpe-sidebar-content">
+      <div class="tmpe-event-summary">
+        <!-- IMAGEN DEL CANAL - Logo del canal en el sidebar -->
+        <div class="tmpe-logo-container tmpe-logo-ticketmaster">
+          <img class="tmpe-logo-img" src="https://prod-assets.tmlat.com/T_9318699a9f.svg" alt="Ticketmaster">
+        </div>
+        <div class="tmpe-info-container">
+          <!-- NOMBRE DEL BOTÓN - Título del canal en el sidebar -->
+          <h2 class="tmpe-ticket-title">FAST PASS</h2>
+          <div class="tmpe-status-container">
+            <!-- FECHA Y HORA - Información de inicio de venta en el sidebar -->
+            <span class="tmpe-date-text">Adicionalo a la compra de tu entrada </span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="tmpe-content-section">
+        <h3 class="tmpe-section-heading">MAPA DE PRECIOS</h3>
+        <!-- IMAGEN DEL MAPA - Contenedor del mapa de precios del evento -->
+        <div class="tmpe-price-map">
+          <img class="tmpe-price-map-img" src="https://cdn.getcrowder.com/images/56206b46-9869-4a72-b2e0-4beaeeceb5a7-tarifario-cupon-empresa.png" alt="Mapa de precios">
+        </div>
+        <!-- INFORMACIÓN ADICIONAL - Texto informativo sobre precios -->
+        <p class="tmpe-note-text">
+          Los precios pueden variar según la fecha y tipo de entrada seleccionada.
+        </p>
+      </div>
+      
+      <div class="tmpe-content-section">
+        <h3 class="tmpe-section-heading">INFORMACIÓN ADICIONAL</h3>
+        <!-- INFORMACIÓN ADICIONAL - Texto con detalles del evento (edad mínima, ubicación, etc.) -->
+        <div class="tmpe-discount-info">
+            <p class="tmpe-discount-text">
+                <strong class="tmpe-discount-title">20% DSCTO.</strong>
+            </p>
+            
+             <ul class="tmpe-discount-list">
+                <li>No aplica para funciones de 5:30 pm</li>
+                <li>No aplica para feriados</li>
+                <li>No aplica para semana de fiestas (del 22 julio al 10 agosto), ni Día del Niño</li>
+            </ul>
+        </div>
+      </div>
+    </div>
+    <div class="tmpe-sidebar-footer">
+      <a href="https://www.ticketmaster.pe/event/la-tarumba-lima-563-temporada-2025-venta-cupn-empresa" class="tmpe-buy-button">
+        Comprar ahora
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Sidebar for Ticket 2 - CUPÓN EMPRESA -->
+<div class="tmpe-modal-overlay tmpe-overlay-2">
+    <div class="tmpe-sidebar-panel">
+      <div class="tmpe-sidebar-header">
+        <a href="#" class="tmpe-back-button">
+          <span class="tmpe-arrow-back"></span>
+        </a>
+      <h2 class="tmpe-sidebar-title-text">Más Información</h2>
+        <a href="#" class="tmpe-close-button"></a>
+      </div>
+      <div class="tmpe-sidebar-content">
+        <div class="tmpe-event-summary">
+          <!-- IMAGEN DEL CANAL - Logo del canal en el sidebar -->
+        <div class="tmpe-logo-container tmpe-logo-ticketmaster">
+          <img class="tmpe-logo-img" src="https://prod-assets.tmlat.com/T_9318699a9f.svg" alt="Ticketmaster">
+          </div>
+          <div class="tmpe-info-container">
+            <!-- NOMBRE DEL BOTÓN - Título del canal en el sidebar -->
+          <h2 class="tmpe-ticket-title">PAQUETE VIP</h2>
+            <div class="tmpe-status-container">
+              <!-- FECHA Y HORA - Información de inicio de venta en el sidebar -->
+            <span class="tmpe-date-text">Incluye entrada platinium</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="tmpe-content-section">
+          <h3 class="tmpe-section-heading">MAPA DE PRECIOS</h3>
+          <!-- IMAGEN DEL MAPA - Contenedor del mapa de precios del evento -->
+          <div class="tmpe-price-map">
+          <img class="tmpe-price-map-img" src="https://cdn.getcrowder.com/images/56206b46-9869-4a72-b2e0-4beaeeceb5a7-tarifario-cupon-empresa.png" alt="Mapa de precios">
+          </div>
+          <!-- INFORMACIÓN ADICIONAL - Texto informativo sobre precios -->
+          <p class="tmpe-note-text">
+            Los precios pueden variar según la fecha y tipo de entrada seleccionada.
+          </p>
+        </div>
+        
+        <div class="tmpe-content-section">
+          <h3 class="tmpe-section-heading">INFORMACIÓN ADICIONAL</h3>
+          <!-- INFORMACIÓN ADICIONAL - Texto con detalles del evento (edad mínima, ubicación, etc.) -->
+          <div class="tmpe-discount-info">
+            <p class="tmpe-discount-text">
+                <strong class="tmpe-discount-title">20% DSCTO.</strong>
+            </p>
+            
+            <ul class="tmpe-discount-list">
+                <li>No aplica para funciones de 5:30 pm</li>
+                <li>No aplica para feriados</li>
+                <li>No aplica para semana de fiestas (del 22 julio al 10 agosto), ni Día del Niño</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="tmpe-sidebar-footer">
+      <a href="https://www.ticketmaster.pe/event/la-tarumba-lima-563-temporada-2025-venta-cupn-empresa" class="tmpe-buy-button">
+          Comprar ahora
+        </a>
+      </div>
+    </div>
+  </div>
+
+
+
+</body>
+</html> 
