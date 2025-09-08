@@ -77,23 +77,11 @@
       object-fit: contain;
     }
 
-    /* Estilo específico para el logo del cuarto ticket en desktop */
-    .tmpe-desktop-view .tmpe-ticket-item:nth-child(4) .tmpe-logo-img {
-      width: 80%;
-      height: 80%;
-    }
 
-    /* Estilo específico para el logo del comercio en desktop (ticket 2) */
-    .tmpe-desktop-view .tmpe-ticket-item:nth-child(2) .tmpe-logo-img {
-      width: 55%;
-      height: 55%;
-    }
 
-    /* Estilo específico para el logo en el sidebar de venta general (ticket 4) */
-    .tmpe-overlay-4 .tmpe-logo-img {
-      width: 80%;
-      height: 80%;
-    }
+
+
+
 
     .tmpe-info-container {
       flex: 1;
@@ -169,9 +157,9 @@
     .tmpe-modal-overlay .tmpe-link-details,
     .tmpe-sidebar-panel .tmpe-link-details {
       font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      background: #024DDF;
-      color: white;
-      border: none;
+      background: white;
+      color: #024DDF;
+      border: 1px solid #024DDF;
       border-radius: 4px;
       padding: 16px 40px;
       font-size: 16px;
@@ -187,7 +175,7 @@
       height: 48px;
       min-width: 150px;
       justify-content: center;
-      transition: background-color 0.2s ease;
+      transition: all 0.2s ease;
     }
 
     .tmpe-link-mobile {
@@ -242,24 +230,14 @@
 
     /* Técnica CSS para usar los enlaces como activadores de los paneles */
     #tmpe-toggle-1:target ~ .tmpe-overlay-1,
-    #tmpe-toggle-2:target ~ .tmpe-overlay-2,
-    #tmpe-toggle-3:target ~ .tmpe-overlay-3,
-    #tmpe-toggle-4:target ~ .tmpe-overlay-4,
-    #tmpe-toggle-5:target ~ .tmpe-overlay-5, 
-    #tmpe-toggle-6:target ~ .tmpe-overlay-6, 
-    #tmpe-toggle-7:target ~ .tmpe-overlay-7 {
+    #tmpe-toggle-2:target ~ .tmpe-overlay-2 {
       opacity: 1;
       visibility: visible;
       pointer-events: auto;
     }
 
     #tmpe-toggle-1:target ~ .tmpe-overlay-1 .tmpe-sidebar-panel,
-    #tmpe-toggle-2:target ~ .tmpe-overlay-2 .tmpe-sidebar-panel,
-    #tmpe-toggle-3:target ~ .tmpe-overlay-3 .tmpe-sidebar-panel,
-    #tmpe-toggle-4:target ~ .tmpe-overlay-4 .tmpe-sidebar-panel,
-    #tmpe-toggle-5:target ~ .tmpe-overlay-5 .tmpe-sidebar-panel,
-    #tmpe-toggle-6:target ~ .tmpe-overlay-6 .tmpe-sidebar-panel,
-    #tmpe-toggle-7:target ~ .tmpe-overlay-7 .tmpe-sidebar-panel {
+    #tmpe-toggle-2:target ~ .tmpe-overlay-2 .tmpe-sidebar-panel {
       transform: translateX(0);
     }
 
@@ -512,7 +490,8 @@
       .tmpe-link-mobile {
         width: 36px;
         height: 36px;
-        background: #024DDF;
+        background: white;
+        border: 1px solid #024DDF;
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -529,7 +508,12 @@
       }
       
       .tmpe-link-details:hover {
-        background-color: #0035A0;
+        background-color: #024DDF;
+        color: white;
+      }
+      
+      .tmpe-link-details:hover svg polyline {
+        stroke: white;
       }
     }
     
@@ -543,6 +527,11 @@
       .tmpe-ticket-link:hover .tmpe-link-mobile, 
       .tmpe-ticket-link:active .tmpe-link-mobile {
         background-color: #0035A0;
+      }
+      
+      .tmpe-ticket-link:hover .tmpe-link-mobile svg path, 
+      .tmpe-ticket-link:active .tmpe-link-mobile svg path {
+        stroke: white;
       }
     }
 
@@ -578,6 +567,144 @@
         margin-bottom: 4px;
     }
 
+    /* Nuevos estilos para la estructura del sidebar */
+    .tmpe-image-section {
+      margin: -24px -24px 20px -24px;
+    }
+
+    .tmpe-product-image {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .tmpe-product-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .tmpe-price-tag {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: #024DDF;
+      color: white;
+      padding: 18px 11px;
+      border-radius: 0 0 0 3px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-width: 121px;
+    }
+
+    .tmpe-price-label {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 1.24;
+      letter-spacing: 2.6%;
+      margin-bottom: 4px;
+    }
+
+    .tmpe-price-value {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-weight: 700;
+      font-size: 32px;
+      line-height: 1.24;
+      letter-spacing: 1.5%;
+    }
+
+    .tmpe-product-info {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      flex: 1;
+    }
+
+    .tmpe-product-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .tmpe-product-details {
+      flex: 1;
+    }
+
+    .tmpe-product-title {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #262626;
+      margin-bottom: 4px;
+      line-height: 0.98;
+      letter-spacing: 2%;
+    }
+
+    .tmpe-product-subtitle {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      color: #949494;
+      margin: 0;
+      line-height: 1.22;
+      letter-spacing: 2%;
+    }
+
+    .tmpe-includes-section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .tmpe-section-title {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .tmpe-title-accent {
+      width: 100%;
+      height: 2px;
+      background: #121212;
+    }
+
+    .tmpe-includes-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex: 1;
+      gap: 16px;
+    }
+
+    .tmpe-includes-text {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: #646464;
+      line-height: 1.43;
+      letter-spacing: 2%;
+      margin: 0;
+      flex: 1;
+    }
+
+    .tmpe-includes-text strong {
+      color: #262626;
+    }
+
+    .tmpe-includes-label {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: #646464;
+      line-height: 1.43;
+      letter-spacing: 2%;
+    }
+
   </style>
 </head>
 <body>
@@ -585,59 +712,7 @@
 <div class="tmpe-container">
   <!-- Vista Desktop -->
   <div class="tmpe-desktop-view">
-    <!-- Ticket 1 -->
-    <div class="tmpe-ticket-item">
-      <!-- IMAGEN DEL CANAL - Logo del canal Interbank -->
-      <div class="tmpe-logo-container tmpe-logo-interbank">
-        <img class="tmpe-logo-img" src="https://prod-assets.tmlat.com/interbank_svg_f81dc84322.svg" alt="Interbank">
-      </div>
-      <div class="tmpe-info-container">
-        <!-- NOMBRE DEL BOTÓN - Título del canal de venta -->
-        <h2 class="tmpe-ticket-title">VENTA INTERBANK</h2>
-        <div class="tmpe-status-container">
-          <div class="tmpe-status-badge">
-            <span class="tmpe-status-dot tmpe-dot-available"></span>
-            <span>DISPONIBLE</span>
-          </div>
-          <!-- FECHA Y HORA - Información de inicio de venta -->
-          <span class="tmpe-date-text">Inicio de venta: 17/05 • 10:00</span>
-        </div>
-      </div>
-      <a href="#tmpe-toggle-1" class="tmpe-link-details">
-        Ver Detalles
-        <svg width="20" height="20" viewBox="0 0 20 20">
-          <polyline points="7 5 13 10 7 15" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </a>
-    </div>
-    
-    <!-- Ticket 2 -->
-    <div class="tmpe-ticket-item">
-      <!-- IMAGEN DEL CANAL - Logo del canal Ticketmaster -->
-      <div class="tmpe-logo-container tmpe-logo-interbank">
-        <img class="tmpe-logo-img" src="https://prod-assets.tmlat.com/logo_del_comercio_38b45f2f8e.svg" alt="Ticketmaster">
-      </div>
-      <div class="tmpe-info-container">
-        <!-- NOMBRE DEL BOTÓN - Título del canal de venta -->
-        <h2 class="tmpe-ticket-title"> SUSCRIPTORES DEL COMERCIO</h2>
-        <div class="tmpe-status-container">
-          <div class="tmpe-status-badge">
-            <span class="tmpe-status-dot tmpe-dot-available"></span>
-            <span>DISPONIBLE</span>
-          </div>
-          <!-- FECHA Y HORA - Información de inicio de venta -->
-          <span class="tmpe-date-text">Inicio de venta: 22/05 • 10:00</span>
-        </div>
-      </div>
-      <a href="#tmpe-toggle-2" class="tmpe-link-details">
-        Ver Detalles
-        <svg width="20" height="20" viewBox="0 0 20 20">
-          <polyline points="7 5 13 10 7 15" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </a>
-    </div>
-    
-    <!-- Ticket 3 -->
+    <!-- Ticket 1 - FAST PASS -->
     <div class="tmpe-ticket-item">
       <!-- IMAGEN DEL CANAL - Logo del canal Ticketmaster -->
       <div class="tmpe-logo-container tmpe-logo-ticketmaster">
@@ -645,124 +720,38 @@
       </div>
       <div class="tmpe-info-container">
         <!-- NOMBRE DEL BOTÓN - Título del canal de venta -->
-        <h2 class="tmpe-ticket-title">CUPÓN EMPRESA</h2>
+        <h2 class="tmpe-ticket-title">FAST PASS</h2>
         <div class="tmpe-status-container">
-          <div class="tmpe-status-badge">
-            <span class="tmpe-status-dot tmpe-dot-available"></span>
-            <span>DISPONIBLE</span>
-          </div>
-          <!-- FECHA Y HORA - Información de inicio de venta -->
-          <span class="tmpe-date-text">Inicio de venta: 05/06 • 10:00</span>
+          <!-- FECHA Y HORA - Información complementario o subitulo del ticket -->
+          <span class="tmpe-date-text">Adicionalo a la compra de tu entrada </span>
         </div>
       </div>
-      <a href="#tmpe-toggle-3" class="tmpe-link-details">
-        Ver Detalles
+      <a href="#tmpe-toggle-1" class="tmpe-link-details">
+        Más Información
         <svg width="20" height="20" viewBox="0 0 20 20">
-          <polyline points="7 5 13 10 7 15" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </a>
     </div>
-
- <!-- Ticket 4 -->
- <div class="tmpe-ticket-item">
-    <!-- IMAGEN DEL CANAL - Logo del canal Ticketmaster -->
-    <div class="tmpe-logo-container tmpe-logo-interbank">
-      <img class="tmpe-logo-img" src="https://prod-assets.tmlat.com/la_tarumba_3_eef564de65.svg" alt="Ticketmaster">
-    </div>
-    <div class="tmpe-info-container">
-      <!-- NOMBRE DEL BOTÓN - Título del canal de venta -->
-      <h2 class="tmpe-ticket-title">PROMO TARUMBA</h2>
-      <div class="tmpe-status-container">
-        <div class="tmpe-status-badge">
-          <span class="tmpe-status-dot tmpe-dot-available"></span>
-          <span>DISPONIBLE</span>
+    
+    <!-- Ticket 2 - PAQUETE VIP -->
+    <div class="tmpe-ticket-item">
+      <!-- IMAGEN DEL CANAL - Logo del canal Ticketmaster -->
+      <div class="tmpe-logo-container tmpe-logo-ticketmaster">
+        <img class="tmpe-logo-img" src="https://prod-assets.tmlat.com/T_9318699a9f.svg" alt="Ticketmaster">
+      </div>
+      <div class="tmpe-info-container">
+        <!-- NOMBRE DEL BOTÓN - Título del canal de venta -->
+        <h2 class="tmpe-ticket-title">PAQUETE VIP</h2>
+        <div class="tmpe-status-container">
+          <!-- FECHA Y HORA - Información de inicio de venta -->
+          <span class="tmpe-date-text">Incluye entrada platinium</span>
         </div>
-        <!-- FECHA Y HORA - Información de inicio de venta -->
-        <span class="tmpe-date-text">Inicio de venta: 27/05 • 10:00</span>
       </div>
-    </div>
-    <a href="#tmpe-toggle-4" class="tmpe-link-details">
-      Ver Detalles
-      <svg width="20" height="20" viewBox="0 0 20 20">
-        <polyline points="7 5 13 10 7 15" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </a>
-  </div>
-
-<!-- Ticket 5 -->
-<div class="tmpe-ticket-item">
-  <!-- IMAGEN DEL CANAL - Logo del canal Ticketmaster -->
-  <div class="tmpe-logo-container tmpe-logo-interbank">
-    <img class="tmpe-logo-img" src="https://prod-assets.tmlat.com/la_tarumba_3_eef564de65.svg" alt="Ticketmaster">
-  </div>
-  <div class="tmpe-info-container">
-    <!-- NOMBRE DEL BOTÓN - Título del canal de venta -->
-    <h2 class="tmpe-ticket-title">CANJE AUSPICIADORES </h2>
-    <div class="tmpe-status-container">
-      <div class="tmpe-status-badge">
-        <span class="tmpe-status-dot tmpe-dot-available"></span>
-        <span>DISPONIBLE</span>
-      </div>
-      <!-- FECHA Y HORA - Información de inicio de venta -->
-      <span class="tmpe-date-text">Inicio de venta: 10/06 • 10:00</span>
-    </div>
-  </div>
-  <a href="#tmpe-toggle-5" class="tmpe-link-details">
-    Ver Detalles
-    <svg width="20" height="20" viewBox="0 0 20 20">
-      <polyline points="7 5 13 10 7 15" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </a>
-</div>
-
-<!-- Ticket 6 -->
-<div class="tmpe-ticket-item">
-  <!-- IMAGEN DEL CANAL - Logo del canal Ticketmaster -->
-  <div class="tmpe-logo-container tmpe-logo-interbank">
-    <img class="tmpe-logo-img" src="https://prod-assets.tmlat.com/la_tarumba_3_eef564de65.svg" alt="Ticketmaster">
-  </div>
-  <div class="tmpe-info-container">
-    <!-- NOMBRE DEL BOTÓN - Título del canal de venta -->
-    <h2 class="tmpe-ticket-title">PROMOCIÓN SOCIOS U  </h2>
-    <div class="tmpe-status-container">
-      <div class="tmpe-status-badge">
-        <span class="tmpe-status-dot tmpe-dot-available"></span>
-        <span>DISPONIBLE</span>
-      </div>
-      <!-- FECHA Y HORA - Información de inicio de venta -->
-      <span class="tmpe-date-text">Inicio de venta: 02/07 • 02:00PM</span>
-    </div>
-  </div>
-  <a href="#tmpe-toggle-6" class="tmpe-link-details">
-    Ver Detalles
-    <svg width="20" height="20" viewBox="0 0 20 20">
-      <polyline points="7 5 13 10 7 15" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </a>
-</div>
-
-<!-- Ticket 7 -->
-<div class="tmpe-ticket-item">
-  <!-- IMAGEN DEL CANAL - Logo del canal Ticketmaster -->
-  <div class="tmpe-logo-container tmpe-logo-interbank">
-    <img class="tmpe-logo-img" src="https://prod-assets.tmlat.com/la_tarumba_3_eef564de65.svg" alt="Ticketmaster">
-  </div>
-  <div class="tmpe-info-container">
-    <!-- NOMBRE DEL BOTÓN - Título del canal de venta -->
-    <h2 class="tmpe-ticket-title">CELEBRA PERU  </h2>
-    <div class="tmpe-status-container">
-      <div class="tmpe-status-badge">
-        <span class="tmpe-status-dot tmpe-dot-available"></span>
-        <span>DISPONIBLE</span>
-      </div>
-      <!-- FECHA Y HORA - Información de inicio de venta -->
-      <span class="tmpe-date-text">Inicio de venta: 15/07 AL 25/07</span>
-    </div>
-  </div>
-  <a href="#tmpe-toggle-7" class="tmpe-link-details">
-    Ver Detalles
-    <svg width="20" height="20" viewBox="0 0 20 20">
-      <polyline points="7 5 13 10 7 15" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <a href="#tmpe-toggle-2" class="tmpe-link-details">
+        Más Información
+        <svg width="20" height="20" viewBox="0 0 20 20">
+          <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </a>
 </div>
@@ -770,198 +759,51 @@
   
   <!-- Vista Mobile -->
   <div class="tmpe-mobile-view">
-    <!-- Ticket 1 -->
+    <!-- Ticket 1 - FAST PASS -->
     <div class="tmpe-ticket-item">
       <a href="#tmpe-toggle-1" class="tmpe-ticket-link">
-        <!-- IMAGEN DEL CANAL - Logo del canal Interbank (versión móvil) -->
-        <div class="tmpe-logo-container tmpe-logo-interbank">
-          <img class="tmpe-logo-img" src="https://prod-assets.tmlat.com/interbank_svg_f81dc84322.svg" alt="Interbank">
-        </div>
-        <div class="tmpe-info-container">
-          <!-- NOMBRE DEL BOTÓN - Título del canal de venta (versión móvil) -->
-          <h2 class="tmpe-ticket-title">VENTA INTERBANK</h2>
-          <div class="tmpe-status-container">
-            <!-- FECHA Y HORA - Información de inicio de venta (versión móvil) -->
-            <span class="tmpe-date-text">Inicio de venta 17/05 • 14:30</span>
-            <div class="tmpe-status-badge">
-              <span class="tmpe-status-dot tmpe-dot-soon"></span>
-              <span>DISPONIBLE</span>
-            </div>
-          </div>
-        </div>
-        <div class="tmpe-link-mobile">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M9 6L15 12L9 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-      </a>
-    </div>
-    
-    <!-- Ticket 2 -->
-    <div class="tmpe-ticket-item">
-      <a href="#tmpe-toggle-2" class="tmpe-ticket-link">
-        <!-- IMAGEN DEL CANAL - Logo del canal Ticketmaster (versión móvil) -->
-        <div class="tmpe-logo-container tmpe-logo-interbank">
-          <img class="tmpe-logo-img" src="https://prod-assets.tmlat.com/COMERCIO_aaed285da7.svg" alt="Ticketmaster">
-        </div>
-        <div class="tmpe-info-container">
-          <!-- NOMBRE DEL BOTÓN - Título del canal de venta (versión móvil) -->
-          <h2 class="tmpe-ticket-title">SUSCRIPTORES DEL COMERCIO</h2>
-          <div class="tmpe-status-container">
-            <!-- FECHA Y HORA - Información de inicio de venta (versión móvil) -->
-            <span class="tmpe-date-text">Inicio de venta 22/05 • 10:00</span>
-            <div class="tmpe-status-badge">
-              <span class="tmpe-status-dot tmpe-dot-available"></span>
-              <span>DISPONIBLE</span>
-            </div>
-          </div>
-        </div>
-        <div class="tmpe-link-mobile">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M9 6L15 12L9 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-      </a>
-    </div>
-    
-    <!-- Ticket 3 -->
-    <div class="tmpe-ticket-item">
-      <a href="#tmpe-toggle-3" class="tmpe-ticket-link">
         <!-- IMAGEN DEL CANAL - Logo del canal Ticketmaster (versión móvil) -->
         <div class="tmpe-logo-container tmpe-logo-ticketmaster">
           <img class="tmpe-logo-img" src="https://prod-assets.tmlat.com/T_9318699a9f.svg" alt="Ticketmaster">
         </div>
         <div class="tmpe-info-container">
           <!-- NOMBRE DEL BOTÓN - Título del canal de venta (versión móvil) -->
-          <h2 class="tmpe-ticket-title">CUPÓN EMPRESA</h2>
+          <h2 class="tmpe-ticket-title">FAST PASS</h2>
           <div class="tmpe-status-container">
             <!-- FECHA Y HORA - Información de inicio de venta (versión móvil) -->
-            <span class="tmpe-date-text">Inicio de venta: 05/06 • 10:00</span>
-            <div class="tmpe-status-badge">
-              <span class="tmpe-status-dot tmpe-dot-available"></span>
-              <span>DISPONIBLE</span>
-            </div>
+            <span class="tmpe-date-text">Adicionalo a la compra de tu entrada </span>
           </div>
         </div>
         <div class="tmpe-link-mobile">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M9 6L15 12L9 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9 6L15 12L9 18" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
       </a>
     </div>
-
-
-
-     <!-- Ticket 4 -->
-     <div class="tmpe-ticket-item">
-        <a href="#tmpe-toggle-4" class="tmpe-ticket-link">
-          <!-- IMAGEN DEL CANAL - Logo del canal Ticketmaster (versión móvil) -->
-          <div class="tmpe-logo-container tmpe-logo-interbank">
-            <img class="tmpe-logo-img" src="https://prod-assets.tmlat.com/la_tarumba_2_63d011df9b.svg" alt="Ticketmaster">
-          </div>
-          <div class="tmpe-info-container">
-            <!-- NOMBRE DEL BOTÓN - Título del canal de venta (versión móvil) -->
-            <h2 class="tmpe-ticket-title">PROMO TARUMBA</h2>
-            <div class="tmpe-status-container">
-              <!-- FECHA Y HORA - Información de inicio de venta (versión móvil) -->
-              <span class="tmpe-date-text">Inicio de venta 27/05 • 10:00</span>
-              <div class="tmpe-status-badge">
-                <span class="tmpe-status-dot tmpe-dot-available"></span>
-                <span>DISPONIBLE</span>
-              </div>
-            </div>
-          </div>
-          <div class="tmpe-link-mobile">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path d="M9 6L15 12L9 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-        </a>
-      </div>
-
-
-     <!-- Ticket 5 -->
-     <div class="tmpe-ticket-item">
-      <a href="#tmpe-toggle-5" class="tmpe-ticket-link">
+    
+    <!-- Ticket 2 - PAQUETE VIP -->
+    <div class="tmpe-ticket-item">
+      <a href="#tmpe-toggle-2" class="tmpe-ticket-link">
         <!-- IMAGEN DEL CANAL - Logo del canal Ticketmaster (versión móvil) -->
-        <div class="tmpe-logo-container tmpe-logo-interbank">
-          <img class="tmpe-logo-img" src="https://prod-assets.tmlat.com/la_tarumba_2_63d011df9b.svg" alt="Ticketmaster">
+        <div class="tmpe-logo-container tmpe-logo-ticketmaster">
+          <img class="tmpe-logo-img" src="https://prod-assets.tmlat.com/T_9318699a9f.svg" alt="Ticketmaster">
         </div>
         <div class="tmpe-info-container">
           <!-- NOMBRE DEL BOTÓN - Título del canal de venta (versión móvil) -->
-          <h2 class="tmpe-ticket-title">CANJE AUSPICIADORES </h2>
+          <h2 class="tmpe-ticket-title">PAQUETE VIP</h2>
           <div class="tmpe-status-container">
             <!-- FECHA Y HORA - Información de inicio de venta (versión móvil) -->
-            <span class="tmpe-date-text">Inicio de venta 10/06 • 10:00</span>
-            <div class="tmpe-status-badge">
-              <span class="tmpe-status-dot tmpe-dot-available"></span>
-              <span>DISPONIBLE</span>
-            </div>
+            <span class="tmpe-date-text">Incluye entrada platinium</span>
           </div>
         </div>
         <div class="tmpe-link-mobile">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M9 6L15 12L9 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9 6L15 12L9 18" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
       </a>
     </div>
-
-     <!-- Ticket 6 -->
-     <div class="tmpe-ticket-item">
-      <a href="#tmpe-toggle-6" class="tmpe-ticket-link">
-        <!-- IMAGEN DEL CANAL - Logo del canal Ticketmaster (versión móvil) -->
-        <div class="tmpe-logo-container tmpe-logo-interbank">
-          <img class="tmpe-logo-img" src="https://prod-assets.tmlat.com/la_tarumba_2_63d011df9b.svg" alt="Ticketmaster">
-        </div>
-        <div class="tmpe-info-container">
-          <!-- NOMBRE DEL BOTÓN - Título del canal de venta (versión móvil) -->
-          <h2 class="tmpe-ticket-title">PROMOCIÓN SOCIOS U </h2>
-          <div class="tmpe-status-container">
-            <!-- FECHA Y HORA - Información de inicio de venta (versión móvil) -->
-            <span class="tmpe-date-text">Inicio de venta 02/07 • 02:00PM</span>
-            <div class="tmpe-status-badge">
-              <span class="tmpe-status-dot tmpe-dot-available"></span>
-              <span>DISPONIBLE</span>
-            </div>
-          </div>
-        </div>
-        <div class="tmpe-link-mobile">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M9 6L15 12L9 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-      </a>
-    </div>
-
-  <!-- Ticket 7 -->
-     <div class="tmpe-ticket-item">
-      <a href="#tmpe-toggle-7" class="tmpe-ticket-link">
-        <!-- IMAGEN DEL CANAL - Logo del canal Ticketmaster (versión móvil) -->
-        <div class="tmpe-logo-container tmpe-logo-interbank">
-          <img class="tmpe-logo-img" src="https://prod-assets.tmlat.com/la_tarumba_2_63d011df9b.svg" alt="Ticketmaster">
-        </div>
-        <div class="tmpe-info-container">
-          <!-- NOMBRE DEL BOTÓN - Título del canal de venta (versión móvil) -->
-          <h2 class="tmpe-ticket-title">CELEBRA PERU </h2>
-          <div class="tmpe-status-container">
-            <!-- FECHA Y HORA - Información de inicio de venta (versión móvil) -->
-            <span class="tmpe-date-text">Inicio de venta 15/07 AL 25/07</span>
-            <div class="tmpe-status-badge">
-              <span class="tmpe-status-dot tmpe-dot-available"></span>
-              <span>DISPONIBLE</span>
-            </div>
-          </div>
-        </div>
-        <div class="tmpe-link-mobile">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M9 6L15 12L9 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-      </a>
-    </div>
-
   </div>
 </div>
 
@@ -969,197 +811,63 @@
 <!-- Anclas para los paneles -->
 <div id="tmpe-toggle-1"></div>
 <div id="tmpe-toggle-2"></div>
-<div id="tmpe-toggle-3"></div>
-<div id="tmpe-toggle-4"></div>
-<div id="tmpe-toggle-5"></div>
-<div id="tmpe-toggle-6"></div>
-<div id="tmpe-toggle-7"></div>
 
 
 <!-- Sidebars -->
-<!-- Sidebar for Ticket 1 -->
+<!-- Sidebar for Ticket 1 - FAST PASS -->
 <div class="tmpe-modal-overlay tmpe-overlay-1">
   <div class="tmpe-sidebar-panel">
     <div class="tmpe-sidebar-header">
       <a href="#" class="tmpe-back-button">
         <span class="tmpe-arrow-back"></span>
       </a>
-      <h2 class="tmpe-sidebar-title-text">Información de Venta</h2>
+      <h2 class="tmpe-sidebar-title-text">Más Información</h2>
       <a href="#" class="tmpe-close-button"></a>
     </div>
     <div class="tmpe-sidebar-content">
-      <div class="tmpe-event-summary">
-        <!-- IMAGEN DEL CANAL - Logo del canal en el sidebar -->
-        <div class="tmpe-logo-container tmpe-logo-interbank">
-          <img class="tmpe-logo-img" src="https://prod-assets.tmlat.com/interbank_svg_f81dc84322.svg" alt="Interbank">
-        </div>
-        <div class="tmpe-info-container">
-          <!-- NOMBRE DEL BOTÓN - Título del canal en el sidebar -->
-          <h2 class="tmpe-ticket-title">VENTA INTERBANK</h2>
-          <div class="tmpe-status-container">
-            <div class="tmpe-status-badge">
-              <span class="tmpe-status-dot tmpe-dot-available"></span>
-              <span>DISPONIBLE</span>
-            </div>
-            <!-- FECHA Y HORA - Información de inicio de venta en el sidebar -->
-            <span class="tmpe-date-text">Inicio de venta: 17/05 • 10:00</span>
+      <!-- Imagen con tag de precio -->
+      <div class="tmpe-image-section">
+        <div class="tmpe-product-image">
+          <img src="https://prod-assets.tmlat.com/image_15cd533576.png" alt="Producto" class="tmpe-product-img">
+          <div class="tmpe-price-tag">
+            <span class="tmpe-price-label">PRECIO</span>
+            <span class="tmpe-price-value">S/30.80</span>
           </div>
         </div>
       </div>
       
-      <div class="tmpe-content-section">
-        <h3 class="tmpe-section-heading">TABLA DE PRECIOS</h3>
-        <!-- IMAGEN DEL MAPA - Contenedor del mapa de precios del evento -->
-        <div class="tmpe-price-map">
-          <img class="tmpe-price-map-img" src="https://cdn.getcrowder.com/images/23cafd1c-bda9-471a-94d5-7b4ad0b2707d-tarifario-ibk-3.png" alt="Mapa de precios">
-        </div>
-        <!-- INFORMACIÓN ADICIONAL - Texto informativo sobre precios -->
-        <p class="tmpe-note-text">
-          Los precios pueden variar según la fecha y tipo de entrada seleccionada.
-        </p>
-      </div>
-      
-      <div class="tmpe-content-section">
-        <h3 class="tmpe-section-heading">INFORMACIÓN ADICIONAL</h3>
-        <!-- INFORMACIÓN ADICIONAL - Texto con detalles del evento (edad mínima, ubicación, etc.) -->
-        <div class="tmpe-discount-info">
-          <p style="color: #646464 !important; font-size: 14px !important; line-height: 1.4 !important; margin: 0 0 8px 0 !important; font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;"><strong style="color: #262626 !important; font-weight: 600 !important; font-size: 14px !important;">25% DSCTO. Interbank</strong><br>
-          – Dscto 25% de dscto. para los días viernes, en funciones de 8pm del 17 de junio al 19 de setiembre. Aplica también en las funciones del viernes 1 y 8 de agosto a las 5:30pm.<br>
-          – No válido para semana de fiestas patrias</p>
+      <!-- Información del producto -->
+      <div class="tmpe-product-info">
+        <div class="tmpe-product-header">
+          <div class="tmpe-logo-container tmpe-logo-ticketmaster">
+            <img class="tmpe-logo-img" src="https://prod-assets.tmlat.com/T_9318699a9f.svg" alt="Ticketmaster">
+          </div>
+          <div class="tmpe-product-details">
+            <h2 class="tmpe-product-title">FAST PASS</h2>
+            <p class="tmpe-product-subtitle">Adicionalo a la compra de tu entrada</p>
+          </div>
         </div>
         
-        <div class="tmpe-discount-info">
-          <p style="color: #646464 !important; font-size: 14px !important; line-height: 1.4 !important; margin: 0 0 8px 0 !important; font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;"><strong style="color: #262626 !important; font-weight: 600 !important; font-size: 14px !important;">15% DSCTO.</strong> Aplica para toda la temporada, no aplica feriados y fiestas patrias</p>
-        </div>
-        
-        <div class="tmpe-discount-info">
-          <p style="color: #646464 !important; font-size: 14px !important; line-height: 1.4 !important; margin: 0 0 8px 0 !important; font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;"><strong style="color: #262626 !important; font-weight: 600 !important; font-size: 14px !important;">10% DSCTO.</strong> Para funciones durante la semana de fiestas patrias (25 al 29 julio)</p>
-        </div>
-      </div>
-    </div>
-    <div class="tmpe-sidebar-footer">
-      <a href="https://www.ticketmaster.pe/event/la-tarumba-lima-vi25-temporada-2025-venta-interbank" class="tmpe-buy-button">
-        Comprar ahora
-      </a>
-    </div>
-  </div>
-</div>
-
-<!-- Sidebar for Ticket 2 -->
-<div class="tmpe-modal-overlay tmpe-overlay-2">
-  <div class="tmpe-sidebar-panel">
-    <div class="tmpe-sidebar-header">
-      <a href="#" class="tmpe-back-button">
-        <span class="tmpe-arrow-back"></span>
-      </a>
-      <h2 class="tmpe-sidebar-title-text">Información de Venta</h2>
-      <a href="#" class="tmpe-close-button"></a>
-    </div>
-    <div class="tmpe-sidebar-content">
-      <div class="tmpe-event-summary">
-        <!-- IMAGEN DEL CANAL - Logo del canal en el sidebar -->
-        <div class="tmpe-logo-container tmpe-logo-interbank">
-          <img class="tmpe-logo-img" src="https://prod-assets.tmlat.com/logo_del_comercio_38b45f2f8e.svg" alt="Ticketmaster">
-        </div>
-        <div class="tmpe-info-container">
-          <!-- NOMBRE DEL BOTÓN - Título del canal en el sidebar -->
-          <h2 class="tmpe-ticket-title">SUSCRIPTORES DEL COMERCIO</h2>
-          <div class="tmpe-status-container">
-            <div class="tmpe-status-badge">
-              <span class="tmpe-status-dot tmpe-dot-available"></span>
-              <span>DISPONIBLE</span>
-            </div>
-            <!-- FECHA Y HORA - Información de inicio de venta en el sidebar -->
-            <span class="tmpe-date-text">Inicio de venta: 22/05 • 10:00</span>
-          </div>
-        </div>
-      </div>
-      
-      <div class="tmpe-content-section">
-        <h3 class="tmpe-section-heading">TABLA DE PRECIOS</h3>
-        <!-- IMAGEN DEL MAPA - Contenedor del mapa de precios del evento -->
-        <div class="tmpe-price-map">
-          <img class="tmpe-price-map-img" src="https://cdn.getcrowder.com/images/f9c60047-e431-488c-844e-4fbab6532591-tarifario-comercio.png" alt="Mapa de precios">
-        </div>
-        <!-- INFORMACIÓN ADICIONAL - Texto informativo sobre precios -->
-        <p class="tmpe-note-text">
-          Los precios pueden variar según la fecha y tipo de entrada seleccionada.
-        </p>
-      </div>
-      
-      <div class="tmpe-content-section">
-        <h3 class="tmpe-section-heading">INFORMACIÓN ADICIONAL</h3>
-        <!-- INFORMACIÓN ADICIONAL - Texto con detalles del evento (edad mínima, ubicación, etc.) -->
-        <div class="tmpe-discount-info">
-          <p style="color: #646464 !important; font-size: 14px !important; line-height: 1.4 !important; margin: 0 0 8px 0 !important; font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;"><strong style="color: #262626 !important; font-weight: 600 !important; font-size: 14px !important;">15% DSCTO. El Comercio</strong><br>
-          – Hasta acabar stock. No aplica en feriados, fiestas patrias, sábados ni domingos a las 5:30 p.m.</p>
-        </div>
-      </div>
-    </div>
-    <div class="tmpe-sidebar-footer">
-      <a href="https://www.ticketmaster.pe/event/la-tarumba-lima-43-temporada-2025-venta-el-comercio" class="tmpe-buy-button">
-        Comprar ahora
-      </a>
-    </div>
-  </div>
-</div>
-
-<!-- Sidebar for Ticket 3 -->
-<div class="tmpe-modal-overlay tmpe-overlay-3">
-  <div class="tmpe-sidebar-panel">
-    <div class="tmpe-sidebar-header">
-      <a href="#" class="tmpe-back-button">
-        <span class="tmpe-arrow-back"></span>
-      </a>
-      <h2 class="tmpe-sidebar-title-text">Información de Venta</h2>
-      <a href="#" class="tmpe-close-button"></a>
-    </div>
-    <div class="tmpe-sidebar-content">
-      <div class="tmpe-event-summary">
-        <!-- IMAGEN DEL CANAL - Logo del canal en el sidebar -->
-        <div class="tmpe-logo-container tmpe-logo-ticketmaster">
-          <img class="tmpe-logo-img" src="https://prod-assets.tmlat.com/T_9318699a9f.svg" alt="Ticketmaster">
-        </div>
-        <div class="tmpe-info-container">
-          <!-- NOMBRE DEL BOTÓN - Título del canal en el sidebar -->
-          <h2 class="tmpe-ticket-title">CUPÓN EMPRESA</h2>
-          <div class="tmpe-status-container">
-            <div class="tmpe-status-badge">
-              <span class="tmpe-status-dot tmpe-dot-available"></span>
-              <span>DISPONIBLE</span>
-            </div>
-            <!-- FECHA Y HORA - Información de inicio de venta en el sidebar -->
-            <span class="tmpe-date-text">Inicio de venta: 05/06 • 10:00</span>
-          </div>
-        </div>
-      </div>
-      
-      <div class="tmpe-content-section">
-        <h3 class="tmpe-section-heading">MAPA DE PRECIOS</h3>
-        <!-- IMAGEN DEL MAPA - Contenedor del mapa de precios del evento -->
-        <div class="tmpe-price-map">
-          <img class="tmpe-price-map-img" src="https://cdn.getcrowder.com/images/56206b46-9869-4a72-b2e0-4beaeeceb5a7-tarifario-cupon-empresa.png" alt="Mapa de precios">
-        </div>
-        <!-- INFORMACIÓN ADICIONAL - Texto informativo sobre precios -->
-        <p class="tmpe-note-text">
-          Los precios pueden variar según la fecha y tipo de entrada seleccionada.
-        </p>
-      </div>
-      
-      <div class="tmpe-content-section">
-        <h3 class="tmpe-section-heading">INFORMACIÓN ADICIONAL</h3>
-        <!-- INFORMACIÓN ADICIONAL - Texto con detalles del evento (edad mínima, ubicación, etc.) -->
-        <div class="tmpe-discount-info">
-            <p class="tmpe-discount-text">
-                <strong class="tmpe-discount-title">20% DSCTO.</strong>
+        <!-- Contenido del producto -->
+        <div class="tmpe-includes-section">
+          <div class="tmpe-includes-content">
+            <p class="tmpe-includes-text">
+              <span class="tmpe-includes-label">INCLUYE:</span><br>
+              1 entrada Platinum<br>
+              Invitación a la experiencia Bad Bunny VIP Lounge previa al concierto<br>
+              Aperitivos fríos y calientes, cerveza, vino y cócteles (2 fichas incluidas)<br>
+              Fotos y mucho más<br>
+              Regalo VIP exclusivo<br>
+              Artículo de merchandising diseñado para el paquete Ultimate<br>
+              Laminado conmemorativo VIP Lounge Experience<br>
+              Acceso a la alfombra VIP para fotos<br>
+              Acceso a compra anticipada de merchandising<br>
+              Punto de registro VIP exclusivo<br>
+              Entrada anticipada al estadio<br>
+              Equipo de recepción y anfitrión VIP<br><br>
+              <strong>Nota: No incluye participación del artista</strong>
             </p>
-            
-             <ul class="tmpe-discount-list">
-                <li>No aplica para funciones de 5:30 pm</li>
-                <li>No aplica para feriados</li>
-                <li>No aplica para semana de fiestas (del 22 julio al 10 agosto), ni Día del Niño</li>
-            </ul>
-            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -1171,280 +879,72 @@
   </div>
 </div>
 
-
-<!-- Sidebar for Ticket 4 -->
-<div class="tmpe-modal-overlay tmpe-overlay-4">
+<!-- Sidebar for Ticket 2 - CUPÓN EMPRESA -->
+<div class="tmpe-modal-overlay tmpe-overlay-2">
     <div class="tmpe-sidebar-panel">
       <div class="tmpe-sidebar-header">
         <a href="#" class="tmpe-back-button">
           <span class="tmpe-arrow-back"></span>
         </a>
-        <h2 class="tmpe-sidebar-title-text">Información de Venta</h2>
+      <h2 class="tmpe-sidebar-title-text">Más Información</h2>
         <a href="#" class="tmpe-close-button"></a>
       </div>
       <div class="tmpe-sidebar-content">
-        <div class="tmpe-event-summary">
-          <!-- IMAGEN DEL CANAL - Logo del canal en el sidebar -->
-          <div class="tmpe-logo-container tmpe-logo-interbank">
-            <img class="tmpe-logo-img" src="https://prod-assets.tmlat.com/la_tarumba_2_63d011df9b.svg" alt="Ticketmaster">
-          </div>
-          <div class="tmpe-info-container">
-            <!-- NOMBRE DEL BOTÓN - Título del canal en el sidebar -->
-            <h2 class="tmpe-ticket-title">PROMO TARUMBA</h2>
-            <div class="tmpe-status-container">
-              <div class="tmpe-status-badge">
-                <span class="tmpe-status-dot tmpe-dot-available"></span>
-                <span>DISPONIBLE</span>
-              </div>
-              <!-- FECHA Y HORA - Información de inicio de venta en el sidebar -->
-              <span class="tmpe-date-text">Inicio de venta: 27/05 • 10:00</span>
+        <!-- Imagen con tag de precio -->
+        <div class="tmpe-image-section">
+          <div class="tmpe-product-image">
+            <img src="https://prod-assets.tmlat.com/image_15cd533576.png" alt="Producto" class="tmpe-product-img">
+            <div class="tmpe-price-tag">
+              <span class="tmpe-price-label">PRECIO</span>
+              <span class="tmpe-price-value">S/30.80</span>
             </div>
           </div>
         </div>
         
-        <div class="tmpe-content-section">
-          <h3 class="tmpe-section-heading">MAPA DE PRECIOS</h3>
-          <!-- IMAGEN DEL MAPA - Contenedor del mapa de precios del evento -->
-          <div class="tmpe-price-map">
-            <img class="tmpe-price-map-img" src="https://cdn.getcrowder.com/images/130a6531-6091-431d-a58e-9c2d5dc40526-tarifario-otras-promos-2.png" alt="Mapa de precios">
+        <!-- Información del producto -->
+        <div class="tmpe-product-info">
+          <div class="tmpe-product-header">
+            <div class="tmpe-logo-container tmpe-logo-ticketmaster">
+              <img class="tmpe-logo-img" src="https://prod-assets.tmlat.com/T_9318699a9f.svg" alt="Ticketmaster">
+            </div>
+            <div class="tmpe-product-details">
+              <h2 class="tmpe-product-title">PAQUETE VIP</h2>
+              <p class="tmpe-product-subtitle">Incluye entrada platinium</p>
+            </div>
           </div>
-          <!-- INFORMACIÓN ADICIONAL - Texto informativo sobre precios -->
-          <p class="tmpe-note-text">
-            Los precios pueden variar según la fecha y tipo de entrada seleccionada.
-          </p>
-        </div>
-        
-        <div class="tmpe-content-section">
-          <h3 class="tmpe-section-heading">INFORMACIÓN ADICIONAL</h3>
-          <!-- INFORMACIÓN ADICIONAL - Texto con detalles del evento (edad mínima, ubicación, etc.) -->
-          <div class="tmpe-discount-info">
-            <p class="tmpe-discount-text">
-                <strong class="tmpe-discount-title">20% DSCTO.</strong>
-            </p>
-            
-            <ul class="tmpe-discount-list">
-                <li>Promociones Niños No Pagan (NNP): Aplica a Funciones 05/07 (5:30pm y 8:00pm) - 06/07 (3:00pm y 5:30pm)</li>
-                <li>Promociones TODOS PAGAN COMO NIÑOS (TPN)</li>
-                <li>Descuento CONADIS válido para compra presencial</li>
-            </ul>
+          
+          <!-- Contenido del producto -->
+          <div class="tmpe-includes-section">
+            <div class="tmpe-includes-content">
+              <p class="tmpe-includes-text">
+                <span class="tmpe-includes-label">INCLUYE:</span><br>
+                1 entrada Platinum<br>
+                Invitación a la experiencia Bad Bunny VIP Lounge previa al concierto<br>
+                Aperitivos fríos y calientes, cerveza, vino y cócteles (2 fichas incluidas)<br>
+                Fotos y mucho más<br>
+                Regalo VIP exclusivo<br>
+                Artículo de merchandising diseñado para el paquete Ultimate<br>
+                Laminado conmemorativo VIP Lounge Experience<br>
+                Acceso a la alfombra VIP para fotos<br>
+                Acceso a compra anticipada de merchandising<br>
+                Punto de registro VIP exclusivo<br>
+                Entrada anticipada al estadio<br>
+                Equipo de recepción y anfitrión VIP<br><br>
+                <strong>Nota: No incluye participación del artista</strong>
+              </p>
+            </div>
           </div>
         </div>
       </div>
       <div class="tmpe-sidebar-footer">
-        <a href="https://www.ticketmaster.pe/event/la-tarumba-lima-v25-temporada-2025-venta-general" class="tmpe-buy-button">
+      <a href="https://www.ticketmaster.pe/event/la-tarumba-lima-563-temporada-2025-venta-cupn-empresa" class="tmpe-buy-button">
           Comprar ahora
         </a>
       </div>
     </div>
   </div>
 
-  <!-- Sidebar for Ticket 5 -->
-<div class="tmpe-modal-overlay tmpe-overlay-5">
-  <div class="tmpe-sidebar-panel">
-    <div class="tmpe-sidebar-header">
-      <a href="#" class="tmpe-back-button">
-        <span class="tmpe-arrow-back"></span>
-      </a>
-      <h2 class="tmpe-sidebar-title-text">Información de Venta</h2>
-      <a href="#" class="tmpe-close-button"></a>
-    </div>
-    <div class="tmpe-sidebar-content">
-      <div class="tmpe-event-summary">
-        <!-- IMAGEN DEL CANAL - Logo del canal en el sidebar -->
-        <div class="tmpe-logo-container tmpe-logo-interbank">
-          <img class="tmpe-logo-img" src="https://prod-assets.tmlat.com/la_tarumba_2_63d011df9b.svg" alt="Ticketmaster">
-        </div>
-        <div class="tmpe-info-container">
-          <!-- NOMBRE DEL BOTÓN - Título del canal en el sidebar -->
-          <h2 class="tmpe-ticket-title">CANJE AUSPICIADORES </h2>
-          <div class="tmpe-status-container">
-            <div class="tmpe-status-badge">
-              <span class="tmpe-status-dot tmpe-dot-available"></span>
-              <span>DISPONIBLE</span>
-            </div>
-            <!-- FECHA Y HORA - Información de inicio de venta en el sidebar -->
-            <span class="tmpe-date-text">Inicio de venta: 10/06 • 10:00</span>
-          </div>
-        </div>
-      </div>
-      
-      <div class="tmpe-content-section">
-        <h3 class="tmpe-section-heading">MAPA DE PRECIOS</h3>
-        <!-- IMAGEN DEL MAPA - Contenedor del mapa de precios del evento -->
-        <div class="tmpe-price-map">
-          <img class="tmpe-price-map-img" src="https://cdn.getcrowder.com/images/130a6531-6091-431d-a58e-9c2d5dc40526-tarifario-otras-promos-2.png" alt="Mapa de precios">
-        </div>
-        <!-- INFORMACIÓN ADICIONAL - Texto informativo sobre precios -->
-        <p class="tmpe-note-text">
-          Los precios pueden variar según la fecha y tipo de entrada seleccionada.
-        </p>
-      </div>
-      
-      <div class="tmpe-content-section">
-        <h3 class="tmpe-section-heading">INFORMACIÓN ADICIONAL</h3>
-        <!-- INFORMACIÓN ADICIONAL - Texto con detalles del evento (edad mínima, ubicación, etc.) -->
-        <div class="tmpe-discount-info">
-          <p class="tmpe-discount-text">
-              <strong class="tmpe-discount-title">20% DSCTO.</strong>
-          </p>
-          
-          <ul class="tmpe-discount-list">
-              <li>- Canje Auspiciadores: Aplica solo con código</li>
-              <li>-	No válido para funciones de sábado y domingo 5:30pm</li>
-              <li>-	No válido para feriados</li>
-              <li>-	No válido para semana de fiestas patrias (del 25 al 29 de julio)</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="tmpe-sidebar-footer">
-      <a href="https://www.ticketmaster.pe/event/la-tarumba-lima-temporada-2025-canje-auspiciadores-2389744" class="tmpe-buy-button">
-        Comprar ahora
-      </a>
-    </div>
-  </div>
-</div>
 
- <!-- Sidebar for Ticket 6 -->
-<div class="tmpe-modal-overlay tmpe-overlay-6">
-  <div class="tmpe-sidebar-panel">
-    <div class="tmpe-sidebar-header">
-      <a href="#" class="tmpe-back-button">
-        <span class="tmpe-arrow-back"></span>
-      </a>
-      <h2 class="tmpe-sidebar-title-text">Información de Venta</h2>
-      <a href="#" class="tmpe-close-button"></a>
-    </div>
-    <div class="tmpe-sidebar-content">
-      <div class="tmpe-event-summary">
-        <!-- IMAGEN DEL CANAL - Logo del canal en el sidebar -->
-        <div class="tmpe-logo-container tmpe-logo-interbank">
-          <img class="tmpe-logo-img" src="https://prod-assets.tmlat.com/la_tarumba_2_63d011df9b.svg" alt="Ticketmaster">
-        </div>
-        <div class="tmpe-info-container">
-          <!-- NOMBRE DEL BOTÓN - Título del canal en el sidebar -->
-          <h2 class="tmpe-ticket-title">PROMOCIÓN SOCIOS U </h2>
-          <div class="tmpe-status-container">
-            <div class="tmpe-status-badge">
-              <span class="tmpe-status-dot tmpe-dot-available"></span>
-              <span>DISPONIBLE</span>
-            </div>
-            <!-- FECHA Y HORA - Información de inicio de venta en el sidebar -->
-            <span class="tmpe-date-text">Inicio de venta: 02/07 • 02:00PM</span>
-          </div>
-        </div>
-      </div>
-      
-      <div class="tmpe-content-section">
-        <h3 class="tmpe-section-heading">MAPA DE PRECIOS</h3>
-        <!-- IMAGEN DEL MAPA - Contenedor del mapa de precios del evento -->
-        <div class="tmpe-price-map">
-          <img class="tmpe-price-map-img" src="https://cdn.getcrowder.com/images/8891f133-9bcd-4b39-afc9-60221d061b95-tarumba-dek---tarifario-ibk-conadis-.png" alt="Mapa de precios">
-        </div>
-        <!-- INFORMACIÓN ADICIONAL - Texto informativo sobre precios -->
-        <p class="tmpe-note-text">
-          Los precios pueden variar según la fecha y tipo de entrada seleccionada.
-        </p>
-      </div>
-      
-      <div class="tmpe-content-section">
-        <h3 class="tmpe-section-heading">INFORMACIÓN ADICIONAL</h3>
-        <!-- INFORMACIÓN ADICIONAL - Texto con detalles del evento (edad mínima, ubicación, etc.) -->
-        <div class="tmpe-discount-info">
-          <p class="tmpe-discount-text">
-              <strong class="tmpe-discount-title">30% DSCTO.</strong>
-          </p>
-          
-          <ul class="tmpe-discount-list">
-              <li>Promoción Socios U: Aplica solo con Codigo Secreto</li>
-              <li>Aplica a Funciones: de 3:00 pm y 8:00 pm.</li>
-              <li>No Aplica: (5:30pm) Ni del 22/07 al 10/08, ni Feriados</li>
-              <li>Descuento aplica SÓLO para las zonas: Platinum, VIP, Preferencia y Preferencia Lateral</li>
-              <li>Promociones No acumulables</li>
-              <li>El descuento aplica SÓLO para compras en la web o en el punto de venta de Tickemaster.</li>
-              <li>El socio tiene la opción de compra hasta 10 entradas con su beneficio corporativo.</li>
-              <li>Descuento 30% Stock limitado a 500 tickets</li>
-            </ul>
-        </div>
-      </div>
-    </div>
-    <div class="tmpe-sidebar-footer">
-      <a href="https://www.ticketmaster.pe/event/la-tarumba-lima---temporada-2025-canje-socios-universitario-tarumba" class="tmpe-buy-button">
-        CANJEA Y COMPRA
-      </a>
-    </div>
-  </div>
-</div>
-
-<!-- Sidebar for Ticket 7 -->
-<div class="tmpe-modal-overlay tmpe-overlay-7">
-  <div class="tmpe-sidebar-panel">
-    <div class="tmpe-sidebar-header">
-      <a href="#" class="tmpe-back-button">
-        <span class="tmpe-arrow-back"></span>
-      </a>
-      <h2 class="tmpe-sidebar-title-text">Información de Venta</h2>
-      <a href="#" class="tmpe-close-button"></a>
-    </div>
-    <div class="tmpe-sidebar-content">
-      <div class="tmpe-event-summary">
-        <!-- IMAGEN DEL CANAL - Logo del canal en el sidebar -->
-        <div class="tmpe-logo-container tmpe-logo-interbank">
-          <img class="tmpe-logo-img" src="https://prod-assets.tmlat.com/la_tarumba_2_63d011df9b.svg" alt="Ticketmaster">
-        </div>
-        <div class="tmpe-info-container">
-          <!-- NOMBRE DEL BOTÓN - Título del canal en el sidebar -->
-          <h2 class="tmpe-ticket-title">CELEBRA PERU</h2>
-          <div class="tmpe-status-container">
-            <div class="tmpe-status-badge">
-              <span class="tmpe-status-dot tmpe-dot-available"></span>
-              <span>DISPONIBLE</span>
-            </div>
-            <!-- FECHA Y HORA - Información de inicio de venta en el sidebar -->
-            <span class="tmpe-date-text">Inicio de venta: 15/07 AL 25/07 </span>
-          </div>
-        </div>
-      </div>
-      
-      <div class="tmpe-content-section">
-        <h3 class="tmpe-section-heading">MAPA DE PRECIOS</h3>
-        <!-- IMAGEN DEL MAPA - Contenedor del mapa de precios del evento -->
-        <div class="tmpe-price-map">
-          <img class="tmpe-price-map-img" src="https://cdn.getcrowder.com/images/ab7c0dca-15a1-41c6-8673-94f977a85960-mobile-6.png" alt="Mapa de precios">
-        </div>
-        <!-- INFORMACIÓN ADICIONAL - Texto informativo sobre precios -->
-        <p class="tmpe-note-text">
-          Los precios pueden variar según la fecha y tipo de entrada seleccionada.
-        </p>
-      </div>
-      
-      <div class="tmpe-content-section">
-        <h3 class="tmpe-section-heading">INFORMACIÓN ADICIONAL</h3>
-        <!-- INFORMACIÓN ADICIONAL - Texto con detalles del evento (edad mínima, ubicación, etc.) -->
-        <div class="tmpe-discount-info">
-          <p class="tmpe-discount-text">
-              <strong class="tmpe-discount-title">40% DSCTO.</strong>
-          </p>
-          
-          <ul class="tmpe-discount-list">
-              <li>Promoción Celebra Perú 2025 vigente desde el 15 de julio (10:00 AM) hasta el 25 de julio (11:59 PM) de 2025</li>
-              <li>Fechas: Del 13 al 31 de agosto (miércoles y jueves 8:00 PM) </li>
-              <li>Fechas: Del 1 al 14 de septiembre (miércoles y jueves 8:00 PM), sábado 5:30 PM y 8:00 PM, domingo 5:30 PM.</li>
-              <li>Se considera tarifa de niño a partir de año y medio hasta los 12 años y adulto mayor a partir de los 60 años. Sujeto a stock limitado</li>
-              <li>Promociones No acumulables</li>
-              <li>El descuento aplica SÓLO para compras en la web o en el punto de venta de Tickemaster.</li>
-
-            </ul>
-        </div>
-      </div>
-    </div>
-    <div class="tmpe-sidebar-footer">
-      <a href="https://www.ticketmaster.pe/event/la-tarumba-lima-venta-celebra-peru-temporada-2025" class="tmpe-buy-button">
-        CELEBRA PERU
-      </a>
-    </div>
-  </div>
-</div>
 
 </body>
 </html> 
