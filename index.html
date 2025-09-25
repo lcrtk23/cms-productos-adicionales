@@ -1,0 +1,2640 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CMS Cards Configurables</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1600px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 30px;
+      color: #262626;
+      background: linear-gradient(135deg, #024DDF, #0066FF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 700;
+      text-align: left;
+    }
+
+    #app-container {
+      display: flex;
+      gap: 30px;
+      align-items: flex-start;
+    }
+
+    .panel {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.06);
+      border: 1px solid #f0f0f0;
+    }
+
+    #left-panel {
+      flex: 0 0 400px;
+      min-width: 350px;
+    }
+
+    #right-panel {
+      flex: 1;
+      min-width: 500px;
+    }
+
+    .panel-header {
+      padding: 24px 24px 16px 24px;
+      border-bottom: 2px solid #f0f0f0;
+      margin-bottom: 24px;
+    }
+
+    .panel-title {
+      font-size: 20px;
+      color: #1a1a1a;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .panel-content {
+      padding: 0 24px 24px 24px;
+    }
+
+    #add-new-card {
+      width: 100%;
+      padding: 16px 24px;
+      background: #024DDF;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 24px;
+      transition: all 0.2s ease;
+    }
+
+    #add-new-card:hover {
+      background: #0239c4;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(2, 77, 223, 0.3);
+    }
+
+    .view-controls {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 20px;
+      align-items: center;
+    }
+
+    .view-toggle {
+      display: flex;
+      background: #f1f5f9;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+    }
+
+    .view-toggle-btn {
+      padding: 10px 16px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 14px;
+      color: #64748b;
+      transition: all 0.2s ease;
+      min-width: 100px;
+    }
+
+    .view-toggle-btn:hover {
+      background: #e2e8f0;
+      color: #475569;
+    }
+
+    .view-toggle-btn.active {
+      background: #024DDF;
+      color: white;
+    }
+
+    #preview-area {
+      background-color: #FAFBFC;
+      padding: 0;
+      border-radius: 8px;
+      min-height: 200px;
+      overflow: hidden;
+    }
+
+    /* Estilos para las cards desktop (copiados del index.html) */
+    .tmpe-card-grid {
+      display: grid;
+      grid-template-columns: 343px 343px;
+      gap: 16px;
+      padding: 24px;
+      background: #FAFBFC;
+      justify-content: center;
+    }
+
+    .tmpe-card {
+      width: 343px;
+      background: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: flex-end;
+      border-radius: 0px;
+      box-shadow: 0px 6px 16px rgba(18, 18, 18, 0.12);
+      border: none;
+    }
+
+    .tmpe-card-image {
+      width: 100%;
+      height: 174px;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+      padding: 0;
+      position: relative;
+    }
+
+    .tmpe-card-badge {
+      background: #024DDF;
+      color: #FFFFFF;
+      border: 1px solid #024DDF;
+      border-radius: 4px;
+      padding: 4px 12px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.6666666666666667em;
+      letter-spacing: 2%;
+      text-transform: uppercase;
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+    }
+
+    .tmpe-card-title {
+      padding: 16px 24px 8px;
+      align-self: stretch;
+    }
+
+    .tmpe-card-title h2 {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.3em;
+      letter-spacing: 2%;
+      text-transform: uppercase;
+      color: #121212;
+      margin: 0;
+      text-align: left;
+    }
+
+    .tmpe-card-details {
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+      align-self: stretch;
+    }
+
+    .tmpe-card-detail-item {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.2857142857142858em;
+      letter-spacing: 2%;
+      color: #121212;
+      margin: 0;
+      text-align: left;
+      position: relative;
+      padding-left: 12px;
+    }
+
+    .tmpe-card-detail-item::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #121212;
+      font-size: 14px;
+    }
+
+    .tmpe-card-footer {
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 343px;
+    }
+
+    .tmpe-card-price {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 1.2em;
+      letter-spacing: 2%;
+      text-transform: uppercase;
+      color: #121212;
+    }
+
+    .tmpe-card-button {
+      background: #FFFFFF;
+      color: #024DDF;
+      border: 1px solid #024DDF;
+      border-radius: 4px;
+      padding: 10px 16px;
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.5em;
+      letter-spacing: 2%;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tmpe-card-button:hover {
+      background: #024DDF;
+      color: #FFFFFF;
+    }
+
+    .tmpe-card-button:hover svg polyline {
+      stroke: #FFFFFF;
+    }
+
+    /* Estilos para las cards mobile (copiados del index.html) */
+    .tmpe-mobile-card-grid {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+    }
+
+    .tmpe-mobile-card {
+      width: 100%;
+      max-width: 280px;
+      background: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: flex-end;
+      box-shadow: 0px 6px 16px rgba(18, 18, 18, 0.12);
+      border: none;
+    }
+
+    .tmpe-mobile-card-image {
+      width: 100%;
+      height: 174px;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+      padding: 0;
+      position: relative;
+    }
+
+    .tmpe-mobile-card-badge {
+      background: #024DDF;
+      color: #FFFFFF;
+      border: 1px solid #024DDF;
+      border-radius: 4px;
+      padding: 4px 12px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.6666666666666667em;
+      letter-spacing: 2%;
+      text-transform: uppercase;
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+    }
+
+    .tmpe-mobile-card-title {
+      padding: 16px 16px 0px;
+      align-self: stretch;
+    }
+
+    .tmpe-mobile-card-title h2 {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.3em;
+      letter-spacing: 2%;
+      text-transform: uppercase;
+      color: #121212;
+      margin: 0;
+      text-align: left;
+    }
+
+    .tmpe-mobile-card-details {
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+      align-self: stretch;
+    }
+
+    .tmpe-mobile-card-detail-item {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.2857142857142858em;
+      letter-spacing: 2%;
+      color: #121212;
+      margin: 0;
+      text-align: left;
+      position: relative;
+      padding-left: 10px;
+    }
+
+    .tmpe-mobile-card-detail-item::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #121212;
+      font-size: 14px;
+    }
+
+    .tmpe-mobile-card-footer {
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      align-self: stretch;
+    }
+
+    .tmpe-mobile-card-price {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 1.2em;
+      letter-spacing: 2%;
+      text-transform: uppercase;
+      color: #121212;
+    }
+
+    .tmpe-mobile-card-button {
+      background: #FFFFFF;
+      color: #024DDF;
+      border: 1px solid #024DDF;
+      border-radius: 4px;
+      padding: 8px 16px;
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.5em;
+      letter-spacing: 2%;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tmpe-mobile-card-button:hover {
+      background: #024DDF;
+      color: #FFFFFF;
+    }
+
+    .tmpe-mobile-card-button:hover svg polyline {
+      stroke: #FFFFFF;
+    }
+
+    /* Responsive para el preview */
+    @media (max-width: 750px) {
+      .tmpe-card-grid {
+        grid-template-columns: 1fr;
+        justify-content: center;
+      }
+      
+      .tmpe-card {
+        width: 100%;
+        max-width: 343px;
+        justify-self: center;
+      }
+    }
+
+    #show-code-button {
+      width: 100%;
+      padding: 16px 24px;
+      background: #f8fafc;
+      color: #4a5568;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: all 0.2s ease;
+    }
+
+    #show-code-button:hover {
+      background: #e2e8f0;
+      color: #2d3748;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #64748b;
+    }
+
+    .empty-state h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: #475569;
+    }
+
+    .empty-state p {
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* Modal styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background-color: white;
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .modal-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #262626;
+      margin: 0;
+    }
+
+    .modal-close {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      cursor: pointer;
+      color: #4a5568;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #2d3748;
+      font-size: 14px;
+    }
+
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 14px;
+      background: #ffffff;
+      transition: all 0.2s ease;
+    }
+
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: #024DDF;
+      box-shadow: 0 0 0 3px rgba(2, 77, 223, 0.1);
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .btn-save, .btn-cancel {
+      flex: 1;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-save {
+      background: #024DDF;
+      color: white;
+    }
+
+    .btn-save:hover {
+      background: #0239c4;
+    }
+
+    .btn-cancel {
+      background: #f8fafc;
+      color: #4a5568;
+      border: 2px solid #e2e8f0;
+    }
+
+    .btn-cancel:hover {
+      background: #e2e8f0;
+    }
+
+    /* Estilos para toggles */
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #cbd5e0;
+      transition: .4s;
+      border-radius: 24px;
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .toggle-slider {
+      background-color: #024DDF;
+    }
+
+    input:checked + .toggle-slider:before {
+      transform: translateX(20px);
+    }
+
+    /* Estilos para imagen upload */
+    #image-upload-area:hover {
+      border-color: #024DDF;
+      background: #f0f7ff;
+    }
+
+    #image-upload-area.has-image {
+      border-style: solid;
+      border-color: #10b981;
+      background: #f0fdf4;
+    }
+
+    .uploaded-image {
+      max-width: 100%;
+      max-height: 120px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }
+
+    /* Estilos del sidebar modal (copiados del index.html) */
+    .tmpe-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 99999;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .tmpe-modal-overlay.show {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .tmpe-sidebar-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100%;
+      max-width: 550px;
+      height: 100%;
+      background: white;
+      box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      z-index: 100000;
+    }
+
+    .tmpe-modal-overlay.show .tmpe-sidebar-panel {
+      transform: translateX(0);
+    }
+
+    .tmpe-sidebar-header {
+      background: #F6F6F6;
+      padding: 16px;
+      text-align: center;
+      position: relative;
+      border-bottom: 1px solid #EBEBEB;
+    }
+
+    .tmpe-sidebar-title-text {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      margin: 0;
+      color: #262626;
+      letter-spacing: 0.32px;
+      line-height: 24px;
+    }
+
+    .tmpe-back-button {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      border: none;
+      background: none;
+      display: flex;
+      align-items: center;
+      padding: 0;
+      text-decoration: none;
+    }
+
+    .tmpe-arrow-back {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border: solid #121212;
+      border-width: 0 2px 2px 0;
+      transform: rotate(135deg);
+      margin-right: 5px;
+    }
+
+    .tmpe-close-button {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      text-decoration: none;
+    }
+
+    .tmpe-close-button:before,
+    .tmpe-close-button:after {
+      content: '';
+      position: absolute;
+      width: 15px;
+      height: 2px;
+      background: #121212;
+      top: 50%;
+      left: 50%;
+    }
+
+    .tmpe-close-button:before {
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    .tmpe-close-button:after {
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+
+    .tmpe-sidebar-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+    }
+
+    .tmpe-image-section {
+      margin: -24px -24px 20px -24px;
+    }
+
+    .tmpe-product-image {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .tmpe-product-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .tmpe-product-info {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      flex: 1;
+    }
+
+    .tmpe-product-header {
+      display: flex;
+      flex-direction: column;
+      align-self: stretch;
+      gap: 12px;
+    }
+
+    .tmpe-product-title {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #262626;
+      margin: 0;
+      line-height: 0.9758750915527343em;
+      letter-spacing: 2%;
+      text-transform: uppercase;
+      text-align: left;
+    }
+
+    .tmpe-product-badge {
+      background: #024DDF;
+      color: #FFFFFF;
+      border: 1px solid #024DDF;
+      border-radius: 4px;
+      padding: 4px 12px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      align-self: flex-start;
+    }
+
+    .tmpe-product-badge-text {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.6666666666666667em;
+      letter-spacing: 2%;
+      text-transform: uppercase;
+      color: #FFFFFF;
+    }
+
+    .tmpe-includes-section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .tmpe-includes-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex: 1;
+      gap: 16px;
+    }
+
+    .tmpe-includes-text {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: #646464;
+      line-height: 1.43;
+      letter-spacing: 2%;
+      margin: 0;
+      flex: 1;
+    }
+
+    .tmpe-includes-text strong {
+      color: #262626;
+    }
+
+    .tmpe-includes-label {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: #646464;
+      line-height: 1.43;
+      letter-spacing: 2%;
+    }
+
+    .tmpe-sidebar-footer {
+      padding: 20px 24px;
+      border-top: 1px solid #EBEBEB;
+      background: #fff;
+      box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      gap: 116px;
+    }
+
+    .tmpe-sidebar-price {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 1em;
+      letter-spacing: 2%;
+      text-transform: uppercase;
+      color: #121212;
+    }
+
+    .tmpe-buy-button {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 260px;
+      background: #024DDF;
+      color: #FFFFFF;
+      border: 1px solid #024DDF;
+      border-radius: 4px;
+      padding: 10px 16px;
+      font-size: 16px;
+      font-weight: 600;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      letter-spacing: 2%;
+      line-height: 1.5em;
+      transition: all 0.2s ease;
+    }
+
+    .tmpe-buy-button:hover {
+      background: #0035A0;
+      color: #FFFFFF;
+    }
+
+    .tmpe-buy-button:hover svg polyline {
+      stroke: #FFFFFF;
+    }
+
+    @media (max-width: 768px) {
+      .tmpe-sidebar-panel {
+        max-width: 100%;
+      }
+
+      .tmpe-sidebar-footer {
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 20px 24px;
+      }
+
+      .tmpe-sidebar-price {
+        align-self: flex-start;
+      }
+
+      .tmpe-buy-button {
+        width: 100%;
+        align-self: stretch;
+      }
+    }
+
+    @media (max-width: 1200px) {
+      #app-container {
+        flex-direction: column;
+      }
+      #left-panel, #right-panel {
+        flex: none;
+        min-width: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Cards Configurables</h1>
+    
+    <div id="app-container">
+      <!-- Panel Izquierdo: Creación de Cards -->
+      <div id="left-panel" class="panel">
+        <div class="panel-header">
+          <h2 class="panel-title">Creación de Cards</h2>
+        </div>
+        <div class="panel-content">
+          <button id="add-new-card">+ Añadir Card</button>
+          <div id="card-list-container">
+            <div class="empty-state">
+              <h3>No hay cards creadas</h3>
+              <p>Haz clic en "Añadir Card" para comenzar</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel Derecho: Previsualización -->
+      <div id="right-panel" class="panel">
+        <div class="panel-header">
+          <h2 class="panel-title">Previsualización</h2>
+        </div>
+        <div class="panel-content">
+          <div class="view-controls">
+            <div class="view-toggle">
+              <button class="view-toggle-btn active" id="desktop-view-btn">Desktop</button>
+              <button class="view-toggle-btn" id="mobile-view-btn">Mobile</button>
+            </div>
+          </div>
+          
+          <div id="preview-area">
+            <div class="empty-state">
+              <h3>No hay cards creadas</h3>
+              <p>Agrega tu primera card usando el panel de la izquierda</p>
+            </div>
+          </div>
+            
+          <button id="show-code-button">📋 Generar Código HTML</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para crear/editar card -->
+  <div class="modal-overlay" id="card-editor-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="form-title">Crear Nueva Card</h2>
+        <button class="modal-close" id="close-card-modal">&times;</button>
+      </div>
+      
+      <form id="card-editor-form">
+        <!-- Sección A: Contenido -->
+        <div style="background: #f8fafc; border-radius: 8px; padding: 20px; margin-bottom: 20px; border: 1px solid #e2e8f0;">
+          <h3 style="margin: 0 0 16px 0; color: #1a1a1a; font-size: 16px; display: flex; align-items: center; gap: 8px;">
+            <span>📄</span> Contenido
+          </h3>
+          
+          <!-- Imagen -->
+          <div class="form-group">
+            <label>Imagen</label>
+            <div id="image-upload-area" style="border: 2px dashed #cbd5e0; border-radius: 8px; padding: 20px; text-align: center; background: #ffffff; cursor: pointer; transition: all 0.2s ease; margin-bottom: 16px;">
+              <div id="image-preview"></div>
+              <p style="font-size: 14px; color: #64748b; margin: 0;">Haz clic para subir imagen</p>
+              <p style="font-size: 12px; color: #94a3b8; margin: 4px 0 0 0;">Máx. 1920px ancho, 1MB</p>
+              <input type="file" id="image-input" accept="image/*" style="display: none;">
+            </div>
+          </div>
+          
+          <!-- Título -->
+          <div class="form-group">
+            <label for="card-title">Título</label>
+            <input type="text" id="card-title" placeholder="FAST PASS" required>
+          </div>
+          
+          <!-- Precio -->
+          <div class="form-group">
+            <label for="card-price">Precio</label>
+            <input type="text" id="card-price" placeholder="$30.80">
+          </div>
+          
+          <!-- Subtítulo (3 bullets) -->
+          <div class="form-group">
+            <label>Subtítulo (3 bullets)</label>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="width: 20px; height: 20px; background: #e2e8f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: #4a5568; flex-shrink: 0;">1</span>
+                <input type="text" id="bullet-1" placeholder="Venta limitada (solo 500 disponibles)" style="flex: 1; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px;">
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="width: 20px; height: 20px; background: #e2e8f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: #4a5568; flex-shrink: 0;">2</span>
+                <input type="text" id="bullet-2" placeholder="Solo venta online" style="flex: 1; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px;">
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="width: 20px; height: 20px; background: #e2e8f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: #4a5568; flex-shrink: 0;">3</span>
+                <input type="text" id="bullet-3" placeholder="Adiciónalo a la compra de tu entrada" style="flex: 1; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px;">
+              </div>
+            </div>
+          </div>
+          
+          <!-- Estado -->
+          <div class="form-group">
+            <label for="card-status">Estado</label>
+            <select id="card-status" required>
+              <option value="">Seleccionar estado</option>
+              <option value="available-with-ticket">Disponible con entrada</option>
+              <option value="available-in-purchase">Disponible en la compra</option>
+              <option value="independent-purchase">Compra independiente</option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- Sección B: Acción -->
+        <div style="background: #f8fafc; border-radius: 8px; padding: 20px; margin-bottom: 20px; border: 1px solid #e2e8f0;">
+          <h3 style="margin: 0 0 16px 0; color: #1a1a1a; font-size: 16px; display: flex; align-items: center; gap: 8px;">
+            <span>⚡</span> Acción
+          </h3>
+          
+          <!-- CTA Text -->
+          <div class="form-group">
+            <label for="cta-text">CTA Text</label>
+            <input type="text" id="cta-text" placeholder="Ver más" required>
+          </div>
+          
+          <!-- Toggle Modal -->
+          <div style="display: flex; align-items: center; gap: 8px; font-size: 14px; color: #2d3748; margin-bottom: 12px;">
+            <label class="toggle-switch">
+              <input type="checkbox" id="toggle-modal">
+              <span class="toggle-slider"></span>
+            </label>
+            <span>Toggle Modal</span>
+          </div>
+          
+          <!-- URL (visible cuando toggle está OFF) -->
+          <div class="form-group" id="url-group">
+            <label for="action-url">URL</label>
+            <input type="url" id="action-url" placeholder="https://ejemplo.com/comprar">
+          </div>
+        </div>
+        
+        <!-- Sección C: Modal (visible solo si toggle ON) -->
+        <div id="modal-section" style="background: #f8fafc; border-radius: 8px; padding: 20px; margin-bottom: 20px; border: 1px solid #e2e8f0; display: none;">
+          <h3 style="margin: 0 0 16px 0; color: #1a1a1a; font-size: 16px; display: flex; align-items: center; gap: 8px;">
+            <span>🔍</span> Modal
+          </h3>
+          
+          <!-- Descripción extendida -->
+          <div class="form-group">
+            <label for="modal-description">Descripción extendida</label>
+            <textarea id="modal-description" rows="4" placeholder="Descripción detallada del producto..." style="width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px; background: #ffffff; transition: all 0.2s ease; resize: vertical;"></textarea>
+          </div>
+          
+          <!-- Toggle "Mostrar botón Comprar ahora" -->
+          <div style="display: flex; align-items: center; gap: 8px; font-size: 14px; color: #2d3748; margin-bottom: 12px;">
+            <label class="toggle-switch">
+              <input type="checkbox" id="toggle-buy-button">
+              <span class="toggle-slider"></span>
+            </label>
+            <span>Mostrar botón Comprar ahora</span>
+          </div>
+          
+          <!-- Campos condicionales para el botón -->
+          <div id="buy-button-fields" style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #e2e8f0; display: none;">
+            <div class="form-group">
+              <label for="buy-button-text">Texto botón</label>
+              <input type="text" id="buy-button-text" placeholder="Comprar ahora">
+            </div>
+            <div class="form-group">
+              <label for="buy-button-url">URL botón</label>
+              <input type="url" id="buy-button-url" placeholder="https://ejemplo.com/comprar">
+            </div>
+          </div>
+        </div>
+          
+        <div class="form-actions">
+          <button type="submit" id="save-card-button" class="btn-save">Guardar</button>
+          <button type="button" id="cancel-card-button" class="btn-cancel">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal para mostrar el código -->
+  <div class="modal-overlay" id="code-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Código HTML Completo - Cards Configurables</h2>
+        <button class="modal-close" id="close-modal">&times;</button>
+      </div>
+      
+      <div style="background: #f8fafc; border-radius: 8px; border: 2px solid #e2e8f0; margin-bottom: 20px;">
+        <pre style="padding: 20px; font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace; font-size: 13px; line-height: 1.5; color: #4a5568; white-space: pre-wrap; background: #ffffff; margin: 0; max-height: 400px; overflow-y: auto;" id="code-display"></pre>
+      </div>
+      
+      <button style="background: #024DDF; color: white; border: none; border-radius: 4px; padding: 12px 24px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s ease;" id="copy-code">📋 Copiar Código</button>
+    </div>
+  </div>
+
+  <script>
+    // Variables globales
+    let cards = [];
+    let editingCardId = null;
+    let currentView = 'desktop';
+
+    // Elementos del DOM
+    const addNewCard = document.getElementById('add-new-card');
+    const cardListContainer = document.getElementById('card-list-container');
+    const cardEditorModal = document.getElementById('card-editor-modal');
+    const cardEditorForm = document.getElementById('card-editor-form');
+    const formTitle = document.getElementById('form-title');
+    const closeCardModal = document.getElementById('close-card-modal');
+    const previewArea = document.getElementById('preview-area');
+    const showCodeButton = document.getElementById('show-code-button');
+    const codeModal = document.getElementById('code-modal');
+    const closeModal = document.getElementById('close-modal');
+    const codeDisplay = document.getElementById('code-display');
+    const copyCodeButton = document.getElementById('copy-code');
+
+    // Elementos del formulario
+    const imageInput = document.getElementById('image-input');
+    const imageUploadArea = document.getElementById('image-upload-area');
+    const imagePreview = document.getElementById('image-preview');
+    const cardTitle = document.getElementById('card-title');
+    const cardPrice = document.getElementById('card-price');
+    const bullet1 = document.getElementById('bullet-1');
+    const bullet2 = document.getElementById('bullet-2');
+    const bullet3 = document.getElementById('bullet-3');
+    const cardStatus = document.getElementById('card-status');
+    const ctaText = document.getElementById('cta-text');
+    const toggleModal = document.getElementById('toggle-modal');
+    const actionUrl = document.getElementById('action-url');
+    const urlGroup = document.getElementById('url-group');
+    const modalSection = document.getElementById('modal-section');
+    const modalDescription = document.getElementById('modal-description');
+    const toggleBuyButton = document.getElementById('toggle-buy-button');
+    const buyButtonFields = document.getElementById('buy-button-fields');
+    const buyButtonText = document.getElementById('buy-button-text');
+    const buyButtonUrl = document.getElementById('buy-button-url');
+
+    // Elementos de vista
+    const desktopViewBtn = document.getElementById('desktop-view-btn');
+    const mobileViewBtn = document.getElementById('mobile-view-btn');
+
+    // Configuración de estados
+    const statusConfig = {
+      'available-with-ticket': { text: 'DISPONIBLE CON ENTRADA', displayText: 'Disponible con entrada', class: 'status-available' },
+      'available-in-purchase': { text: 'DISPONIBLE EN LA COMPRA', displayText: 'Disponible en la compra', class: 'status-available' },
+      'independent-purchase': { text: 'COMPRA INDEPENDIENTE', displayText: 'Compra independiente', class: 'status-available' }
+    };
+
+    // Funciones principales
+    function loadCards() {
+      cards = [];
+    }
+
+    function saveCards() {
+      localStorage.setItem('cms-cards', JSON.stringify(cards));
+    }
+
+    function renderCardList() {
+      if (cards.length === 0) {
+        cardListContainer.innerHTML = `
+          <div class="empty-state">
+            <h3>No hay cards creadas</h3>
+            <p>Haz clic en "Añadir Card" para comenzar</p>
+          </div>
+        `;
+        return;
+      }
+
+      cardListContainer.innerHTML = cards.map((card, index) => `
+        <div style="background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <h4 style="margin: 0 0 4px 0; color: #1a1a1a;">${card.title}</h4>
+              <p style="margin: 0; color: #64748b; font-size: 14px;">${card.price || 'Sin precio'} • ${statusConfig[card.status].displayText}</p>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button onclick="openCardEditor('${card.id}')" style="padding: 6px 12px; background: #e2e8f0; color: #4a5568; border: none; border-radius: 4px; cursor: pointer;">✏️ Editar</button>
+              <button onclick="deleteCard('${card.id}')" style="padding: 6px 12px; background: #fed7d7; color: #DD2C00; border: none; border-radius: 4px; cursor: pointer;">🗑️ Eliminar</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openCardEditor(cardId = null) {
+      editingCardId = cardId;
+      cardEditorModal.style.display = 'flex';
+      
+      if (cardId) {
+        const card = cards.find(c => c.id === cardId);
+        if (card) {
+          formTitle.textContent = `Editar: ${card.title}`;
+          cardTitle.value = card.title;
+          cardPrice.value = card.price || '';
+          bullet1.value = card.bullets ? card.bullets[0] || '' : '';
+          bullet2.value = card.bullets ? card.bullets[1] || '' : '';
+          bullet3.value = card.bullets ? card.bullets[2] || '' : '';
+          cardStatus.value = card.status;
+          ctaText.value = card.ctaText;
+          toggleModal.checked = card.useModal || false;
+          actionUrl.value = card.actionUrl || '';
+          modalDescription.value = card.modalDescription || '';
+          toggleBuyButton.checked = card.showBuyButton || false;
+          buyButtonText.value = card.buyButtonText || '';
+          buyButtonUrl.value = card.buyButtonUrl || '';
+          
+          // Mostrar imagen si existe
+          if (card.image && card.image !== 'https://prod-assets.tmlat.com/image_15cd533576.png') {
+            imagePreview.innerHTML = `<img src="${card.image}" class="uploaded-image" alt="Preview">`;
+            imageUploadArea.classList.add('has-image');
+          }
+          
+          handleToggleModal();
+          handleToggleBuyButton();
+        }
+      } else {
+        formTitle.textContent = 'Crear Nueva Card';
+        cardTitle.value = '';
+        cardPrice.value = '';
+        bullet1.value = '';
+        bullet2.value = '';
+        bullet3.value = '';
+        cardStatus.value = '';
+        ctaText.value = 'Ver más';
+        toggleModal.checked = false;
+        actionUrl.value = '';
+        modalDescription.value = '';
+        toggleBuyButton.checked = false;
+        buyButtonText.value = '';
+        buyButtonUrl.value = '';
+        imagePreview.innerHTML = '';
+        imageUploadArea.classList.remove('has-image');
+        
+        handleToggleModal();
+        handleToggleBuyButton();
+      }
+    }
+
+    function closeCardEditor() {
+      cardEditorModal.style.display = 'none';
+      editingCardId = null;
+    }
+
+    function handleToggleModal() {
+      if (toggleModal.checked) {
+        modalSection.style.display = 'block';
+        urlGroup.style.display = 'none';
+        actionUrl.required = false;
+      } else {
+        modalSection.style.display = 'none';
+        urlGroup.style.display = 'block';
+        actionUrl.required = true;
+      }
+    }
+
+    function handleToggleBuyButton() {
+      if (toggleBuyButton.checked) {
+        buyButtonFields.style.display = 'block';
+        buyButtonText.required = true;
+        buyButtonUrl.required = true;
+      } else {
+        buyButtonFields.style.display = 'none';
+        buyButtonText.required = false;
+        buyButtonUrl.required = false;
+      }
+    }
+
+    function handleImageUpload(e) {
+      const file = e.target.files[0];
+      if (file) {
+        // Validar tamaño (1MB)
+        if (file.size > 1024 * 1024) {
+          alert('La imagen debe ser menor a 1MB');
+          return;
+        }
+        
+        // Validar tipo
+        if (!file.type.startsWith('image/')) {
+          alert('Por favor selecciona una imagen válida');
+          return;
+        }
+        
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          // Crear imagen para validar dimensiones
+          const img = new Image();
+          img.onload = () => {
+            if (img.width > 1920) {
+              alert('La imagen debe tener un ancho máximo de 1920px');
+              return;
+            }
+            imagePreview.innerHTML = `<img src="${e.target.result}" class="uploaded-image" alt="Preview">`;
+            imageUploadArea.classList.add('has-image');
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function saveCardData(e) {
+      e.preventDefault();
+      
+      if (!cardTitle.value || !cardStatus.value || !ctaText.value) {
+        alert('Los campos Título, Estado y CTA Text son obligatorios');
+        return;
+      }
+      
+      if (!toggleModal.checked && !actionUrl.value) {
+        alert('La URL es obligatoria cuando el modal está desactivado');
+        return;
+      }
+      
+      if (toggleModal.checked && toggleBuyButton.checked) {
+        if (!buyButtonText.value || !buyButtonUrl.value) {
+          alert('Los campos de botón de compra son obligatorios cuando está activado');
+          return;
+        }
+      }
+      
+      const cardData = {
+        title: cardTitle.value,
+        price: cardPrice.value,
+        bullets: [bullet1.value, bullet2.value, bullet3.value],
+        status: cardStatus.value,
+        ctaText: ctaText.value,
+        useModal: toggleModal.checked,
+        actionUrl: actionUrl.value,
+        modalDescription: modalDescription.value,
+        showBuyButton: toggleBuyButton.checked,
+        buyButtonText: buyButtonText.value,
+        buyButtonUrl: buyButtonUrl.value,
+        image: imagePreview.querySelector('img')?.src || 'https://prod-assets.tmlat.com/image_15cd533576.png'
+      };
+
+      if (editingCardId) {
+        const index = cards.findIndex(c => c.id === editingCardId);
+        if (index !== -1) {
+          cards[index] = { ...cards[index], ...cardData };
+        }
+      } else {
+        const newCard = {
+          id: Date.now().toString(),
+          ...cardData
+        };
+        cards.push(newCard);
+      }
+
+      saveCards();
+      closeCardEditor();
+      renderCardList();
+      renderGlobalPreview();
+    }
+
+    function deleteCard(cardId) {
+      if (confirm('¿Estás seguro de eliminar esta card?')) {
+        cards = cards.filter(c => c.id !== cardId);
+        saveCards();
+        renderCardList();
+        renderGlobalPreview();
+      }
+    }
+
+    function renderGlobalPreview() {
+      if (cards.length === 0) {
+        previewArea.innerHTML = `
+          <div class="empty-state">
+            <h3>No hay cards creadas</h3>
+            <p>Agrega tu primera card usando el panel de la izquierda</p>
+          </div>
+        `;
+        return;
+      }
+      
+      let html = '';
+      
+      if (currentView === 'desktop') {
+        // Vista Desktop - Grid de cards
+        html = '<div class="tmpe-card-grid">';
+        
+        cards.forEach(card => {
+          const status = statusConfig[card.status];
+          const displayText = status.displayText;
+          
+          // Generar bullets
+          const bulletsHtml = card.bullets ? card.bullets.filter(b => b).map(bullet => 
+            `<div class="tmpe-card-detail-item">${bullet}</div>`
+          ).join('') : '';
+          
+          // Determinar el botón según el tipo de acción
+          let buttonElement;
+          if (card.useModal) {
+            buttonElement = `
+              <div class="tmpe-card-button" onclick="openPreviewModal('${card.id}')">
+                ${card.ctaText}
+                <svg width="20" height="20" viewBox="0 0 20 20">
+                  <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            `;
+          } else {
+            buttonElement = `
+              <a href="${card.actionUrl}" class="tmpe-card-button" target="_blank">
+                ${card.ctaText}
+                <svg width="20" height="20" viewBox="0 0 20 20">
+                  <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            `;
+          }
+          
+          html += `
+            <div class="tmpe-card">
+              <div class="tmpe-card-image" style="background-image: url('${card.image}')">
+                <div class="tmpe-card-badge">${displayText}</div>
+              </div>
+              <div class="tmpe-card-title">
+                <h2>${card.title}</h2>
+              </div>
+              ${bulletsHtml ? `<div class="tmpe-card-details">${bulletsHtml}</div>` : ''}
+              <div class="tmpe-card-footer">
+                <div class="tmpe-card-price">${card.price || ''}</div>
+                ${buttonElement}
+              </div>
+            </div>
+          `;
+        });
+        
+        html += '</div>';
+      } else {
+        // Vista Mobile - Cards apiladas verticalmente
+        html = '<div class="tmpe-mobile-card-grid">';
+        
+        cards.forEach(card => {
+          const status = statusConfig[card.status];
+          const displayText = status.displayText;
+          
+          // Generar bullets
+          const bulletsHtml = card.bullets ? card.bullets.filter(b => b).map(bullet => 
+            `<div class="tmpe-mobile-card-detail-item">${bullet}</div>`
+          ).join('') : '';
+          
+          // Determinar el botón según el tipo de acción
+          let buttonElement;
+          if (card.useModal) {
+            buttonElement = `
+              <div class="tmpe-mobile-card-button" onclick="openPreviewModal('${card.id}')">
+                ${card.ctaText}
+                <svg width="20" height="20" viewBox="0 0 20 20">
+                  <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            `;
+          } else {
+            buttonElement = `
+              <a href="${card.actionUrl}" class="tmpe-mobile-card-button" target="_blank">
+                ${card.ctaText}
+                <svg width="20" height="20" viewBox="0 0 20 20">
+                  <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            `;
+          }
+          
+          html += `
+            <div class="tmpe-mobile-card">
+              <div class="tmpe-mobile-card-image" style="background-image: url('${card.image}')">
+                <div class="tmpe-mobile-card-badge">${displayText}</div>
+              </div>
+              <div class="tmpe-mobile-card-title">
+                <h2>${card.title}</h2>
+              </div>
+              ${bulletsHtml ? `<div class="tmpe-mobile-card-details">${bulletsHtml}</div>` : ''}
+              <div class="tmpe-mobile-card-footer">
+                <div class="tmpe-mobile-card-price">${card.price || ''}</div>
+                ${buttonElement}
+              </div>
+            </div>
+          `;
+        });
+        
+        html += '</div>';
+      }
+      
+        // Agregar modales sidebar para las cards que los necesiten (estilo index.html)
+      cards.forEach(card => {
+        if (card.useModal) {
+          const status = statusConfig[card.status];
+          const displayText = status.displayText;
+          
+          // Generar bullets para el modal
+          const bulletsHtml = card.bullets ? card.bullets.filter(b => b).map(bullet => 
+            `${bullet}<br>`
+          ).join('') : '';
+          
+          // Botón de compra si está activado
+          let buyButtonHtml = '';
+          if (card.showBuyButton) {
+            buyButtonHtml = `
+              <a href="${card.buyButtonUrl}" target="_blank" class="tmpe-buy-button">
+                ${card.buyButtonText}
+                <svg width="20" height="20" viewBox="0 0 20 20">
+                  <polyline points="7 5 13 10 7 15" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            `;
+          } else {
+            buyButtonHtml = `
+              <a href="#" class="tmpe-buy-button">
+                Más información
+                <svg width="20" height="20" viewBox="0 0 20 20">
+                  <polyline points="7 5 13 10 7 15" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            `;
+          }
+          
+          html += `
+            <div id="preview-modal-${card.id}" class="tmpe-modal-overlay" style="display: none;">
+              <div class="tmpe-sidebar-panel">
+                <div class="tmpe-sidebar-header">
+                  <a href="#" class="tmpe-back-button" onclick="closePreviewModal('${card.id}')">
+                    <span class="tmpe-arrow-back"></span>
+                  </a>
+                  <h2 class="tmpe-sidebar-title-text">Más Información</h2>
+                  <a href="#" class="tmpe-close-button" onclick="closePreviewModal('${card.id}')"></a>
+                </div>
+                <div class="tmpe-sidebar-content">
+                  <!-- Imagen con tag de precio -->
+                  <div class="tmpe-image-section">
+                    <div class="tmpe-product-image">
+                      <img src="${card.image}" alt="${card.title}" class="tmpe-product-img">
+                    </div>
+                  </div>
+                  
+                  <!-- Información del producto -->
+                  <div class="tmpe-product-info">
+                    <div class="tmpe-product-header">
+                      <h2 class="tmpe-product-title">${card.title}</h2>
+                      <div class="tmpe-product-badge">
+                        <span class="tmpe-product-badge-text">${displayText}</span>
+                      </div>
+                    </div>
+                    
+                    <!-- Contenido del producto -->
+                    <div class="tmpe-includes-section">
+                      <div class="tmpe-includes-content">
+                        <p class="tmpe-includes-text">
+                          ${bulletsHtml ? `<span class="tmpe-includes-label">INCLUYE:</span><br>${bulletsHtml}<br>` : ''}
+                          ${card.modalDescription || ''}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tmpe-sidebar-footer">
+                  <div class="tmpe-sidebar-price">${card.price || ''}</div>
+                  ${buyButtonHtml}
+                </div>
+              </div>
+            </div>
+          `;
+        }
+      });
+      
+      previewArea.innerHTML = html;
+    }
+
+    function openPreviewModal(cardId) {
+      const modal = document.getElementById(`preview-modal-${cardId}`);
+      if (modal) {
+        modal.style.display = 'block';
+        // Forzar reflow para que la animación funcione
+        modal.offsetHeight;
+        modal.classList.add('show');
+      }
+    }
+
+    function closePreviewModal(cardId) {
+      const modal = document.getElementById(`preview-modal-${cardId}`);
+      if (modal) {
+        modal.classList.remove('show');
+        // Esperar a que termine la animación antes de ocultar
+        setTimeout(() => {
+          modal.style.display = 'none';
+        }, 300);
+      }
+    }
+
+    function generateGlobalCode() {
+      if (cards.length === 0) {
+        alert('No hay cards para generar código');
+        return;
+      }
+
+      // Generar cards para desktop
+      let desktopCardsHTML = '';
+      cards.forEach((card, index) => {
+        const status = statusConfig[card.status];
+        const displayText = status.displayText;
+        
+        // Generar bullets
+        const bulletsHtml = card.bullets ? card.bullets.filter(b => b).map(bullet => 
+          `<div class="tmpe-card-detail-item">${bullet}</div>`
+        ).join('') : '';
+        
+        // Determinar el botón según el tipo de acción
+        let buttonElement;
+        if (card.useModal) {
+          buttonElement = `
+            <a href="#tmpe-toggle-${index + 1}" class="tmpe-card-button">
+              ${card.ctaText}
+              <svg width="20" height="20" viewBox="0 0 20 20">
+                <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          `;
+        } else {
+          buttonElement = `
+            <a href="${card.actionUrl}" class="tmpe-card-button" target="_blank">
+              ${card.ctaText}
+              <svg width="20" height="20" viewBox="0 0 20 20">
+                <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          `;
+        }
+        
+        desktopCardsHTML += `
+      <div class="tmpe-card">
+        <div class="tmpe-card-image" style="background-image: url('${card.image}')">
+          <div class="tmpe-card-badge">${displayText}</div>
+        </div>
+        <div class="tmpe-card-title">
+          <h2>${card.title}</h2>
+        </div>
+        ${bulletsHtml ? `<div class="tmpe-card-details">${bulletsHtml}</div>` : ''}
+        <div class="tmpe-card-footer">
+          <div class="tmpe-card-price">${card.price || ''}</div>
+          ${buttonElement}
+        </div>
+      </div>`;
+      });
+
+      // Generar cards para mobile
+      let mobileCardsHTML = '';
+      cards.forEach((card, index) => {
+        const status = statusConfig[card.status];
+        const displayText = status.displayText;
+        
+        // Generar bullets
+        const bulletsHtml = card.bullets ? card.bullets.filter(b => b).map(bullet => 
+          `<div class="tmpe-mobile-card-detail-item">${bullet}</div>`
+        ).join('') : '';
+        
+        // Determinar el botón según el tipo de acción
+        let buttonElement;
+        if (card.useModal) {
+          buttonElement = `
+            <a href="#tmpe-toggle-${index + 1}" class="tmpe-mobile-card-button">
+              ${card.ctaText}
+              <svg width="20" height="20" viewBox="0 0 20 20">
+                <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          `;
+        } else {
+          buttonElement = `
+            <a href="${card.actionUrl}" class="tmpe-mobile-card-button" target="_blank">
+              ${card.ctaText}
+              <svg width="20" height="20" viewBox="0 0 20 20">
+                <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          `;
+        }
+        
+        mobileCardsHTML += `
+      <div class="tmpe-mobile-card">
+        <div class="tmpe-mobile-card-image" style="background-image: url('${card.image}')">
+          <div class="tmpe-mobile-card-badge">${displayText}</div>
+        </div>
+        <div class="tmpe-mobile-card-title">
+          <h2>${card.title}</h2>
+        </div>
+        ${bulletsHtml ? `<div class="tmpe-mobile-card-details">${bulletsHtml}</div>` : ''}
+        <div class="tmpe-mobile-card-footer">
+          <div class="tmpe-mobile-card-price">${card.price || ''}</div>
+          ${buttonElement}
+        </div>
+      </div>`;
+      });
+
+      // Generar modales para las cards que los necesiten
+      let modalsHTML = '';
+      cards.forEach((card, index) => {
+        if (card.useModal) {
+          const status = statusConfig[card.status];
+          const displayText = status.displayText;
+          
+          // Generar bullets para el modal
+          const bulletsHtml = card.bullets ? card.bullets.filter(b => b).map(bullet => 
+            `${bullet}<br>`
+          ).join('') : '';
+          
+          // Botón de compra si está activado
+          let buyButtonHtml = '';
+          if (card.showBuyButton) {
+            buyButtonHtml = `
+              <a href="${card.buyButtonUrl}" target="_blank" class="tmpe-buy-button">
+                ${card.buyButtonText}
+                <svg width="20" height="20" viewBox="0 0 20 20">
+                  <polyline points="7 5 13 10 7 15" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            `;
+          } else {
+            buyButtonHtml = `
+              <a href="#" class="tmpe-buy-button">
+                Más información
+                <svg width="20" height="20" viewBox="0 0 20 20">
+                  <polyline points="7 5 13 10 7 15" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            `;
+          }
+          
+          modalsHTML += `
+<div class="tmpe-modal-overlay tmpe-overlay-${index + 1}">
+  <div class="tmpe-sidebar-panel">
+    <div class="tmpe-sidebar-header">
+      <a href="#" class="tmpe-back-button">
+        <span class="tmpe-arrow-back"></span>
+      </a>
+      <h2 class="tmpe-sidebar-title-text">Más Información</h2>
+      <a href="#" class="tmpe-close-button"></a>
+    </div>
+    <div class="tmpe-sidebar-content">
+      <div class="tmpe-image-section">
+        <div class="tmpe-product-image">
+          <img src="${card.image}" alt="${card.title}" class="tmpe-product-img">
+        </div>
+      </div>
+      <div class="tmpe-product-info">
+        <div class="tmpe-product-header">
+          <h2 class="tmpe-product-title">${card.title}</h2>
+          <div class="tmpe-product-badge">
+            <span class="tmpe-product-badge-text">${displayText}</span>
+          </div>
+        </div>
+        <div class="tmpe-includes-section">
+          <div class="tmpe-includes-content">
+            <p class="tmpe-includes-text">
+              ${bulletsHtml ? `<span class="tmpe-includes-label">INCLUYE:</span><br>${bulletsHtml}<br>` : ''}
+              ${card.modalDescription || ''}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tmpe-sidebar-footer">
+      <div class="tmpe-sidebar-price">${card.price || ''}</div>
+      ${buyButtonHtml}
+    </div>
+  </div>
+</div>`;
+        }
+      });
+
+      // Generar anclas para los modales
+      let anchorsHTML = '';
+      cards.forEach((card, index) => {
+        if (card.useModal) {
+          anchorsHTML += `<div id="tmpe-toggle-${index + 1}"></div>\n`;
+        }
+      });
+
+      const fullCode = `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ticket Interface - CSS Only</title>
+  <style>
+    /* CSS Reset básico */
+    .tmpe-container *,
+    .tmpe-modal-overlay *,
+    .tmpe-sidebar-panel * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    .tmpe-container {
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 auto !important;
+      position: relative;
+      z-index: 1;
+      box-sizing: border-box !important;
+      overflow: hidden !important;
+    }
+
+    @media (max-width: 800px) {
+      .tmpe-container {
+        width: 100% !important;
+      }
+    }
+
+    /* Default state - Desktop first */
+    .tmpe-desktop-view {
+      display: block;
+    }
+    
+    .tmpe-mobile-view {
+      display: none;
+    }
+
+    /* Grid de cards (desktop) */
+    .tmpe-card-grid {
+      display: grid;
+      grid-template-columns: 343px 343px;
+      gap: 16px;
+      padding: 24px;
+      background: #FAFBFC;
+      justify-content: center;
+    }
+
+    .tmpe-card {
+      width: 343px;
+      background: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: flex-end;
+      border-radius: 0px;
+      box-shadow: 0px 6px 16px rgba(18, 18, 18, 0.12);
+      border: none;
+    }
+
+    .tmpe-card-image {
+      width: 100%;
+      height: 174px;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+      padding: 0;
+      position: relative;
+    }
+
+    .tmpe-card-badge {
+      background: #024DDF;
+      color: #FFFFFF;
+      border: 1px solid #024DDF;
+      border-radius: 4px;
+      padding: 4px 12px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.6666666666666667em;
+      letter-spacing: 2%;
+      text-transform: uppercase;
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+    }
+
+    .tmpe-card-title {
+      padding: 16px 24px 8px;
+      align-self: stretch;
+    }
+
+    .tmpe-card-title h2 {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.3em;
+      letter-spacing: 2%;
+      text-transform: uppercase;
+      color: #121212;
+      margin: 0;
+      text-align: left;
+    }
+
+    .tmpe-card-details {
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+      align-self: stretch;
+    }
+
+    .tmpe-card-detail-item {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.2857142857142858em;
+      letter-spacing: 2%;
+      color: #121212;
+      margin: 0;
+      text-align: left;
+      position: relative;
+      padding-left: 12px;
+    }
+
+    .tmpe-card-detail-item::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #121212;
+      font-size: 14px;
+    }
+
+    .tmpe-card-footer {
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 343px;
+    }
+
+    .tmpe-card-price {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 1.2em;
+      letter-spacing: 2%;
+      text-transform: uppercase;
+      color: #121212;
+    }
+
+    .tmpe-card-button {
+      background: #FFFFFF;
+      color: #024DDF;
+      border: 1px solid #024DDF;
+      border-radius: 4px;
+      padding: 10px 16px;
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.5em;
+      letter-spacing: 2%;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tmpe-card-button:hover {
+      background: #024DDF;
+      color: #FFFFFF;
+    }
+
+    .tmpe-card-button:hover svg polyline {
+      stroke: #FFFFFF;
+    }
+
+    /* Responsive styles para mobile */
+    @media (max-width: 768px) {
+      .tmpe-desktop-view {
+        display: none;
+      }
+      
+      .tmpe-mobile-view {
+        display: block;
+        box-shadow: 0px 1px 4px 0px rgba(18, 18, 18, 0.15);
+      }
+
+      .tmpe-mobile-card-grid {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        padding: 16px;
+      }
+
+      .tmpe-mobile-card {
+        width: 100%;
+        max-width: 280px;
+        background: #FFFFFF;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-end;
+        box-shadow: 0px 6px 16px rgba(18, 18, 18, 0.12);
+        border: none;
+      }
+
+      .tmpe-mobile-card-image {
+        width: 100%;
+        height: 174px;
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-start;
+        padding: 0;
+        position: relative;
+      }
+
+      .tmpe-mobile-card-badge {
+        background: #024DDF;
+        color: #FFFFFF;
+        border: 1px solid #024DDF;
+        border-radius: 4px;
+        padding: 4px 12px;
+        height: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 1.6666666666666667em;
+        letter-spacing: 2%;
+        text-transform: uppercase;
+        position: absolute;
+        bottom: 8px;
+        left: 8px;
+      }
+
+      .tmpe-mobile-card-title {
+        padding: 16px 16px 0px;
+        align-self: stretch;
+      }
+
+      .tmpe-mobile-card-title h2 {
+        font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 1.3em;
+        letter-spacing: 2%;
+        text-transform: uppercase;
+        color: #121212;
+        margin: 0;
+        text-align: left;
+      }
+
+      .tmpe-mobile-card-details {
+        padding: 12px 16px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 4px;
+        align-self: stretch;
+      }
+
+      .tmpe-mobile-card-detail-item {
+        font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.2857142857142858em;
+        letter-spacing: 2%;
+        color: #121212;
+        margin: 0;
+        text-align: left;
+        position: relative;
+        padding-left: 10px;
+      }
+
+      .tmpe-mobile-card-detail-item::before {
+        content: "•";
+        position: absolute;
+        left: 0;
+        color: #121212;
+        font-size: 14px;
+      }
+
+      .tmpe-mobile-card-footer {
+        padding: 12px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        align-self: stretch;
+      }
+
+      .tmpe-mobile-card-price {
+        font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 1.2em;
+        letter-spacing: 2%;
+        text-transform: uppercase;
+        color: #121212;
+      }
+
+      .tmpe-mobile-card-button {
+        background: #FFFFFF;
+        color: #024DDF;
+        border: 1px solid #024DDF;
+        border-radius: 4px;
+        padding: 8px 16px;
+        font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 1.5em;
+        letter-spacing: 2%;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .tmpe-mobile-card-button:hover {
+        background: #024DDF;
+        color: #FFFFFF;
+      }
+
+      .tmpe-mobile-card-button:hover svg polyline {
+        stroke: #FFFFFF;
+      }
+    }
+
+    /* Estilos del sidebar modal */
+    .tmpe-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 99999;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .tmpe-sidebar-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100%;
+      max-width: 550px;
+      height: 100%;
+      background: white;
+      box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      z-index: 100000;
+    }
+
+    /* Técnica CSS para usar los enlaces como activadores de los paneles */
+    #tmpe-toggle-1:target ~ .tmpe-overlay-1,
+    #tmpe-toggle-2:target ~ .tmpe-overlay-2,
+    #tmpe-toggle-3:target ~ .tmpe-overlay-3,
+    #tmpe-toggle-4:target ~ .tmpe-overlay-4,
+    #tmpe-toggle-5:target ~ .tmpe-overlay-5 {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    #tmpe-toggle-1:target ~ .tmpe-overlay-1 .tmpe-sidebar-panel,
+    #tmpe-toggle-2:target ~ .tmpe-overlay-2 .tmpe-sidebar-panel,
+    #tmpe-toggle-3:target ~ .tmpe-overlay-3 .tmpe-sidebar-panel,
+    #tmpe-toggle-4:target ~ .tmpe-overlay-4 .tmpe-sidebar-panel,
+    #tmpe-toggle-5:target ~ .tmpe-overlay-5 .tmpe-sidebar-panel {
+      transform: translateX(0);
+    }
+
+    .tmpe-sidebar-header {
+      background: #F6F6F6;
+      padding: 16px;
+      text-align: center;
+      position: relative;
+      border-bottom: 1px solid #EBEBEB;
+    }
+
+    .tmpe-sidebar-title-text {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      margin: 0;
+      color: #262626;
+      letter-spacing: 0.32px;
+      line-height: 24px;
+    }
+
+    .tmpe-back-button {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      border: none;
+      background: none;
+      display: flex;
+      align-items: center;
+      padding: 0;
+      text-decoration: none;
+    }
+
+    .tmpe-arrow-back {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border: solid #121212;
+      border-width: 0 2px 2px 0;
+      transform: rotate(135deg);
+      margin-right: 5px;
+    }
+
+    .tmpe-close-button {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      text-decoration: none;
+    }
+
+    .tmpe-close-button:before,
+    .tmpe-close-button:after {
+      content: '';
+      position: absolute;
+      width: 15px;
+      height: 2px;
+      background: #121212;
+      top: 50%;
+      left: 50%;
+    }
+
+    .tmpe-close-button:before {
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    .tmpe-close-button:after {
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+
+    .tmpe-sidebar-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+    }
+
+    .tmpe-image-section {
+      margin: -24px -24px 20px -24px;
+    }
+
+    .tmpe-product-image {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .tmpe-product-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .tmpe-product-info {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      flex: 1;
+    }
+
+    .tmpe-product-header {
+      display: flex;
+      flex-direction: column;
+      align-self: stretch;
+      gap: 12px;
+    }
+
+    .tmpe-product-title {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #262626;
+      margin: 0;
+      line-height: 0.9758750915527343em;
+      letter-spacing: 2%;
+      text-transform: uppercase;
+      text-align: left;
+    }
+
+    .tmpe-product-badge {
+      background: #024DDF;
+      color: #FFFFFF;
+      border: 1px solid #024DDF;
+      border-radius: 4px;
+      padding: 4px 12px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      align-self: flex-start;
+    }
+
+    .tmpe-product-badge-text {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.6666666666666667em;
+      letter-spacing: 2%;
+      text-transform: uppercase;
+      color: #FFFFFF;
+    }
+
+    .tmpe-includes-section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .tmpe-includes-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex: 1;
+      gap: 16px;
+    }
+
+    .tmpe-includes-text {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: #646464;
+      line-height: 1.43;
+      letter-spacing: 2%;
+      margin: 0;
+      flex: 1;
+    }
+
+    .tmpe-includes-text strong {
+      color: #262626;
+    }
+
+    .tmpe-includes-label {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: #646464;
+      line-height: 1.43;
+      letter-spacing: 2%;
+    }
+
+    .tmpe-sidebar-footer {
+      padding: 20px 24px;
+      border-top: 1px solid #EBEBEB;
+      background: #fff;
+      box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      gap: 116px;
+    }
+
+    .tmpe-sidebar-price {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 1em;
+      letter-spacing: 2%;
+      text-transform: uppercase;
+      color: #121212;
+    }
+
+    .tmpe-buy-button {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 260px;
+      background: #024DDF;
+      color: #FFFFFF;
+      border: 1px solid #024DDF;
+      border-radius: 4px;
+      padding: 10px 16px;
+      font-size: 16px;
+      font-weight: 600;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      letter-spacing: 2%;
+      line-height: 1.5em;
+      transition: all 0.2s ease;
+    }
+
+    .tmpe-buy-button:hover {
+      background: #0035A0;
+      color: #FFFFFF;
+    }
+
+    .tmpe-buy-button:hover svg polyline {
+      stroke: #FFFFFF;
+    }
+
+    @media (max-width: 768px) {
+      .tmpe-sidebar-panel {
+        max-width: 100%;
+      }
+
+      .tmpe-sidebar-footer {
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 20px 24px;
+      }
+
+      .tmpe-sidebar-price {
+        align-self: flex-start;
+      }
+
+      .tmpe-buy-button {
+        width: 100%;
+        align-self: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="tmpe-container">
+  <!-- Vista Desktop -->
+  <div class="tmpe-desktop-view">
+    <div class="tmpe-card-grid">
+${desktopCardsHTML}
+    </div>
+  </div>
+  
+  <!-- Vista Mobile -->
+  <div class="tmpe-mobile-view">
+    <div class="tmpe-mobile-card-grid">
+${mobileCardsHTML}
+    </div>
+  </div>
+</div>
+
+<!-- Anclas para los paneles -->
+${anchorsHTML}
+
+<!-- Sidebars -->
+${modalsHTML}
+
+</body>
+</html>`;
+
+      codeDisplay.textContent = fullCode;
+      codeModal.style.display = 'flex';
+    }
+
+    // Event Listeners
+    addNewCard.addEventListener('click', () => openCardEditor());
+    cardEditorForm.addEventListener('submit', saveCardData);
+    document.getElementById('cancel-card-button').addEventListener('click', closeCardEditor);
+    closeCardModal.addEventListener('click', closeCardEditor);
+    
+    // Image upload
+    imageUploadArea.addEventListener('click', () => imageInput.click());
+    imageInput.addEventListener('change', handleImageUpload);
+    
+    // Toggles
+    toggleModal.addEventListener('change', handleToggleModal);
+    toggleBuyButton.addEventListener('change', handleToggleBuyButton);
+    
+    showCodeButton.addEventListener('click', generateGlobalCode);
+    closeModal.addEventListener('click', () => codeModal.style.display = 'none');
+    
+    desktopViewBtn.addEventListener('click', () => {
+      desktopViewBtn.classList.add('active');
+      mobileViewBtn.classList.remove('active');
+      currentView = 'desktop';
+      renderGlobalPreview();
+    });
+    
+    mobileViewBtn.addEventListener('click', () => {
+      mobileViewBtn.classList.add('active');
+      desktopViewBtn.classList.remove('active');
+      currentView = 'mobile';
+      renderGlobalPreview();
+    });
+    
+    copyCodeButton.addEventListener('click', () => {
+      navigator.clipboard.writeText(codeDisplay.textContent).then(() => {
+        const originalText = copyCodeButton.textContent;
+        copyCodeButton.textContent = '✅ ¡Copiado!';
+        setTimeout(() => {
+          copyCodeButton.textContent = originalText;
+        }, 2000);
+      });
+    });
+
+    // Cerrar modales al hacer clic fuera
+    window.addEventListener('click', (e) => {
+      if (e.target === codeModal) {
+        codeModal.style.display = 'none';
+      }
+      if (e.target === cardEditorModal) {
+        closeCardEditor();
+      }
+      
+      // Cerrar modales de vista previa
+      if (e.target.classList.contains('tmpe-modal-overlay')) {
+        const modalId = e.target.id.replace('preview-modal-', '');
+        closePreviewModal(modalId);
+      }
+    });
+
+    // Inicialización
+    document.addEventListener('DOMContentLoaded', () => {
+      loadCards();
+      renderCardList();
+      renderGlobalPreview();
+    });
+  </script>
+</body>
+</html>
