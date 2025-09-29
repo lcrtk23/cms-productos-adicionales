@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "CMS-Productos Adicionales.html",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/",
+      "dest": "/CMS-Productos Adicionales.html"
+    },
+    {
+      "src": "/cms",
+      "dest": "/CMS-Productos Adicionales.html"
+    }
+  ]
+}
