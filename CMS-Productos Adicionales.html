@@ -142,25 +142,56 @@
       border-radius: 8px;
       min-height: 200px;
       overflow: hidden;
+      width: 100%;
+    }
+
+    /* Simular ancho mobile en preview */
+    #preview-area .tmpe-mobile-card-grid {
+      max-width: 360px;
+      margin: 0 auto;
     }
 
     /* Estilos para las cards desktop (copiados del index.html) */
     .tmpe-card-grid {
-      display: grid;
-      grid-template-columns: 343px 343px;
+      display: flex;
+      flex-wrap: nowrap;
       gap: 16px;
       padding: 24px;
       background: #FAFBFC;
-      justify-content: center;
+      justify-content: flex-start;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+    }
+
+    /* Limitar ancho del preview desktop para simular scroll con 2 cards */
+    #preview-area .tmpe-card-grid {
+      max-width: 750px;
+      margin: 0 auto;
+    }
+
+    /* Ocultar scrollbar desktop pero mantener funcionalidad */
+    .tmpe-card-grid::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .tmpe-card-grid {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
     }
 
     .tmpe-card {
       width: 343px;
+      min-width: 343px;
+      height: 343px;
+      min-height: 343px;
+      flex-shrink: 0;
       background: #FFFFFF;
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
-      align-items: flex-end;
+      justify-content: flex-start;
+      align-items: stretch;
       border-radius: 0px;
       box-shadow: 0px 6px 16px rgba(18, 18, 18, 0.12);
       border: none;
@@ -203,6 +234,11 @@
     .tmpe-card-title {
       padding: 16px 24px 8px;
       align-self: stretch;
+      min-height: 50px;
+      max-height: 86px;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
     }
 
     .tmpe-card-title h2 {
@@ -215,15 +251,21 @@
       color: #121212;
       margin: 0;
       text-align: left;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .tmpe-card-details {
-      padding: 12px 16px;
+      padding: 12px 24px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
       gap: 4px;
       align-self: stretch;
+      flex: 1;
     }
 
     .tmpe-card-detail-item {
@@ -254,6 +296,9 @@
       justify-content: space-between;
       align-items: center;
       width: 343px;
+      min-height: 68px;
+      margin-top: auto;
+      flex-shrink: 0;
     }
 
     .tmpe-card-price {
@@ -298,20 +343,47 @@
     /* Estilos para las cards mobile (copiados del index.html) */
     .tmpe-mobile-card-grid {
       display: flex;
-      flex-direction: column;
-      align-items: center;
+      flex-direction: row;
+      flex-wrap: nowrap;
       gap: 16px;
       padding: 16px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .tmpe-mobile-card-grid.single-card {
+      justify-content: center;
+    }
+
+    .tmpe-mobile-card-grid.multiple-cards {
+      justify-content: flex-start;
+    }
+
+    /* Ocultar scrollbar mobile pero mantener funcionalidad */
+    .tmpe-mobile-card-grid::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .tmpe-mobile-card-grid {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
     }
 
     .tmpe-mobile-card {
-      width: 100%;
-      max-width: 280px;
+      width: 280px;
+      min-width: 280px;
+      height: 388px;
+      min-height: 388px;
+      flex-shrink: 0;
       background: #FFFFFF;
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
-      align-items: flex-end;
+      justify-content: flex-start;
+      align-items: stretch;
       box-shadow: 0px 6px 16px rgba(18, 18, 18, 0.12);
       border: none;
     }
@@ -353,6 +425,11 @@
     .tmpe-mobile-card-title {
       padding: 16px 16px 0px;
       align-self: stretch;
+      min-height: 50px;
+      max-height: 100px;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
     }
 
     .tmpe-mobile-card-title h2 {
@@ -365,15 +442,22 @@
       color: #121212;
       margin: 0;
       text-align: left;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .tmpe-mobile-card-details {
-      padding: 12px 16px;
+      padding: 12px 24px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
       gap: 4px;
       align-self: stretch;
+      min-height: 104px;
+      flex: 1;
     }
 
     .tmpe-mobile-card-detail-item {
@@ -399,11 +483,14 @@
     }
 
     .tmpe-mobile-card-footer {
-      padding: 12px 16px;
+      padding: 12px 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       align-self: stretch;
+      min-height: 60px;
+      margin-top: auto;
+      flex-shrink: 0;
     }
 
     .tmpe-mobile-card-price {
@@ -421,7 +508,7 @@
       color: #024DDF;
       border: 1px solid #024DDF;
       border-radius: 4px;
-      padding: 8px 16px;
+      padding: 8px 8px;
       font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
       font-size: 16px;
       font-weight: 600;
@@ -471,6 +558,9 @@
       cursor: pointer;
       margin-top: 20px;
       transition: all 0.2s ease;
+      pointer-events: auto;
+      z-index: 10;
+      position: relative;
     }
 
     #show-code-button:hover {
@@ -506,7 +596,7 @@
       display: none;
       justify-content: center;
       align-items: center;
-      z-index: 1000;
+      z-index: 100000;
     }
 
     .modal-content {
@@ -564,7 +654,7 @@
 
     .form-group input, .form-group select, .form-group textarea {
       width: 100%;
-      padding: 12px 16px;
+      padding: 12px 24px;
       border: 2px solid #e2e8f0;
       border-radius: 8px;
       font-size: 14px;
@@ -1035,7 +1125,7 @@
             </div>
           </div>
             
-          <button id="show-code-button">📋 Generar Código HTML</button>
+          <button type="button" id="show-code-button">📋 Generar Código HTML</button>
         </div>
       </div>
     </div>
@@ -1076,7 +1166,7 @@
           
           <!-- Precio -->
           <div class="form-group">
-            <label for="card-price">Precio</label>
+            <label for="card-price">Precio (opcional)</label>
             <input type="text" id="card-price" placeholder="$30.80">
           </div>
           
@@ -1505,18 +1595,18 @@
         console.log('Validando campos de acción...');
         if (!ctaText.value) {
           alert('El campo CTA Text es obligatorio cuando el botón está activado');
+        return;
+      }
+      
+      if (!toggleModal.checked && !actionUrl.value) {
+        alert('La URL es obligatoria cuando el modal está desactivado');
+        return;
+      }
+      
+      if (toggleModal.checked && toggleBuyButton.checked) {
+        if (!buyButtonText.value || !buyButtonUrl.value) {
+          alert('Los campos de botón de compra son obligatorios cuando está activado');
           return;
-        }
-        
-        if (!toggleModal.checked && !actionUrl.value) {
-          alert('La URL es obligatoria cuando el modal está desactivado');
-          return;
-        }
-        
-        if (toggleModal.checked && toggleBuyButton.checked) {
-          if (!buyButtonText.value || !buyButtonUrl.value) {
-            alert('Los campos de botón de compra son obligatorios cuando está activado');
-            return;
           }
         }
       }
@@ -1581,8 +1671,8 @@
       let html = '';
       
       if (currentView === 'desktop') {
-        // Vista Desktop - Grid de cards
-        html = '<div class="tmpe-card-grid">';
+        // Vista Desktop - Grid de cards con scroll
+        html = `<div class="tmpe-card-grid">`;
         
         cards.forEach(card => {
           const status = statusConfig[card.status];
@@ -1595,24 +1685,24 @@
           // Determinar el botón según el toggle y tipo de acción
           let buttonElement = '';
           if (card.showButton === true) { // Solo mostrar si está explícitamente activado
-            if (card.useModal) {
-              buttonElement = `
-                <div class="tmpe-card-button" onclick="openPreviewModal('${card.id}')">
-                  ${card.ctaText}
-                  <svg width="20" height="20" viewBox="0 0 20 20">
-                    <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </div>
-              `;
-            } else {
-              buttonElement = `
-                <a href="${card.actionUrl}" class="tmpe-card-button" target="_blank">
-                  ${card.ctaText}
-                  <svg width="20" height="20" viewBox="0 0 20 20">
-                    <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </a>
-              `;
+          if (card.useModal) {
+            buttonElement = `
+              <div class="tmpe-card-button" onclick="openPreviewModal('${card.id}')">
+                ${card.ctaText}
+                <svg width="20" height="20" viewBox="0 0 20 20">
+                  <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            `;
+          } else {
+            buttonElement = `
+              <a href="${card.actionUrl}" class="tmpe-card-button" target="_blank">
+                ${card.ctaText}
+                <svg width="20" height="20" viewBox="0 0 20 20">
+                  <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            `;
             }
           }
           
@@ -1635,8 +1725,9 @@
         
         html += '</div>';
       } else {
-        // Vista Mobile - Cards apiladas verticalmente
-        html = '<div class="tmpe-mobile-card-grid">';
+        // Vista Mobile - Scroll horizontal con 2+ cards
+        const gridClass = cards.length > 1 ? 'multiple-cards' : 'single-card';
+        html = `<div class="tmpe-mobile-card-grid ${gridClass}">`;
         
         cards.forEach(card => {
           const status = statusConfig[card.status];
@@ -1649,24 +1740,24 @@
           // Determinar el botón según el toggle y tipo de acción
           let buttonElement = '';
           if (card.showButton === true) { // Solo mostrar si está explícitamente activado
-            if (card.useModal) {
-              buttonElement = `
-                <div class="tmpe-mobile-card-button" onclick="openPreviewModal('${card.id}')">
-                  ${card.ctaText}
-                  <svg width="20" height="20" viewBox="0 0 20 20">
-                    <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </div>
-              `;
-            } else {
-              buttonElement = `
-                <a href="${card.actionUrl}" class="tmpe-mobile-card-button" target="_blank">
-                  ${card.ctaText}
-                  <svg width="20" height="20" viewBox="0 0 20 20">
-                    <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </a>
-              `;
+          if (card.useModal) {
+            buttonElement = `
+              <div class="tmpe-mobile-card-button" onclick="openPreviewModal('${card.id}')">
+                ${card.ctaText}
+                <svg width="20" height="20" viewBox="0 0 20 20">
+                  <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            `;
+          } else {
+            buttonElement = `
+              <a href="${card.actionUrl}" class="tmpe-mobile-card-button" target="_blank">
+                ${card.ctaText}
+                <svg width="20" height="20" viewBox="0 0 20 20">
+                  <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            `;
             }
           }
           
@@ -1821,6 +1912,14 @@
         }
       });
 
+      // Determinar clase del grid para desktop (scroll a partir de 4 cards)
+      const desktopGridClass = cards.length > 3 ? 'tmpe-card-grid cards-more-than-3' : 
+                               cards.length === 1 ? 'tmpe-card-grid cards-single' : 
+                               'tmpe-card-grid cards-3-or-less';
+      
+      // Determinar clase del grid para mobile (scroll a partir de 2 cards)
+      const mobileGridClass = cards.length > 1 ? 'tmpe-mobile-card-grid multiple-cards' : 'tmpe-mobile-card-grid single-card';
+
       // Generar cards para desktop
       let desktopCardsHTML = '';
       cards.forEach((card, index) => {
@@ -1834,24 +1933,24 @@
         // Determinar el botón según el toggle y tipo de acción
         let buttonElement = '';
         if (card.showButton !== false) { // Por defecto mostrar si no está definido
-          if (card.useModal) {
-            buttonElement = `
+        if (card.useModal) {
+          buttonElement = `
               <a href="#${modalAnchors[index]}" class="tmpe-card-button">
-                ${card.ctaText}
-                <svg width="20" height="20" viewBox="0 0 20 20">
-                  <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </a>
-            `;
-          } else {
-            buttonElement = `
-              <a href="${card.actionUrl}" class="tmpe-card-button" target="_blank">
-                ${card.ctaText}
-                <svg width="20" height="20" viewBox="0 0 20 20">
-                  <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </a>
-            `;
+              ${card.ctaText}
+              <svg width="20" height="20" viewBox="0 0 20 20">
+                <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          `;
+        } else {
+          buttonElement = `
+            <a href="${card.actionUrl}" class="tmpe-card-button" target="_blank">
+              ${card.ctaText}
+              <svg width="20" height="20" viewBox="0 0 20 20">
+                <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          `;
           }
         }
         
@@ -1884,24 +1983,24 @@
         // Determinar el botón según el toggle y tipo de acción
         let buttonElement = '';
         if (card.showButton !== false) { // Por defecto mostrar si no está definido
-          if (card.useModal) {
-            buttonElement = `
+        if (card.useModal) {
+          buttonElement = `
               <a href="#${modalAnchors[index]}" class="tmpe-mobile-card-button">
-                ${card.ctaText}
-                <svg width="20" height="20" viewBox="0 0 20 20">
-                  <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </a>
-            `;
-          } else {
-            buttonElement = `
-              <a href="${card.actionUrl}" class="tmpe-mobile-card-button" target="_blank">
-                ${card.ctaText}
-                <svg width="20" height="20" viewBox="0 0 20 20">
-                  <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </a>
-            `;
+              ${card.ctaText}
+              <svg width="20" height="20" viewBox="0 0 20 20">
+                <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          `;
+        } else {
+          buttonElement = `
+            <a href="${card.actionUrl}" class="tmpe-mobile-card-button" target="_blank">
+              ${card.ctaText}
+              <svg width="20" height="20" viewBox="0 0 20 20">
+                <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          `;
           }
         }
         
@@ -2115,7 +2214,7 @@
     }
 
     #${containerId} .tmpe-card-details {
-      padding: 12px 16px;
+      padding: 12px 24px;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -2192,6 +2291,166 @@
       stroke: #FFFFFF;
     }
 
+    /* Estilos específicos para mobile con IDs únicos */
+    #${containerId} .tmpe-mobile-card {
+      width: 280px;
+      min-width: 280px;
+      height: 388px;
+      min-height: 388px;
+      flex-shrink: 0;
+      background: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: stretch;
+      box-shadow: 0px 6px 16px rgba(18, 18, 18, 0.12);
+      border: none;
+    }
+
+    #${containerId} .tmpe-mobile-card-image {
+      width: 100%;
+      height: 174px;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+      padding: 0;
+      position: relative;
+    }
+
+    #${containerId} .tmpe-mobile-card-badge {
+      background: #024DDF;
+      color: #FFFFFF;
+      border: 1px solid #024DDF;
+      border-radius: 4px;
+      padding: 4px 12px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.6666666666666667em;
+      letter-spacing: 2%;
+      text-transform: uppercase;
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+    }
+
+    #${containerId} .tmpe-mobile-card-title {
+      padding: 16px 16px 0px;
+      align-self: stretch;
+      min-height: 50px;
+      max-height: 100px;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    #${containerId} .tmpe-mobile-card-title h2 {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.3em;
+      letter-spacing: 2%;
+      text-transform: uppercase;
+      color: #121212;
+      margin: 0;
+      text-align: left;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    #${containerId} .tmpe-mobile-card-details {
+      padding: 12px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 4px;
+      align-self: stretch;
+      min-height: 104px;
+      flex: 1;
+    }
+
+    #${containerId} .tmpe-mobile-card-detail-item {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.2857142857142858em;
+      letter-spacing: 2%;
+      color: #121212;
+      margin: 0;
+      text-align: left;
+      position: relative;
+      padding-left: 0;
+      white-space: pre-line;
+    }
+
+    #${containerId} .tmpe-mobile-card-detail-item::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      color: #121212;
+      font-size: 14px;
+    }
+
+    #${containerId} .tmpe-mobile-card-footer {
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      align-self: stretch;
+      min-height: 60px;
+      margin-top: auto;
+      flex-shrink: 0;
+    }
+
+    #${containerId} .tmpe-mobile-card-price {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 1.2em;
+      letter-spacing: 2%;
+      text-transform: uppercase;
+      color: #121212;
+    }
+
+    #${containerId} .tmpe-mobile-card-button {
+      background: #FFFFFF;
+      color: #024DDF;
+      border: 1px solid #024DDF;
+      border-radius: 4px;
+      padding: 8px 8px;
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.5em;
+      letter-spacing: 2%;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    #${containerId} .tmpe-mobile-card-button:hover {
+      background: #024DDF;
+      color: #FFFFFF;
+    }
+
+    #${containerId} .tmpe-mobile-card-button:hover svg polyline {
+      stroke: #FFFFFF;
+    }
+
     @media (max-width: 800px) {
       #${containerId} {
         width: 100% !important;
@@ -2208,12 +2467,55 @@
     }
 
     /* Grid de cards (desktop) */
-    #${desktopGridId} {
-      display: grid;
-      grid-template-columns: 343px 343px;
+    .tmpe-card-grid {
+      display: flex;
       gap: 16px;
       padding: 24px;
+      width: 100%;
+    }
+
+    /* Cuando hay 3 o menos cards - sin scroll */
+    .tmpe-card-grid.cards-3-or-less {
       justify-content: center;
+      flex-wrap: wrap;
+      overflow-x: visible;
+    }
+
+    /* Cuando hay solo 1 card - centrada */
+    .tmpe-card-grid.cards-single {
+      justify-content: center;
+      flex-wrap: nowrap;
+      overflow-x: visible;
+    }
+
+    /* Cuando hay más de 3 cards - con scroll */
+    .tmpe-card-grid.cards-more-than-3 {
+      justify-content: flex-start;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Ocultar scrollbar desktop pero mantener funcionalidad */
+    #${desktopGridId}.cards-more-than-3::-webkit-scrollbar {
+      display: none;
+    }
+    
+    #${desktopGridId}.cards-more-than-3 {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+    }
+
+    .tmpe-card {
+      min-width: 343px;
+      height: 343px;
+      min-height: 343px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: stretch;
     }
 
     .tmpe-card-image {
@@ -2253,6 +2555,11 @@
     .tmpe-card-title {
       padding: 16px 24px 8px;
       align-self: stretch;
+      min-height: 50px;
+      max-height: 86px;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
     }
 
     .tmpe-card-title h2 {
@@ -2265,15 +2572,21 @@
       color: #121212;
       margin: 0;
       text-align: left;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .tmpe-card-details {
-      padding: 12px 16px;
+      padding: 12px 24px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
       gap: 4px;
       align-self: stretch;
+      flex: 1;
     }
 
     .tmpe-card-detail-item {
@@ -2304,6 +2617,9 @@
       justify-content: space-between;
       align-items: center;
       width: 343px;
+      min-height: 68px;
+      margin-top: auto;
+      flex-shrink: 0;
     }
 
     .tmpe-card-price {
@@ -2354,24 +2670,74 @@
       #${mobileViewId} {
         display: block;
         box-shadow: 0px 1px 4px 0px rgba(18, 18, 18, 0.15);
+        width: 100%;
+        overflow-x: hidden;
       }
 
-      #${mobileGridId} {
+      .tmpe-mobile-card-grid {
         display: flex;
-        flex-direction: column;
-        align-items: center;
         gap: 16px;
         padding: 16px;
+        width: 100%;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
       }
 
+      /* Cuando hay solo 1 card */
+      .tmpe-mobile-card-grid.single-card {
+        justify-content: center;
+      }
+
+      /* Cuando hay 2 o más cards */
+      .tmpe-mobile-card-grid.multiple-cards {
+        justify-content: flex-start;
+      }
+
+      /* Ocultar scrollbar mobile pero mantener funcionalidad */
+      .tmpe-mobile-card-grid::-webkit-scrollbar {
+        display: none;
+      }
+      
+      .tmpe-mobile-card-grid {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+      }
+
+      /* Asegurar que las cards tengan ancho fijo */
       .tmpe-mobile-card {
-        width: 100%;
-        max-width: 280px;
+        width: 280px;
+        min-width: 280px;
+        height: 388px;
+        min-height: 388px;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
+      }
+
+    /* Ocultar scrollbar mobile pero mantener funcionalidad */
+    #${mobileGridId}.multiple-cards::-webkit-scrollbar {
+      display: none;
+    }
+    
+    #${mobileGridId}.multiple-cards {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+    }
+
+      .tmpe-mobile-card {
+        width: 280px;
+        min-width: 280px;
+        height: 280px;
+        min-height: 280px;
         background: #FFFFFF;
         display: flex;
         flex-direction: column;
-        justify-content: flex-end;
-        align-items: flex-end;
+        justify-content: flex-start;
+        align-items: stretch;
         box-shadow: 0px 6px 16px rgba(18, 18, 18, 0.12);
         border: none;
       }
@@ -2413,6 +2779,11 @@
       .tmpe-mobile-card-title {
         padding: 16px 16px 0px;
         align-self: stretch;
+        min-height: 50px;
+        max-height: 100px;
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
       }
 
       .tmpe-mobile-card-title h2 {
@@ -2425,15 +2796,22 @@
         color: #121212;
         margin: 0;
         text-align: left;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .tmpe-mobile-card-details {
-        padding: 12px 16px;
+        padding: 12px 24px;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
         gap: 4px;
         align-self: stretch;
+        min-height: 104px;
+        flex: 1;
       }
 
       .tmpe-mobile-card-detail-item {
@@ -2446,11 +2824,12 @@
         margin: 0;
         text-align: left;
         position: relative;
-        padding-left: 10px;
+        padding-left: 0;
+        white-space: pre-line;
       }
 
       .tmpe-mobile-card-detail-item::before {
-        content: "•";
+        content: "";
         position: absolute;
         left: 0;
         color: #121212;
@@ -2458,11 +2837,14 @@
       }
 
       .tmpe-mobile-card-footer {
-        padding: 12px 16px;
+        padding: 12px 24px;
         display: flex;
         justify-content: space-between;
         align-items: center;
         align-self: stretch;
+        min-height: 60px;
+        margin-top: auto;
+        flex-shrink: 0;
       }
 
       .tmpe-mobile-card-price {
@@ -2480,7 +2862,7 @@
         color: #024DDF;
         border: 1px solid #024DDF;
         border-radius: 4px;
-        padding: 8px 16px;
+        padding: 8px 8px;
         font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
         font-size: 16px;
         font-weight: 600;
@@ -3373,14 +3755,14 @@
 <div id="${containerId}">
   <!-- Vista Desktop -->
   <div id="${desktopViewId}">
-    <div id="${desktopGridId}">
+    <div id="${desktopGridId}" class="${desktopGridClass}">
 ${desktopCardsHTML}
     </div>
   </div>
   
   <!-- Vista Mobile -->
   <div id="${mobileViewId}">
-    <div id="${mobileGridId}">
+    <div id="${mobileGridId}" class="${mobileGridClass}">
 ${mobileCardsHTML}
     </div>
   </div>
@@ -3427,7 +3809,17 @@ ${modalsHTML}
     // Contador de caracteres
     cardDescription.addEventListener('input', updateCharCounter);
     
-    showCodeButton.addEventListener('click', generateGlobalCode);
+    // Botón de generar código - usando onclick directo
+    if (showCodeButton) {
+      showCodeButton.onclick = function(e) {
+        try {
+          generateGlobalCode();
+        } catch(error) {
+          console.error('Error en generateGlobalCode:', error);
+          alert('Error al generar código: ' + error.message);
+        }
+      };
+    }
     closeModal.addEventListener('click', () => codeModal.style.display = 'none');
     
     desktopViewBtn.addEventListener('click', () => {
