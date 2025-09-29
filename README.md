@@ -1,122 +1,61 @@
-# Cards Interface - Figma Design Implementation
+# CMS - Productos Adicionales
 
-Una implementación completa de una interfaz de cards responsive basada en diseños de Figma, con soporte para desktop y mobile.
+Un sistema de gestión de contenido (CMS) para configurar cards de productos adicionales con vista previa en tiempo real y generación de código HTML.
 
-## 🎨 Características
+## 🚀 Características
 
-### Desktop
-- **Layout de 2 columnas** con cards lado a lado
-- **Dimensiones exactas** según Figma (343px de ancho)
-- **Sombras sutiles** para profundidad visual
-- **Efectos hover** con transiciones suaves
+- **Editor Visual**: Interfaz intuitiva para crear y editar cards
+- **Vista Previa**: Visualización en tiempo real para desktop y mobile
+- **Generación de Código**: Exporta HTML completo listo para usar
+- **Responsive**: Diseño adaptativo para todos los dispositivos
+- **Modal Interactivo**: Sidebar modal con animaciones CSS
 
-### Mobile
-- **Layout vertical** con cards apiladas
-- **Ancho adaptativo** con máximo de 280px
-- **Misma estructura** que desktop pero optimizada para móvil
+## 📋 Funcionalidades
 
-### Componentes
-- **Cards con imagen** y overlay de badge
-- **Títulos** en mayúsculas con tipografía Averta
-- **Detalles con bullets** (•) para mejor legibilidad
-- **Botones "Ver más"** con flechas direccionales
-- **Sidebars modales** con información detallada del producto
-- **Footer con precio** y botón de compra
+### Creación de Cards
+- **Imagen**: Subida con validación (máx. 1920px ancho, 1MB)
+- **Título**: Campo obligatorio
+- **Precio**: Campo opcional
+- **Subtítulos**: Hasta 3 bullets descriptivos
+- **Estado**: Dropdown con opciones predefinidas
 
-## 🛠️ Tecnologías
+### Configuración de Acciones
+- **CTA Text**: Texto personalizable del botón
+- **Toggle Modal**: Alternar entre URL externa o modal
+- **Modal Personalizado**: Descripción extendida y botón de compra opcional
 
-- **HTML5** semántico
-- **CSS3** con Flexbox y Grid
-- **Responsive Design** con media queries
-- **Sin dependencias** externas
+### Vista Previa
+- **Desktop**: Grid de hasta 4 cards por fila
+- **Mobile**: Cards apiladas verticalmente
+- **Interactivo**: Modales funcionales en la vista previa
 
-## 🎯 Especificaciones del Diseño
+## 🛠️ Uso
 
-### Tipografía
-- **Fuente**: Averta
-- **Pesos**: 400, 600, 700
-- **Tamaños**: 12px, 14px, 16px, 20px, 24px
-- **Letter-spacing**: 2% consistente
+1. Abre `index.html` en tu navegador
+2. Haz clic en "+ Añadir Card" para crear una nueva card
+3. Completa los campos del formulario
+4. Usa la vista previa para verificar el resultado
+5. Genera el código HTML final con el botón "📋 Generar Código HTML"
 
-### Colores
-- **Texto principal**: #121212
-- **Texto secundario**: #262626
-- **Acentos**: #024DDF (azul)
-- **Fondo**: #FFFFFF
-- **Fondo de página**: #FAFBFC
+## 📱 Compatibilidad
 
-### Espaciado
-- **Padding de cards**: 16px 24px 8px (título), 12px 16px (detalles), 12px 24px (footer)
-- **Gap entre elementos**: 4px, 8px, 12px, 16px, 24px
-- **Border-radius**: 4px, 12px
+- ✅ Chrome
+- ✅ Firefox
+- ✅ Safari
+- ✅ Edge
+- ✅ Mobile browsers
 
-## 📱 Responsive Breakpoints
+## 🎨 Tecnologías
 
-- **Desktop**: > 750px (2 columnas)
-- **Tablet**: ≤ 750px (1 columna centrada)
-- **Mobile**: ≤ 768px (vista móvil optimizada)
-
-## 🚀 Instalación y Uso
-
-1. **Clonar el repositorio**:
-   ```bash
-   git clone https://github.com/lcrtk23/cards-interface.git
-   ```
-
-2. **Navegar al directorio**:
-   ```bash
-   cd cards-interface
-   ```
-
-3. **Servir localmente**:
-   ```bash
-   python3 -m http.server 5173
-   ```
-
-4. **Abrir en navegador**:
-   ```
-   http://localhost:5173
-   ```
-
-## 📁 Estructura del Proyecto
-
-```
-cards-interface/
-├── index.html              # Archivo principal con HTML y CSS
-├── DOCUMENTACION-TICKET-INTERFACE.md  # Documentación técnica
-└── README.md               # Este archivo
-```
-
-## 🎨 Diseño Figma
-
-El diseño está basado en especificaciones exactas de Figma:
-- **Desktop**: node-id=2-516
-- **Mobile**: node-id=3-2914
-- **Product Header**: node-id=3-3579
-- **Sidebar Footer Desktop**: node-id=3-3603
-- **Sidebar Footer Mobile**: node-id=3-3907
-
-## ✨ Características Implementadas
-
-- ✅ **Diseño 1:1** con Figma
-- ✅ **Responsive** completo
-- ✅ **Accesibilidad** con semántica HTML
-- ✅ **Performance** optimizada
-- ✅ **Cross-browser** compatible
-- ✅ **Hover effects** suaves
-- ✅ **Modales** funcionales
-- ✅ **Tipografía** exacta
-- ✅ **Espaciado** preciso
-- ✅ **Colores** consistentes
+- HTML5
+- CSS3 (Grid, Flexbox, Animations)
+- JavaScript (Vanilla)
+- LocalStorage para persistencia
 
 ## 📄 Licencia
 
-Este proyecto es privado y está bajo la propiedad de lcrtk23.
-
-## 👥 Contribuciones
-
-Este es un proyecto privado. Para colaboraciones, contactar al propietario.
+MIT License - Libre para uso personal y comercial.
 
 ---
 
-**Desarrollado con ❤️ siguiendo las mejores prácticas de desarrollo web**
+**Desarrollado para la gestión eficiente de productos adicionales con interfaz moderna y responsive.**

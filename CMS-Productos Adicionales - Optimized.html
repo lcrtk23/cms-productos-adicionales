@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CMS Cards Configurables</title>
+  <!-- Resto del código del head... -->
+</head>
+<body>
+  <!-- Resto del código del body... -->
+  <script>
+    // Función para comprimir imágenes
+    async function compressImage(file) {
+      return new Promise((resolve, reject) => {
+        // Crear un canvas para redimensionar y comprimir
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+
+        img.onload = () => {
+          // Calcular nuevas dimensiones manteniendo el aspect ratio
+          let width = img.width;
+          let height = img.height;
+          const maxWidth = 800;
+          const maxHeight = 400;
+
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+          if (height > maxHeight) {
+            width = Math.round((width * maxHeight) / height);
+            height = maxHeight;
+          }
+
+          // Configurar el canvas con las nuevas dimensiones
+          canvas.width = width;
+          canvas.height = height;
+
+          // Dibujar la imagen redimensionada
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // Convertir a JPEG con calidad 0.7 (70%)
+          canvas.toBlob(
+            (blob) => {
+              resolve(blob);
+            },
+            'image/jpeg',
+            0.7
+          );
+        };
+
+        img.onerror = reject;
+        img.src = URL.createObjectURL(file);
+      });
+    }
+
+    // Función modificada para manejar la subida de imágenes
+    async function handleImageUpload(e) {
+      const file = e.target.files[0];
+      if (file) {
+        try {
+          // Comprimir la imagen
+          const compressedBlob = await compressImage(file);
+          
+          // Convertir el blob a base64
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            imagePreview.innerHTML = `<img src="${e.target.result}" class="uploaded-image" alt="Preview">`;
+            imageUploadArea.classList.add('has-image');
+          };
+          reader.readAsDataURL(compressedBlob);
+        } catch (error) {
+          console.error('Error al comprimir la imagen:', error);
+          alert('Error al procesar la imagen');
+        }
+      }
+    }
+
+    // ... resto del código ...
+  </script>
+</body>
+</html>

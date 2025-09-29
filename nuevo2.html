@@ -1,0 +1,3411 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CMS Cards Configurables</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1600px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 30px;
+      color: #262626;
+      background: linear-gradient(135deg, #024DDF, #0066FF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 700;
+      text-align: left;
+    }
+
+    #app-container {
+      display: flex;
+      gap: 30px;
+      align-items: flex-start;
+    }
+
+    .panel {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.06);
+      border: 1px solid #f0f0f0;
+    }
+
+    #left-panel {
+      flex: 0 0 400px;
+      min-width: 350px;
+    }
+
+    #right-panel {
+      flex: 1;
+      min-width: 500px;
+    }
+
+    .panel-header {
+      padding: 24px 24px 16px 24px;
+      border-bottom: 2px solid #f0f0f0;
+      margin-bottom: 24px;
+    }
+
+    .panel-title {
+      font-size: 20px;
+      color: #1a1a1a;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .panel-content {
+      padding: 0 24px 24px 24px;
+    }
+
+    /* Event Details Section */
+    .event-details-section {
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 30px;
+      display: none !important; /* Ocultar completamente la sección */
+      visibility: hidden !important; /* Ocultar completamente la sección */
+      opacity: 0 !important; /* Ocultar completamente la sección */
+      height: 0 !important; /* Ocultar completamente la sección */
+      overflow: hidden !important; /* Ocultar completamente la sección */
+      margin: 0 !important; /* Ocultar completamente la sección */
+      padding: 0 !important; /* Ocultar completamente la sección */
+    }
+
+    .event-form-row {
+      display: flex;
+      gap: 20px; 
+      margin-bottom: 0px; 
+    }
+
+    .event-form-col {
+      flex: 1;
+    }
+
+    .event-form-col-button {
+      flex: 0 0 auto;
+      margin-left: 12px;
+    }
+
+    .event-form-col .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0px;
+    }
+
+    .event-form-col-button {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .event-form-col-button label {
+      font-weight: 600;
+      color: transparent;
+      font-size: 14px;
+      user-select: none;
+    }
+
+    .event-form-col .form-group label {
+      font-weight: 600;
+      color: #2d3748;
+      font-size: 14px;
+    }
+
+    .event-form-col .form-group input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 14px;
+      background: #ffffff;
+      transition: all 0.2s ease;
+    }
+
+    .event-form-col .form-group input:focus {
+      outline: none;
+      border-color: #024DDF;
+      box-shadow: 0 0 0 3px rgba(2, 77, 223, 0.1);
+    }
+
+    @media (max-width: 600px) {
+      .event-form-row {
+        flex-direction: column;
+      gap: 16px;
+      }
+
+      .event-form-col-button {
+        margin-left: 0;
+      }
+
+      .event-form-col-button label {
+        display: none;
+      }
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin: 0 0 16px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title::before {
+      content: "🎫";
+      font-size: 18px;
+    }
+
+    .btn-save-event {
+      width: 100%;
+      padding: 12px 24px;
+      background: #10b981;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-save-event:hover {
+      background: #059669;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+
+    .event-preview {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .event-preview h2 {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin: 0 0 8px 0;
+      text-transform: none;
+      letter-spacing: 0.5px;
+    }
+
+    .event-preview .event-date {
+      font-size: 18px;
+      font-weight: 600;
+      color: #024DDF;
+      margin: 0;
+    }
+
+    #add-new-card {
+      width: 100%;
+      padding: 16px 24px;
+      background: #024DDF;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 24px;
+      transition: all 0.2s ease;
+    }
+
+    #add-new-card:hover {
+      background: #0239c4;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(2, 77, 223, 0.3);
+    }
+
+    #card-list-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .card-item {
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
+
+    .card-item:hover {
+      border-color: #024DDF;
+      background: #f0f7ff;
+    }
+
+    .card-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      background: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      cursor: pointer;
+    }
+
+    .card-item-info {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .card-preview-image {
+      width: 60px;
+      height: 40px;
+      border-radius: 6px;
+      object-fit: cover;
+      background: #f0f0f0;
+    }
+
+    .card-item-details h4 {
+      font-weight: 600;
+      color: #1a1a1a;
+      font-size: 16px;
+      margin: 0 0 4px 0;
+    }
+
+    .card-item-details p {
+      font-size: 14px;
+      color: #64748b;
+      margin: 0;
+    }
+
+    .card-item-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .card-order-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .btn-move {
+      width: 24px;
+      height: 20px;
+      border: none;
+      background: #e2e8f0;
+      color: #4a5568;
+      cursor: pointer;
+      font-size: 12px;
+      border-radius: 2px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-move:hover {
+      background: #cbd5e0;
+    }
+
+    .btn-edit, .btn-delete {
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-edit {
+      background: #e2e8f0;
+      color: #4a5568;
+    }
+
+    .btn-edit:hover {
+      background: #cbd5e0;
+    }
+
+    .btn-delete {
+      background: #fed7d7;
+      color: #DD2C00;
+    }
+
+    .btn-delete:hover {
+      background: #feb2b2;
+    }
+
+    .card-expand-icon {
+      font-size: 18px;
+      color: #64748b;
+      transition: transform 0.2s ease;
+    }
+
+    .card-item.expanded .card-expand-icon {
+      transform: rotate(180deg);
+    }
+
+    .card-content {
+      display: none;
+      padding: 20px;
+      background: #ffffff;
+    }
+
+    .card-item.expanded .card-content {
+      display: block;
+    }
+
+    .card-sections {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .card-section {
+      flex: 1;
+      background: #f8fafc;
+      border-radius: 8px;
+      padding: 16px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .section-icon {
+      font-size: 16px;
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin: 0;
+    }
+
+    .image-upload-area {
+      border: 2px dashed #cbd5e0;
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      background: #ffffff;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-bottom: 16px;
+    }
+
+    .image-upload-area:hover {
+      border-color: #024DDF;
+      background: #f0f7ff;
+    }
+
+    .image-upload-area.has-image {
+      border-style: solid;
+      border-color: #10b981;
+      background: #f0fdf4;
+    }
+
+    .uploaded-image {
+      max-width: 100%;
+      max-height: 120px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }
+
+    .upload-text {
+      font-size: 14px;
+      color: #64748b;
+      margin: 0;
+    }
+
+    .upload-hint {
+      font-size: 12px;
+      color: #94a3b8;
+      margin: 4px 0 0 0;
+    }
+
+    .bullets-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .bullet-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .bullet-number {
+      width: 20px;
+      height: 20px;
+      background: #e2e8f0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: #4a5568;
+      flex-shrink: 0;
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #cbd5e0;
+      transition: .4s;
+      border-radius: 24px;
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .toggle-slider {
+      background-color: #024DDF;
+    }
+
+    input:checked + .toggle-slider:before {
+      transform: translateX(20px);
+    }
+
+    .toggle-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: #2d3748;
+      margin-bottom: 12px;
+    }
+
+    .conditional-fields {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .conditional-fields.hidden {
+      display: none;
+    }
+
+    /* Modal styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background-color: white;
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .modal-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #262626;
+      margin: 0;
+    }
+
+    .modal-close {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      cursor: pointer;
+      color: #4a5568;
+    }
+
+    .form-group {
+      margin-bottom: 0px;
+    }
+
+    .modal-form-container {
+      position: relative;
+      z-index: 1;
+      background: white;
+      padding: 
+      0px;
+      border-radius: 8px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #2d3748;
+      font-size: 14px;
+    }
+
+    .form-group select,
+    .form-group input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 14px;
+      background: #ffffff;
+      transition: all 0.2s ease;
+    }
+
+    .form-group select:focus,
+    .form-group input:focus {
+      outline: none;
+      border-color: #024DDF;
+      box-shadow: 0 0 0 3px rgba(2, 77, 223, 0.1);
+    }
+
+    .form-row {
+      display: flex;
+      gap: 12px;
+    }
+
+    .form-col {
+      flex: 1;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .btn-save, .btn-cancel, .btn-show-code {
+      flex: 1;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-save {
+      background: #024DDF;
+      color: white;
+    }
+
+    .btn-save:hover {
+      background: #0239c4;
+    }
+
+    .btn-cancel {
+      background: #f8fafc;
+      color: #4a5568;
+      border: 2px solid #e2e8f0;
+    }
+
+    .btn-cancel:hover {
+      background: #e2e8f0;
+    }
+
+    .btn-show-code {
+      background: #10b981;
+      color: white;
+      margin-top: 10px;
+    }
+
+    .btn-show-code:hover {
+      background: #059669;
+    }
+
+    .view-controls {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 20px;
+      align-items: center;
+    }
+
+    .view-toggle {
+      display: flex;
+      background: #f1f5f9;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+    }
+
+    .view-toggle-btn {
+      padding: 10px 16px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 14px;
+      color: #64748b;
+      transition: all 0.2s ease;
+      min-width: 100px;
+    }
+
+    .view-toggle-btn:hover {
+      background: #e2e8f0;
+      color: #475569;
+    }
+
+    .view-toggle-btn.active {
+      background: #024DDF;
+      color: white;
+    }
+
+    #preview-area {
+      background-color: #e2e2e2;
+      padding: 20px;
+      border-radius: 8px;
+      min-height: 200px;
+      overflow-x: auto;
+    }
+
+    .preview-cards-container {
+      display: flex;
+      gap: 16px;
+      min-width: max-content;
+    }
+
+    .preview-card {
+      width: 343px;
+      background: #FFFFFF;
+      border-radius: 0px;
+      box-shadow: 0px 6px 16px rgba(18, 18, 18, 0.12);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .preview-card-image {
+      width: 100%;
+      height: 174px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+    }
+
+    .preview-card-badge {
+      background: #024DDF;
+      color: #FFFFFF;
+      border: 1px solid #024DDF;
+      border-radius: 4px;
+      padding: 4px 12px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.67;
+      letter-spacing: 2%;
+      text-transform: uppercase;
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+    }
+
+    .preview-card-content {
+      padding: 16px 24px 8px;
+    }
+
+    .preview-card-title {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.3;
+      letter-spacing: 2%;
+      text-transform: uppercase;
+      color: #121212;
+      margin: 0 0 12px 0;
+    }
+
+    .preview-card-details {
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .preview-card-detail-item {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.29;
+      letter-spacing: 2%;
+      color: #121212;
+      margin: 0;
+      position: relative;
+      padding-left: 12px;
+    }
+
+    .preview-card-detail-item::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #121212;
+      font-size: 14px;
+    }
+
+    .preview-card-footer {
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .preview-card-price {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: 2%;
+      text-transform: uppercase;
+      color: #121212;
+    }
+
+    .preview-card-button {
+      background: #FFFFFF;
+      color: #024DDF;
+      border: 1px solid #024DDF;
+      border-radius: 4px;
+      padding: 10px 16px;
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.5;
+      letter-spacing: 2%;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .preview-card-button:hover {
+      background: #024DDF;
+      color: #FFFFFF;
+    }
+
+    .preview-card-button:hover svg polyline {
+      stroke: #FFFFFF;
+    }
+
+    /* Mobile preview styles */
+    .preview-mobile .preview-cards-container {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .preview-mobile .preview-card {
+      width: 100%;
+      max-width: 280px;
+    }
+
+    .preview-mobile .preview-card-content {
+      padding: 16px 16px 0px;
+    }
+
+    .preview-mobile .preview-card-title {
+      font-size: 18px;
+    }
+
+    .preview-mobile .preview-card-details {
+      padding: 12px 16px;
+    }
+
+    .preview-mobile .preview-card-detail-item {
+      padding-left: 10px;
+    }
+
+    .preview-mobile .preview-card-footer {
+      padding: 12px 16px;
+    }
+
+    .preview-mobile .preview-card-button {
+      padding: 8px 16px;
+    }
+
+    /* Estilos para modales de vista previa */
+    .preview-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+
+    .preview-modal-content {
+      background: #FFFFFF;
+      border-radius: 12px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
+      position: relative;
+    }
+
+    .preview-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 24px 16px 24px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .preview-modal-title {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #121212;
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 2%;
+    }
+
+    .preview-modal-close {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      cursor: pointer;
+      color: #4a5568;
+      transition: all 0.2s ease;
+    }
+
+    .preview-modal-close:hover {
+      background: #e2e8f0;
+      color: #2d3748;
+    }
+
+    .preview-modal-body {
+      padding: 20px 24px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .preview-modal-image {
+      flex: 0 0 200px;
+      position: relative;
+    }
+
+    .preview-modal-image img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .preview-modal-badge {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      background: #024DDF;
+      color: #FFFFFF;
+      border: 1px solid #024DDF;
+      border-radius: 4px;
+      padding: 4px 12px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.67;
+      letter-spacing: 2%;
+      text-transform: uppercase;
+    }
+
+    .preview-modal-info {
+      flex: 1;
+    }
+
+    .preview-modal-price {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: 2%;
+      text-transform: uppercase;
+      color: #121212;
+      margin-bottom: 16px;
+    }
+
+    .preview-modal-details {
+      margin-bottom: 16px;
+    }
+
+    .preview-modal-detail-item {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.29;
+      letter-spacing: 2%;
+      color: #121212;
+      margin: 0 0 8px 0;
+      position: relative;
+      padding-left: 12px;
+    }
+
+    .preview-modal-detail-item::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #121212;
+      font-size: 14px;
+    }
+
+    .preview-modal-description {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.5;
+      color: #4a5568;
+      margin-top: 16px;
+      padding: 16px;
+      background: #f8fafc;
+      border-radius: 8px;
+      border-left: 4px solid #024DDF;
+    }
+
+    .preview-modal-buy-button {
+      padding: 0 24px 24px 24px;
+      text-align: center;
+    }
+
+    .preview-modal-buy-link {
+      background: #024DDF;
+      color: #FFFFFF;
+      border: 1px solid #024DDF;
+      border-radius: 4px;
+      padding: 12px 24px;
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.5;
+      letter-spacing: 2%;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.2s ease;
+    }
+
+    .preview-modal-buy-link:hover {
+      background: #0239c4;
+      border-color: #0239c4;
+    }
+
+    /* Responsive para modales */
+    @media (max-width: 768px) {
+      .preview-modal-content {
+        width: 95%;
+        margin: 20px;
+      }
+
+      .preview-modal-body {
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .preview-modal-image {
+        flex: none;
+      }
+
+      .preview-modal-image img {
+        height: 120px;
+      }
+
+      .preview-modal-title {
+        font-size: 20px;
+      }
+    }
+
+    #show-code-button {
+      width: 100%;
+      padding: 16px 24px;
+      background: #f8fafc;
+      color: #4a5568;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: all 0.2s ease;
+    }
+
+    #show-code-button:hover {
+      background: #e2e8f0;
+      color: #2d3748;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #64748b;
+    }
+
+    .empty-state h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: #475569;
+    }
+
+    .empty-state p {
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .code-container {
+      background: #f8fafc;
+      border-radius: 8px;
+      border: 2px solid #e2e8f0;
+      margin-bottom: 20px;
+    }
+
+    .code-display {
+      padding: 20px;
+      font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #4a5568;
+      white-space: pre-wrap;
+      background: #ffffff;
+      margin: 0;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .copy-btn {
+      background: #024DDF;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .copy-btn:hover {
+      background: #0239c4;
+    }
+
+    @media (max-width: 1200px) {
+      #app-container {
+      flex-direction: column;
+      }
+      #left-panel {
+        flex: none;
+        min-width: auto;
+      }
+      #right-panel {
+        flex: none;
+        min-width: auto;
+      }
+    }
+
+    .tmpe-container * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    .tmpe-container {
+      width: 800px !important;
+      max-width: 800px !important;
+      margin: 0 auto !important;
+      background: #FAFBFC;
+      position: relative;
+      z-index: 1;
+      box-sizing: border-box !important;
+      overflow: hidden !important;
+      box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    @media (max-width: 800px) {
+      .tmpe-container {
+        width: 100% !important;
+      }
+    }
+
+    .tmpe-desktop-view {
+      display: block;
+    }
+
+    .tmpe-mobile-view {
+      display: none;
+    }
+
+    .tmpe-event-header {
+      background: #fff;
+      padding: 12px 0px;
+      border-bottom: 1px solid #D6D6D6;
+      text-align: center;
+      width: 800px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .tmpe-event-title-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .tmpe-event-title-line {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .tmpe-evento-en-container {
+      position: relative;
+      display: inline-block;
+    }
+
+    .tmpe-evento-en-container::before {
+      content: "";
+      position: absolute;
+      top: -4px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #121212;
+    }
+
+    .tmpe-evento-en-text {
+      font-size: 20px;
+      font-weight: 700;
+      color: #121212;
+      text-transform: uppercase;
+      letter-spacing: 2%;
+      line-height: 1.2em;
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    .tmpe-location-text {
+      font-size: 20px;
+      font-weight: 700;
+      color: #646464;
+      letter-spacing: 2%;
+      line-height: 1.2em;
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      text-transform: uppercase;
+    }
+
+    .tmpe-date-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: flex-start;
+    }
+
+    .tmpe-calendar-icon-desktop {
+      width: 16px;
+      height: 16px;
+    }
+
+    .tmpe-calendar-icon-mobile {
+      width: 14px;
+      height: 14px;
+    }
+
+    .tmpe-date-text-header {
+      font-size: 18px;
+      font-weight: 600;
+      color: #646464;
+      margin: 0;
+      text-align: left;
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    .tmpe-container .tmpe-event-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #121212;
+      margin: 0 0 8px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .tmpe-container .tmpe-event-date {
+      font-size: 14px;
+      font-weight: 600;
+      color: #646464;
+      margin: 0;
+    }
+
+    .tmpe-ticket-item {
+      display: flex;
+      align-items: center;
+      padding: 20px 24px;
+      background: #fff;
+      border-bottom: 1px solid #D6D6D6;
+      position: relative;
+      justify-content: space-between;
+      gap: 24px;
+      transition: background-color 0.2s ease;
+    }
+
+    .tmpe-logo-container {
+      width: 56px;
+      height: 56px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      overflow: hidden;
+      background: #FFFFFF !important;
+      transform: translateZ(0);
+      will-change: transform;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .tmpe-logo-interbank {
+      background: #1A1A1A;
+    }
+
+    .tmpe-logo-ticketmaster {
+      background: #FFFFFF;
+    }
+
+    .tmpe-logo-bcp {
+      background: #FFFFFF;
+    }
+
+    .tmpe-logo-comercio {
+      background: #FFFFFF;
+    }
+
+    .tmpe-logo-bbva {
+      background: #FFFFFF;
+    }
+
+    .tmpe-logo-custom {
+      background: #FFFFFF;
+    }
+
+    .tmpe-logo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      padding: 0;
+      margin: 0;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+      -ms-interpolation-mode: nearest-neighbor;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+    }
+
+    .tmpe-info-container {
+      flex: 1;
+    }
+
+    .tmpe-container .tmpe-ticket-title {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #262626;
+      letter-spacing: 0.4px;
+      line-height: 20px;
+    }
+
+    .tmpe-container .tmpe-date-text {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      color: #7D7D7D;
+      font-size: 16px;
+      font-weight: 400;
+      letter-spacing: 0.32px;
+      line-height: 20px;
+    }
+
+    .tmpe-status-container {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tmpe-container .tmpe-status-badge {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      border: 1px solid #D6D6D6;
+      border-radius: 4px;
+      padding: 4px 8px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      height: 22px;
+      letter-spacing: 0.24px;
+      line-height: 20px;
+    }
+
+    .tmpe-status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .tmpe-dot-available {
+      background: #048851;
+    }
+
+    .tmpe-dot-soon {
+      background: #646464;
+    }
+    
+    .tmpe-dot-soldout {
+      background: #DD2C00;
+    }
+    
+    .tmpe-dot-canceled {
+      background: #646464;
+    }
+
+    .tmpe-container .tmpe-link-details {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background: #024DDF;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 16px 40px;
+      font-size: 16px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      margin-left: auto;
+      text-decoration: none;
+      letter-spacing: 0.32px;
+      line-height: 24px;
+      height: 48px;
+      min-width: 150px;
+      justify-content: center;
+      transition: background-color 0.2s ease;
+    }
+
+    .tmpe-link-reminder {
+      background: #FFFFFF;
+      color: #646464;
+      border: 1px solid #D6D6D6;
+      border-radius: 23px;
+      padding: 6px 12px;
+      font-size: 14px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      margin-left: auto;
+      text-decoration: none;
+      box-shadow: 0px 6px 12px 0px rgba(0, 0, 0, 0.06);
+      height: 39px;
+      min-width: auto;
+      justify-content: center;
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    .tmpe-link-mobile {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #024DDF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      cursor: pointer;
+      color: white;
+      text-decoration: none;
+      transition: background-color 0.2s ease;
+    }
+
+    @media (max-width: 768px) {
+      .tmpe-desktop-view {
+        display: none;
+      }
+
+      .tmpe-mobile-view {
+        display: block;
+        box-shadow: 0px 1px 4px 0px rgba(18, 18, 18, 0.15);
+      }
+
+      .tmpe-event-header {
+        padding: 12px 0px;
+        width: 380px;
+        max-width: 380px;
+      }
+
+      .tmpe-evento-en-container::before {
+        top: -3px;
+        height: 1.5px;
+      }
+
+      .tmpe-evento-en-text {
+        font-size: 14px;
+      }
+
+      .tmpe-location-text {
+        font-size: 14px;
+      }
+
+      .tmpe-date-text-header {
+        font-size: 14px;
+      }
+
+      .tmpe-container .tmpe-event-title {
+        font-size: 14px;
+        font-weight: 700;
+        color: #121212;
+        margin: 0 0 8px 0;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .tmpe-container .tmpe-event-date {
+      font-size: 14px;
+        font-weight: 600;
+        color: #646464;
+        margin: 0;
+      }
+
+      .tmpe-ticket-item {
+      padding: 0;
+      gap: 0;
+      align-items: stretch;
+    }
+    
+    .tmpe-ticket-link {
+      display: flex;
+      width: 100%;
+      padding: 20px 12px;
+      gap: 16px;
+      align-items: flex-start;
+      text-decoration: none !important;
+      color: inherit;
+      cursor: pointer;
+    }
+
+      .tmpe-logo-container {
+      width: 42px;
+      height: 40px;
+      margin-right: 0;
+      border-radius: 2.68px;
+      margin-top: 0;
+      align-self: flex-start;
+    }
+
+      .tmpe-container .tmpe-ticket-title {
+        font-size: 18px;
+      line-height: 20px;
+      letter-spacing: 0.32px;
+      color: #121212;
+      margin-bottom: 2px;
+    }
+    
+      .tmpe-container .tmpe-date-text {
+      font-size: 14px;
+      margin-left: 0;
+      line-height: 20px;
+      letter-spacing: 0.28px;
+      color: #828282;
+    }
+
+      .tmpe-status-container {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+    }
+
+      .tmpe-container .tmpe-status-badge {
+      font-size: 12px;
+      letter-spacing: 0.24px;
+      line-height: 20px;
+      color: #121212;
+    }
+    
+    .tmpe-link-mobile {
+      width: 36px;
+      height: 36px;
+      background: #024DDF;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      align-self: flex-start;
+      margin-top: 0;
+    }
+    }
+
+    @media (min-width: 769px) {
+      .tmpe-ticket-item:hover {
+        background-color: #F6F6F6;
+      }
+
+      .tmpe-link-details:hover {
+        background-color: #0035A0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .tmpe-ticket-link:hover,
+      .tmpe-ticket-link:active {
+        background-color: #F6F6F6;
+      }
+
+      .tmpe-ticket-link:hover .tmpe-link-mobile,
+      .tmpe-ticket-link:active .tmpe-link-mobile {
+        background-color: #0035A0;
+      }
+    }
+
+    .event-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .event-form .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .btn-secondary {
+      background: #f5f5f5;
+      color: #666;
+      border: 1px solid #ddd;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      height: 46px;
+      white-space: nowrap;
+    }
+
+    .btn-secondary:hover {
+      background: #e8e8e8;
+      color: #555;
+      border-color: #ccc;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Regla adicional para asegurar que event-details-section esté oculta */
+    .event-details-section {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      height: 0 !important;
+      overflow: hidden !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      position: absolute !important;
+      left: -9999px !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Cards Configurables</h1>
+    
+    <!-- Detalles Globales del Evento -->
+    <div class="event-details-section">
+      <h3 class="section-title">Detalles del Evento</h3>
+      <div class="event-form-row">
+        <div class="event-form-col">
+          <div class="form-group">
+            <label for="event-name">Ubicación del Evento</label>
+            <input type="text" id="event-name" placeholder="sao paulo, estadio morimbus" value="">
+          </div>
+        </div>
+        <div class="event-form-col">
+          <div class="form-group">
+            <label for="event-date">Fecha del Evento</label>
+            <input type="date" id="event-date" value="">
+          </div>
+        </div>
+        <div class="event-form-col-button">
+          <label>&nbsp;</label>
+          <button id="save-event-details" class="btn-secondary">💾 Guardar</button>
+        </div>
+      </div>
+    </div>
+    
+    <div id="app-container">
+      <!-- Panel Izquierdo: Creación de Cards -->
+      <div id="left-panel" class="panel">
+        <div class="panel-header">
+          <h2 class="panel-title">Creación de Cards</h2>
+        </div>
+        <div class="panel-content">
+          <button id="add-new-card">+ Añadir Card</button>
+          <div id="card-list-container"></div>
+        </div>
+      </div>
+
+      <!-- Panel Derecho: Previsualización  -->
+      <div id="right-panel" class="panel">
+        <div class="panel-header">
+          <h2 class="panel-title">Previsualización </h2>
+        </div>
+        <div class="panel-content">
+          <div class="view-controls">
+            <div class="view-toggle">
+              <button class="view-toggle-btn active" id="desktop-view-btn">Desktop</button>
+              <button class="view-toggle-btn" id="mobile-view-btn">Mobile</button>
+            </div>
+          </div>
+          
+          <div id="preview-area">
+            <div class="empty-state">
+              <h3>No hay cards creadas</h3>
+              <p>Agrega tu primera card usando el panel de la izquierda</p>
+            </div>
+          </div>
+            
+          <button id="show-code-button">📋 Generar Código HTML</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para crear/editar card -->
+  <div class="modal-overlay" id="card-editor-modal">
+    <div class="modal-content" style="max-width: 800px;">
+      <div class="modal-header">
+        <h2 class="modal-title" id="form-title">Crear Nueva Card</h2>
+        <button class="modal-close" id="close-card-modal">&times;</button>
+      </div>
+      
+      <form id="card-editor-form">
+        <div class="modal-form-container" onclick="event.stopPropagation()">
+          <div class="card-sections">
+            <!-- Sección A: Contenido -->
+            <div class="card-section">
+              <div class="section-header">
+                <span class="section-icon">📄</span>
+                <h3 class="section-title">Contenido</h3>
+              </div>
+              
+              <!-- Imagen -->
+              <div class="form-group">
+                <label>Imagen</label>
+                <div class="image-upload-area" id="image-upload-area">
+                  <div id="image-preview"></div>
+                  <p class="upload-text">Haz clic para subir imagen</p>
+                  <p class="upload-hint">Máx. 1920px ancho, 1MB</p>
+                  <input type="file" id="image-input" accept="image/*" style="display: none;">
+              </div>
+            </div>
+              
+              <!-- Título -->
+              <div class="form-group">
+                <label for="card-title">Título</label>
+                <input type="text" id="card-title" placeholder="FAST PASS" required>
+              </div>
+              
+              <!-- Precio -->
+              <div class="form-group">
+                <label for="card-price">Precio</label>
+                <input type="text" id="card-price" placeholder="$30.80">
+          </div>
+          
+              <!-- Subtítulo (3 bullets) -->
+              <div class="form-group">
+                <label>Subtítulo (3 bullets)</label>
+                <div class="bullets-container">
+                  <div class="bullet-item">
+                    <span class="bullet-number">1</span>
+                    <input type="text" id="bullet-1" placeholder="Venta limitada (solo 500 disponibles)">
+                  </div>
+                  <div class="bullet-item">
+                    <span class="bullet-number">2</span>
+                    <input type="text" id="bullet-2" placeholder="Solo venta online">
+                  </div>
+                  <div class="bullet-item">
+                    <span class="bullet-number">3</span>
+                    <input type="text" id="bullet-3" placeholder="Adicionalo a la compra de tu entrada">
+                  </div>
+                </div>
+            </div>
+          
+              <!-- Estado -->
+              <div class="form-group">
+                <label for="card-status">Estado</label>
+                <select id="card-status" required>
+                <option value="">Seleccionar estado</option>
+                  <option value="available-with-ticket">Disponible con entrada</option>
+                  <option value="available-in-purchase">Disponible en la compra</option>
+                  <option value="independent-purchase">Compra independiente</option>
+                </select>
+              </div>
+            </div>
+            
+            <!-- Sección B: Acción -->
+            <div class="card-section">
+              <div class="section-header">
+                <span class="section-icon">⚡</span>
+                <h3 class="section-title">Acción</h3>
+              </div>
+              
+              <!-- CTA Text -->
+              <div class="form-group">
+                <label for="cta-text">CTA Text</label>
+                <input type="text" id="cta-text" placeholder="Ver más" required>
+              </div>
+              
+              <!-- Toggle Modal -->
+              <div class="toggle-label">
+                <label class="toggle-switch">
+                  <input type="checkbox" id="toggle-modal">
+                  <span class="toggle-slider"></span>
+                </label>
+                <span>Toggle Modal</span>
+          </div>
+          
+              <!-- URL (visible cuando toggle está OFF) -->
+              <div class="form-group" id="url-group">
+                <label for="action-url">URL</label>
+                <input type="url" id="action-url" placeholder="https://ejemplo.com/comprar">
+              </div>
+            </div>
+            
+            <!-- Sección C: Modal (visible solo si toggle ON) -->
+            <div class="card-section" id="modal-section" style="display: none;">
+              <div class="section-header">
+                <span class="section-icon">🔍</span>
+                <h3 class="section-title">Modal</h3>
+              </div>
+              
+              <!-- Descripción extendida -->
+              <div class="form-group">
+                <label for="modal-description">Descripción extendida</label>
+                <textarea id="modal-description" rows="4" placeholder="Descripción detallada del producto..."></textarea>
+              </div>
+              
+              <!-- Toggle "Mostrar botón Comprar ahora" -->
+              <div class="toggle-label">
+                <label class="toggle-switch">
+                  <input type="checkbox" id="toggle-buy-button">
+                  <span class="toggle-slider"></span>
+                </label>
+                <span>Mostrar botón Comprar ahora</span>
+          </div>
+          
+              <!-- Campos condicionales para el botón -->
+              <div class="conditional-fields" id="buy-button-fields">
+              <div class="form-group">
+                  <label for="buy-button-text">Texto botón</label>
+                  <input type="text" id="buy-button-text" placeholder="Comprar ahora">
+                </div>
+                <div class="form-group">
+                  <label for="buy-button-url">URL botón</label>
+                  <input type="url" id="buy-button-url" placeholder="https://ejemplo.com/comprar">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+          
+        <div class="form-actions">
+          <button type="submit" id="save-card-button" class="btn-save">Guardar</button>
+          <button type="button" id="cancel-card-button" class="btn-cancel">Cancelar</button>
+        </div>
+      </form>
+            </div>
+          </div>
+          
+  <!-- Modal para mostrar el código -->
+  <div class="modal-overlay" id="code-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Código HTML Completo - Cards Configurables</h2>
+        <button class="modal-close" id="close-modal">&times;</button>
+          </div>
+      
+      <div class="code-container">
+        <pre class="code-display" id="code-display"></pre>
+      </div>
+      
+      <button class="copy-btn" id="copy-code">📋 Copiar Código</button>
+        </div>
+      </div>
+
+  <script>
+    // Variables globales
+    let cards = [];
+    let editingCardId = null;
+    let currentView = 'desktop';
+    let eventDetails = {
+      name: 'sao paulo, estadio morimbus',
+      date: '2025-11-15'
+    };
+
+    // Elementos del DOM
+    const addNewCard = document.getElementById('add-new-card');
+    const cardListContainer = document.getElementById('card-list-container');
+    const cardEditorModal = document.getElementById('card-editor-modal');
+    const cardEditorForm = document.getElementById('card-editor-form');
+    const formTitle = document.getElementById('form-title');
+    const closeCardModal = document.getElementById('close-card-modal');
+    const previewArea = document.getElementById('preview-area');
+    const showCodeButton = document.getElementById('show-code-button');
+    const codeModal = document.getElementById('code-modal');
+    const closeModal = document.getElementById('close-modal');
+    const codeDisplay = document.getElementById('code-display');
+    const copyCodeButton = document.getElementById('copy-code');
+
+    // Elementos de detalles del evento
+    const eventNameInput = document.getElementById('event-name');
+    const eventDateInput = document.getElementById('event-date');
+    const saveEventDetailsButton = document.getElementById('save-event-details');
+    const previewEventName = document.getElementById('preview-event-name');
+    const previewEventDate = document.getElementById('preview-event-date');
+
+    // Elementos del formulario
+    const imageInput = document.getElementById('image-input');
+    const imageUploadArea = document.getElementById('image-upload-area');
+    const imagePreview = document.getElementById('image-preview');
+    const cardTitle = document.getElementById('card-title');
+    const cardPrice = document.getElementById('card-price');
+    const bullet1 = document.getElementById('bullet-1');
+    const bullet2 = document.getElementById('bullet-2');
+    const bullet3 = document.getElementById('bullet-3');
+    const cardStatus = document.getElementById('card-status');
+    const ctaText = document.getElementById('cta-text');
+    const toggleModal = document.getElementById('toggle-modal');
+    const actionUrl = document.getElementById('action-url');
+    const urlGroup = document.getElementById('url-group');
+    const modalSection = document.getElementById('modal-section');
+    const modalDescription = document.getElementById('modal-description');
+    const toggleBuyButton = document.getElementById('toggle-buy-button');
+    const buyButtonFields = document.getElementById('buy-button-fields');
+    const buyButtonText = document.getElementById('buy-button-text');
+    const buyButtonUrl = document.getElementById('buy-button-url');
+
+    // Elementos de vista
+    const desktopViewBtn = document.getElementById('desktop-view-btn');
+    const mobileViewBtn = document.getElementById('mobile-view-btn');
+
+    // Configuración de estados
+    const statusConfig = {
+      'available-with-ticket': { text: 'DISPONIBLE CON ENTRADA', displayText: 'Disponible con entrada', class: 'status-available' },
+      'available-in-purchase': { text: 'DISPONIBLE EN LA COMPRA', displayText: 'Disponible en la compra', class: 'status-available' },
+      'independent-purchase': { text: 'COMPRA INDEPENDIENTE', displayText: 'Compra independiente', class: 'status-available' }
+    };
+
+    // Funciones principales
+    function loadCards() {
+      // Siempre iniciar sin cards guardadas
+      cards = [];
+      // Limpiar localStorage para asegurar que no haya datos previos
+      localStorage.removeItem('cms-cards');
+    }
+
+    function saveCards() {
+      localStorage.setItem('cms-cards', JSON.stringify(cards));
+    }
+
+    function renderCardList() {
+      cardListContainer.innerHTML = '';
+      
+      if (cards.length === 0) {
+        cardListContainer.innerHTML = `
+          <div class="empty-state">
+            <h3>No hay cards creadas</h3>
+            <p>Haz clic en "Añadir Card" para comenzar</p>
+            </div>
+        `;
+        return;
+      }
+
+      cards.forEach((card, index) => {
+        const cardItem = document.createElement('div');
+        cardItem.className = 'card-item';
+        cardItem.innerHTML = `
+          <div class="card-item-header" onclick="toggleCardExpansion('${card.id}')">
+            <div class="card-item-info">
+              <img src="${card.image || 'https://prod-assets.tmlat.com/image_15cd533576.png'}" alt="Preview" class="card-preview-image">
+              <div class="card-item-details">
+                <h4>${card.title}</h4>
+                <p>${card.price || 'Sin precio'} • ${statusConfig[card.status].displayText}</p>
+                </div>
+            </div>
+            <div class="card-item-actions">
+              <div class="card-order-controls">
+                <button class="btn-move" onclick="moveCard('${card.id}', 'up')" ${index === 0 ? 'disabled' : ''}>↑</button>
+                <button class="btn-move" onclick="moveCard('${card.id}', 'down')" ${index === cards.length - 1 ? 'disabled' : ''}>↓</button>
+              </div>
+              <button class="btn-edit" data-id="${card.id}" onclick="event.stopPropagation()">✏️ Editar</button>
+              <button class="btn-delete" data-id="${card.id}" onclick="event.stopPropagation()">🗑️ Eliminar</button>
+              <span class="card-expand-icon">▼</span>
+            </div>
+          </div>
+          <div class="card-content" id="content-${card.id}">
+            <div class="card-sections">
+              <div class="card-section">
+                <div class="section-header">
+                  <span class="section-icon">📄</span>
+                  <h3 class="section-title">Contenido</h3>
+                </div>
+                <p><strong>Título:</strong> ${card.title}</p>
+                <p><strong>Precio:</strong> ${card.price || 'No especificado'}</p>
+                <p><strong>Estado:</strong> ${statusConfig[card.status].displayText}</p>
+                <p><strong>Bullets:</strong></p>
+                <ul>
+                  ${card.bullets.filter(b => b).map(bullet => `<li>${bullet}</li>`).join('')}
+                </ul>
+              </div>
+              <div class="card-section">
+                <div class="section-header">
+                  <span class="section-icon">⚡</span>
+                  <h3 class="section-title">Acción</h3>
+                </div>
+                <p><strong>CTA:</strong> ${card.ctaText}</p>
+                <p><strong>Tipo:</strong> ${card.useModal ? 'Modal' : 'URL'}</p>
+                ${!card.useModal ? `<p><strong>URL:</strong> ${card.actionUrl}</p>` : ''}
+              </div>
+              ${card.useModal ? `
+              <div class="card-section">
+                <div class="section-header">
+                  <span class="section-icon">🔍</span>
+                  <h3 class="section-title">Modal</h3>
+                </div>
+                <p><strong>Descripción:</strong> ${card.modalDescription || 'No especificada'}</p>
+                <p><strong>Botón compra:</strong> ${card.showBuyButton ? 'Sí' : 'No'}</p>
+                ${card.showBuyButton ? `<p><strong>Texto botón:</strong> ${card.buyButtonText}</p>` : ''}
+              </div>
+              ` : ''}
+                    </div>
+                  </div>
+        `;
+        
+        cardListContainer.appendChild(cardItem);
+      });
+
+      // Event listeners para botones de acción
+      document.querySelectorAll('.btn-edit').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const cardId = e.target.getAttribute('data-id');
+          openCardEditor(cardId);
+        });
+      });
+
+      document.querySelectorAll('.btn-delete').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const cardId = e.target.getAttribute('data-id');
+          deleteCard(cardId);
+        });
+      });
+    }
+
+    // Funciones auxiliares para cards
+    function toggleCardExpansion(cardId) {
+      const cardItem = document.querySelector(`[onclick="toggleCardExpansion('${cardId}')"]`).closest('.card-item');
+      cardItem.classList.toggle('expanded');
+    }
+
+    function moveCard(cardId, direction) {
+      const currentIndex = cards.findIndex(card => card.id === cardId);
+      if (currentIndex === -1) return;
+      
+      const newIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
+      if (newIndex < 0 || newIndex >= cards.length) return;
+      
+      // Intercambiar posiciones
+      [cards[currentIndex], cards[newIndex]] = [cards[newIndex], cards[currentIndex]];
+      
+      saveCards();
+      renderCardList();
+      renderGlobalPreview();
+    }
+
+    function openCardEditor(cardId = null) {
+      editingCardId = cardId;
+      cardEditorModal.style.display = 'flex';
+      
+      if (cardId) {
+        const card = cards.find(c => c.id === cardId);
+        if (card) {
+          formTitle.textContent = `Editar: ${card.title}`;
+          cardTitle.value = card.title;
+          cardPrice.value = card.price || '';
+          bullet1.value = card.bullets[0] || '';
+          bullet2.value = card.bullets[1] || '';
+          bullet3.value = card.bullets[2] || '';
+          cardStatus.value = card.status;
+          ctaText.value = card.ctaText;
+          toggleModal.checked = card.useModal;
+          actionUrl.value = card.actionUrl || '';
+          modalDescription.value = card.modalDescription || '';
+          toggleBuyButton.checked = card.showBuyButton;
+          buyButtonText.value = card.buyButtonText || '';
+          buyButtonUrl.value = card.buyButtonUrl || '';
+          
+          // Mostrar imagen si existe
+          if (card.image) {
+            imagePreview.innerHTML = `<img src="${card.image}" class="uploaded-image" alt="Preview">`;
+            imageUploadArea.classList.add('has-image');
+          }
+          
+          handleToggleModal();
+          handleToggleBuyButton();
+        }
+      } else {
+        formTitle.textContent = 'Crear Nueva Card';
+        cardTitle.value = '';
+        cardPrice.value = '';
+        bullet1.value = '';
+        bullet2.value = '';
+        bullet3.value = '';
+        cardStatus.value = '';
+        ctaText.value = 'Ver más';
+        toggleModal.checked = false;
+        actionUrl.value = '';
+        modalDescription.value = '';
+        toggleBuyButton.checked = false;
+        buyButtonText.value = '';
+        buyButtonUrl.value = '';
+        imagePreview.innerHTML = '';
+        imageUploadArea.classList.remove('has-image');
+        
+        handleToggleModal();
+        handleToggleBuyButton();
+      }
+    }
+
+    function closeCardEditor() {
+      cardEditorModal.style.display = 'none';
+      editingCardId = null;
+    }
+
+    function handleToggleModal() {
+      if (toggleModal.checked) {
+        modalSection.style.display = 'block';
+        urlGroup.style.display = 'none';
+        actionUrl.required = false;
+      } else {
+        modalSection.style.display = 'none';
+        urlGroup.style.display = 'block';
+        actionUrl.required = true;
+      }
+    }
+
+    function handleToggleBuyButton() {
+      if (toggleBuyButton.checked) {
+        buyButtonFields.classList.remove('hidden');
+        buyButtonText.required = true;
+        buyButtonUrl.required = true;
+      } else {
+        buyButtonFields.classList.add('hidden');
+        buyButtonText.required = false;
+        buyButtonUrl.required = false;
+      }
+    }
+
+    function saveCardData(e) {
+      e.preventDefault();
+      
+      if (!cardTitle.value || !cardStatus.value || !ctaText.value) {
+        alert('Los campos Título, Estado y CTA Text son obligatorios');
+          return;
+        }
+        
+      if (!toggleModal.checked && !actionUrl.value) {
+        alert('La URL es obligatoria cuando el modal está desactivado');
+            return;
+          }
+          
+      if (toggleModal.checked && toggleBuyButton.checked) {
+        if (!buyButtonText.value || !buyButtonUrl.value) {
+          alert('Los campos de botón de compra son obligatorios cuando está activado');
+          return;
+        }
+      }
+      
+      const cardData = {
+        title: cardTitle.value,
+        price: cardPrice.value,
+        bullets: [bullet1.value, bullet2.value, bullet3.value],
+        status: cardStatus.value,
+        ctaText: ctaText.value,
+        useModal: toggleModal.checked,
+        actionUrl: actionUrl.value,
+        modalDescription: modalDescription.value,
+        showBuyButton: toggleBuyButton.checked,
+        buyButtonText: buyButtonText.value,
+        buyButtonUrl: buyButtonUrl.value,
+        image: imagePreview.querySelector('img')?.src || 'https://prod-assets.tmlat.com/image_15cd533576.png'
+      };
+
+      if (editingCardId) {
+        const index = cards.findIndex(c => c.id === editingCardId);
+        if (index !== -1) {
+          cards[index] = { ...cards[index], ...cardData };
+        }
+      } else {
+        const newCard = {
+          id: Date.now().toString(),
+          ...cardData
+        };
+        cards.push(newCard);
+      }
+
+      saveCards();
+      closeCardEditor();
+      renderCardList();
+      renderGlobalPreview();
+    }
+
+    function deleteCard(cardId) {
+      if (confirm('¿Estás seguro de eliminar esta card?')) {
+        cards = cards.filter(c => c.id !== cardId);
+        saveCards();
+        renderCardList();
+        renderGlobalPreview();
+      }
+    }
+
+
+    function renderGlobalPreview() {
+      if (cards.length === 0) {
+        previewArea.innerHTML = `
+          <div class="empty-state">
+            <h3>No hay cards creadas</h3>
+            <p>Agrega tu primera card usando el panel de la izquierda</p>
+                </div>
+        `;
+        return;
+      }
+      
+      let html = '';
+      
+      // Aplicar clase de vista móvil si es necesario
+      if (currentView === 'mobile') {
+        previewArea.classList.add('preview-mobile');
+      } else {
+        previewArea.classList.remove('preview-mobile');
+      }
+      
+      html = '<div class="preview-cards-container">';
+      
+      cards.forEach(card => {
+        const status = statusConfig[card.status];
+        const displayText = status.displayText;
+        
+        // Determinar el botón según el tipo de acción
+          let buttonElement;
+        if (card.useModal) {
+            buttonElement = `
+            <div class="preview-card-button" onclick="openCardModal('${card.id}')">
+              ${card.ctaText}
+              <svg width="20" height="20" viewBox="0 0 20 20">
+                <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              </div>
+            `;
+      } else {
+            buttonElement = `
+            <a href="${card.actionUrl}" class="preview-card-button" target="_blank">
+              ${card.ctaText}
+              <svg width="20" height="20" viewBox="0 0 20 20">
+                <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          `;
+        }
+        
+        // Generar bullets
+        const bulletsHtml = card.bullets.filter(b => b).map(bullet => 
+          `<div class="preview-card-detail-item">${bullet}</div>`
+        ).join('');
+          
+          html += `
+          <div class="preview-card">
+            <div class="preview-card-image" style="background-image: url('${card.image}')">
+              <div class="preview-card-badge">${displayText}</div>
+                  </div>
+            <div class="preview-card-content">
+              <h2 class="preview-card-title">${card.title}</h2>
+                      </div>
+            <div class="preview-card-details">
+              ${bulletsHtml}
+                    </div>
+            <div class="preview-card-footer">
+              <div class="preview-card-price">${card.price || ''}</div>
+                ${buttonElement}
+                  </div>
+              </div>
+          `;
+        });
+        
+      html += '</div>';
+      
+      // Agregar modales para las cards que los necesiten
+      html += generatePreviewModals();
+      
+      previewArea.innerHTML = html;
+    }
+
+    // Función para generar los modales de vista previa
+    function generatePreviewModals() {
+      let modalsHtml = '';
+      
+      cards.forEach(card => {
+        if (card.useModal) {
+          const status = statusConfig[card.status];
+          const displayText = status.displayText;
+          
+          // Generar bullets para el modal
+          const bulletsHtml = card.bullets.filter(b => b).map(bullet => 
+            `<div class="preview-modal-detail-item">${bullet}</div>`
+          ).join('');
+          
+          // Botón de compra si está activado
+          let buyButtonHtml = '';
+          if (card.showBuyButton) {
+            buyButtonHtml = `
+              <div class="preview-modal-buy-button">
+                <a href="${card.buyButtonUrl}" target="_blank" class="preview-modal-buy-link">
+                  ${card.buyButtonText}
+                </a>
+              </div>
+            `;
+          }
+          
+          modalsHtml += `
+            <div class="preview-modal-overlay" id="preview-modal-${card.id}" style="display: none;">
+              <div class="preview-modal-content">
+                <div class="preview-modal-header">
+                  <h2 class="preview-modal-title">${card.title}</h2>
+                  <button class="preview-modal-close" onclick="closePreviewModal('${card.id}')">&times;</button>
+                  </div>
+                <div class="preview-modal-body">
+                  <div class="preview-modal-image">
+                    <img src="${card.image}" alt="${card.title}">
+                    <div class="preview-modal-badge">${displayText}</div>
+    </div>
+                  <div class="preview-modal-info">
+                    <div class="preview-modal-price">${card.price || ''}</div>
+                    <div class="preview-modal-details">
+                      ${bulletsHtml}
+  </div>
+                    ${card.modalDescription ? `<div class="preview-modal-description">${card.modalDescription}</div>` : ''}
+                </div>
+                </div>
+                ${buyButtonHtml}
+              </div>
+            </div>
+          `;
+        }
+      });
+      
+      return modalsHtml;
+    }
+
+    // Función para abrir el modal de vista previa
+    function openCardModal(cardId) {
+      const modal = document.getElementById(`preview-modal-${cardId}`);
+      if (modal) {
+        modal.style.display = 'flex';
+      }
+    }
+
+    // Función para cerrar el modal de vista previa
+    function closePreviewModal(cardId) {
+      const modal = document.getElementById(`preview-modal-${cardId}`);
+      if (modal) {
+        modal.style.display = 'none';
+      }
+    }
+
+    // Función auxiliar para formatear la fecha
+    function formatEventDateForView(dateString, view) {
+      if (!dateString) {
+        return '15 NOV 2025'; // Siempre en mayúsculas para ambas vistas
+      }
+      
+      // Evitar problemas de zona horaria usando split en lugar de new Date()
+      const [year, month, day] = dateString.split('-');
+      const date = new Date(year, month - 1, day); // month - 1 porque los meses van de 0-11
+      
+      const options = { 
+        day: '2-digit', 
+        month: 'short', 
+        year: 'numeric' 
+      };
+      
+      // Ambas vistas necesitamos mayúsculas
+      return date.toLocaleDateString('es-ES', options).toUpperCase();
+    }
+
+    // Función original para compatibilidad
+    function formatEventDate(dateString) {
+      return formatEventDateForView(dateString, currentView);
+    }
+
+    // Event Listeners
+    addNewCard.addEventListener('click', () => openCardEditor());
+    cardEditorForm.addEventListener('submit', saveCardData);
+    document.getElementById('cancel-card-button').addEventListener('click', closeCardEditor);
+    closeCardModal.addEventListener('click', closeCardEditor);
+    toggleModal.addEventListener('change', handleToggleModal);
+    toggleBuyButton.addEventListener('change', handleToggleBuyButton);
+    
+    // Image upload
+    imageUploadArea.addEventListener('click', () => imageInput.click());
+    imageInput.addEventListener('change', handleImageUpload);
+    
+    function handleImageUpload(e) {
+      const file = e.target.files[0];
+      if (file) {
+        // Validar tamaño (1MB)
+        if (file.size > 1024 * 1024) {
+          alert('La imagen debe ser menor a 1MB');
+          return;
+        }
+        
+        // Validar tipo
+        if (!file.type.startsWith('image/')) {
+          alert('Por favor selecciona una imagen válida');
+          return;
+        }
+        
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          imagePreview.innerHTML = `<img src="${e.target.result}" class="uploaded-image" alt="Preview">`;
+          imageUploadArea.classList.add('has-image');
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+    
+    // La protección de inputs ahora se maneja a través del contenedor modal-form-container
+    
+    showCodeButton.addEventListener('click', generateGlobalCode);
+    closeModal.addEventListener('click', () => codeModal.style.display = 'none');
+    
+    desktopViewBtn.addEventListener('click', () => {
+      desktopViewBtn.classList.add('active');
+      mobileViewBtn.classList.remove('active');
+      currentView = 'desktop';
+      renderGlobalPreview();
+    });
+    
+    mobileViewBtn.addEventListener('click', () => {
+      mobileViewBtn.classList.add('active');
+      desktopViewBtn.classList.remove('active');
+      currentView = 'mobile';
+      renderGlobalPreview();
+    });
+    
+    copyCodeButton.addEventListener('click', () => {
+      navigator.clipboard.writeText(codeDisplay.textContent).then(() => {
+        const originalText = copyCodeButton.textContent;
+        copyCodeButton.textContent = '✅ ¡Copiado!';
+      setTimeout(() => {
+        copyCodeButton.textContent = originalText;
+      }, 2000);
+      });
+    });
+
+    // Event listeners para detalles del evento
+    saveEventDetailsButton.addEventListener('click', handleSaveEventDetails);
+
+    // Auto-guardado al cambiar los campos
+    // DESHABILITADO: Ahora solo se actualiza al hacer clic en "Guardar"
+    // eventNameInput.addEventListener('input', () => {
+    //   eventDetails.name = eventNameInput.value;
+    //   updateEventPreview();
+    // });
+
+    // eventDateInput.addEventListener('change', () => {
+    //   eventDetails.date = eventDateInput.value;
+    //   updateEventPreview();
+    // });
+
+    // Cerrar modales al hacer clic fuera
+    window.addEventListener('click', (e) => {
+      // Cerrar modal de código
+      if (e.target === codeModal) {
+        codeModal.style.display = 'none';
+      }
+      
+      // Cerrar modal del editor solo si se hace clic en el overlay
+      if (e.target === cardEditorModal) {
+        closeCardEditor();
+      }
+      
+      // Cerrar modales de vista previa
+      if (e.target.classList.contains('preview-modal-overlay')) {
+        e.target.style.display = 'none';
+      }
+    });
+
+    // Atajos de teclado
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        generateGlobalCode();
+      }
+      if (e.key === 'Escape') {
+        if (codeModal.style.display === 'flex') {
+          codeModal.style.display = 'none';
+        } else if (cardEditorModal.style.display === 'flex') {
+          closeCardEditor();
+        }
+      }
+    });
+
+    // Función para limpiar completamente el localStorage
+    function clearAllData() {
+      localStorage.removeItem('cms-cards');
+      localStorage.removeItem('cms-event-details');
+      // Limpiar cualquier otro dato que pueda estar guardado
+      Object.keys(localStorage).forEach(key => {
+        if (key.startsWith('cms-')) {
+          localStorage.removeItem(key);
+        }
+      });
+    }
+
+    // Inicialización
+    document.addEventListener('DOMContentLoaded', () => {
+      // Limpiar todos los datos al cargar la página
+      clearAllData();
+      loadCards();
+      loadEventDetails();
+      renderCardList();
+      renderGlobalPreview();
+    });
+
+    // Funciones para manejar detalles del evento
+    function loadEventDetails() {
+      // Siempre iniciar con valores por defecto
+      eventDetails = {
+        name: 'sao paulo, estadio morimbus',
+        date: '2025-11-15'
+      };
+      // Limpiar localStorage para asegurar que no haya datos previos
+      localStorage.removeItem('cms-event-details');
+      updateEventPreview();
+      updateEventForm();
+    }
+
+    function saveEventDetails() {
+      localStorage.setItem('cms-event-details', JSON.stringify(eventDetails));
+    }
+
+    function updateEventPreview() {
+      // Actualizar la previsualización global
+      renderGlobalPreview();
+    }
+
+    function updateEventForm() {
+      eventNameInput.value = eventDetails.name || '';
+      eventDateInput.value = eventDetails.date || '';
+    }
+
+    function handleSaveEventDetails() {
+      const name = eventNameInput.value.trim();
+      const date = eventDateInput.value;
+
+      if (!name) {
+        alert('Por favor, introduce el nombre y lugar del evento');
+          return;
+        }
+        
+      if (!date) {
+        alert('Por favor, selecciona la fecha del evento');
+            return;
+          }
+          
+      eventDetails.name = name;
+      eventDetails.date = date;
+      
+      saveEventDetails();
+      updateEventPreview();
+      
+      // Mostrar confirmación
+      const originalText = saveEventDetailsButton.textContent;
+      saveEventDetailsButton.textContent = '✅ ¡Guardado!';
+      saveEventDetailsButton.style.background = '#059669';
+      
+      setTimeout(() => {
+        saveEventDetailsButton.textContent = originalText;
+        saveEventDetailsButton.style.background = '#10b981';
+      }, 2000);
+    }
+
+    function generateGlobalCode() {
+      // Cerrar el modal del editor si está abierto
+      if (cardEditorModal.style.display === 'flex') {
+        closeCardEditor();
+      }
+      
+      if (cards.length === 0) {
+        alert('No hay cards para generar código');
+        return;
+      }
+
+      // Generar cards para desktop y mobile
+      let desktopCardsHTML = '';
+      let mobileCardsHTML = '';
+      
+      cards.forEach(card => {
+        const status = statusConfig[card.status];
+        const displayText = status.displayText;
+        
+        // Generar bullets
+        const bulletsHtml = card.bullets.filter(b => b).map(bullet => 
+          `<div class="tmpe-card-detail-item">${bullet}</div>`
+        ).join('');
+        
+        // Determinar el botón según el tipo de acción
+        let buttonElement;
+        if (card.useModal) {
+          buttonElement = `
+            <a href="javascript:void(0)" class="tmpe-card-button" onclick="openTmpeModal('${card.id}')">
+              ${card.ctaText}
+            <svg width="20" height="20" viewBox="0 0 20 20">
+              <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            </a>
+          `;
+        } else {
+          buttonElement = `
+            <a href="${card.actionUrl}" class="tmpe-card-button" target="_blank">
+              ${card.ctaText}
+            <svg width="20" height="20" viewBox="0 0 20 20">
+                <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            </a>
+          `;
+        }
+      
+        // Generar HTML para desktop
+        desktopCardsHTML += `
+    <!-- ${card.title} -->
+    <div class="tmpe-card">
+      <div class="tmpe-card-image" style="background-image: url('${card.image}')">
+        <div class="tmpe-card-badge">${displayText}</div>
+      </div>
+      <div class="tmpe-card-title">
+        <h2>${card.title}</h2>
+          </div>
+      <div class="tmpe-card-details">
+        ${bulletsHtml}
+        </div>
+      <div class="tmpe-card-footer">
+        <div class="tmpe-card-price">${card.price || ''}</div>
+        ${buttonElement}
+      </div>
+    </div>`;
+      
+        // Generar HTML para móvil
+        mobileCardsHTML += `
+    <!-- ${card.title} -->
+    <div class="tmpe-mobile-card">
+      <div class="tmpe-mobile-card-image" style="background-image: url('${card.image}')">
+        <div class="tmpe-mobile-card-badge">${displayText}</div>
+        </div>
+      <div class="tmpe-mobile-card-title">
+        <h2>${card.title}</h2>
+            </div>
+      <div class="tmpe-mobile-card-details">
+        ${bulletsHtml}
+          </div>
+      <div class="tmpe-mobile-card-footer">
+        <div class="tmpe-mobile-card-price">${card.price || ''}</div>
+        ${buttonElement}
+        </div>
+    </div>`;
+      });
+
+      // CSS completo basado en index5.html
+      const cssStyles = `/* CSS Reset básico */
+.tmpe-container * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.tmpe-container {
+  width: 800px !important;
+  max-width: 800px !important;
+  margin: 0 auto !important;
+  background: #FAFBFC;
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+@media (max-width: 800px) {
+  .tmpe-container {
+    width: 100% !important;
+  }
+}
+
+/* Default state - Desktop first */
+.tmpe-desktop-view {
+  display: block;
+}
+
+.tmpe-mobile-view {
+  display: none;
+}
+
+/* Tarjetas de ticket - Desktop */
+.tmpe-ticket-item {
+  display: flex;
+  align-items: center;
+  padding: 20px 24px;
+  background: #fff;
+  border-bottom: 1px solid #D6D6D6;
+  position: relative;
+  justify-content: space-between;
+  gap: 24px;
+  transition: background-color 0.2s ease;
+}
+
+.tmpe-logo-container {
+  width: 56px;
+  height: 56px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: #FFFFFF !important;
+  transform: translateZ(0);
+  will-change: transform;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.tmpe-logo-interbank {
+  background: #1A1A1A;
+}
+
+.tmpe-logo-ticketmaster {
+  background: #FFFFFF;
+}
+
+.tmpe-logo-bcp {
+  background: #FFFFFF;
+}
+
+.tmpe-logo-comercio {
+  background: #FFFFFF;
+}
+
+.tmpe-logo-bbva {
+  background: #FFFFFF;
+}
+
+.tmpe-logo-custom {
+  background: #FFFFFF;
+}
+
+.tmpe-logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  padding: 0;
+  margin: 0;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  -ms-interpolation-mode: nearest-neighbor;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.tmpe-info-container {
+  flex: 1;
+}
+
+/* Tipografía directamente aplicada con alta especificidad */
+.tmpe-container .tmpe-ticket-title {
+  font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #262626;
+  letter-spacing: 0.4px;
+  line-height: 20px;
+}
+
+.tmpe-container .tmpe-date-text {
+  font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #7D7D7D;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.32px;
+  line-height: 20px;
+}
+
+.tmpe-status-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tmpe-container .tmpe-status-badge {
+  font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid #D6D6D6;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  height: 22px;
+  letter-spacing: 0.24px;
+  line-height: 20px;
+}
+
+/* Regla de alta especificidad para sobrescribir .ticketmaster global */
+.tmpe-container .tmpe-status-badge span {
+  color: #121212 !important;
+  font-weight: 600 !important;
+}
+
+.tmpe-status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.tmpe-dot-available {
+  background: #048851;
+}
+
+.tmpe-dot-soon {
+  background: #646464;
+}
+
+.tmpe-dot-soldout {
+  background: #DD2C00;
+}
+
+.tmpe-dot-canceled {
+  background: #646464;
+}
+
+/* Estilo de enlace según diseño */
+.tmpe-container .tmpe-link-details {
+  font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background: #024DDF;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 16px 40px;
+  font-size: 16px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  margin-left: auto;
+  text-decoration: none;
+  letter-spacing: 0.32px;
+  line-height: 24px;
+  height: 48px;
+  min-width: 150px;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+
+.tmpe-link-reminder {
+  background: #FFFFFF;
+  color: #646464;
+  border: 1px solid #D6D6D6;
+  border-radius: 23px;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  margin-left: auto;
+  text-decoration: none;
+  box-shadow: 0px 6px 12px 0px rgba(0, 0, 0, 0.06);
+  height: 39px;
+  min-width: auto;
+  justify-content: center;
+  font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.tmpe-link-mobile {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #024DDF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  color: white;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .tmpe-desktop-view {
+    display: none;
+  }
+  
+  .tmpe-mobile-view {
+    display: block;
+    box-shadow: 0px 1px 4px 0px rgba(18, 18, 18, 0.15);
+  }
+  
+  .tmpe-ticket-item {
+    padding: 0;
+    gap: 0;
+    align-items: stretch;
+  }
+  
+  .tmpe-ticket-link {
+    display: flex;
+    width: 100%;
+    padding: 20px 12px;
+    gap: 16px;
+    align-items: flex-start;
+    text-decoration: none !important;
+    color: inherit;
+    cursor: pointer;
+  }
+  
+  .tmpe-logo-container {
+    width: 42px;
+    height: 40px;
+    margin-right: 0;
+    border-radius: 2.68px;
+    margin-top: 0;
+    align-self: flex-start;
+    overflow: hidden;
+    background: #FFFFFF !important;
+    transform: translateZ(0);
+    will-change: transform;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  .tmpe-container .tmpe-ticket-title {
+    font-size: 18px;
+    line-height: 20px;
+    letter-spacing: 0.32px;
+    color: #121212;
+    margin-bottom: 2px;
+  }
+
+  .tmpe-container .tmpe-date-text {
+    font-size: 14px;
+    margin-left: 0;
+    line-height: 20px;
+    letter-spacing: 0.28px;
+    color: #828282;
+  }
+  
+  .tmpe-status-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .tmpe-container .tmpe-status-badge {
+    font-size: 12px;
+    letter-spacing: 0.24px;
+    line-height: 20px;
+    color: #121212;
+  }
+
+  .tmpe-link-mobile {
+    width: 36px;
+    height: 36px;
+    background: #024DDF;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-start;
+    margin-top: 0;
+  }
+}
+
+/* Desktop hover effect */
+@media (min-width: 769px) {
+  .tmpe-ticket-item:hover {
+    background-color: #F6F6F6;
+  }
+  
+  .tmpe-link-details:hover {
+    background-color: #0035A0;
+  }
+}
+
+/* Mobile hover/active effects */
+@media (max-width: 768px) {
+  .tmpe-ticket-link:hover, 
+  .tmpe-ticket-link:active {
+    background-color: #F6F6F6;
+  }
+  
+  .tmpe-ticket-link:hover .tmpe-link-mobile, 
+  .tmpe-ticket-link:active .tmpe-link-mobile {
+    background-color: #0035A0;
+  }
+}`;
+
+      // Generar modales para el código final
+      let finalModalsHTML = '';
+      cards.forEach(card => {
+        if (card.useModal) {
+          const status = statusConfig[card.status];
+          const displayText = status.displayText;
+          
+          // Generar bullets para el modal
+          const bulletsHtml = card.bullets.filter(b => b).map(bullet => 
+            `<div class="tmpe-modal-detail-item">${bullet}</div>`
+          ).join('');
+          
+          // Botón de compra si está activado
+          let buyButtonHtml = '';
+          if (card.showBuyButton) {
+            buyButtonHtml = `
+              <div class="tmpe-modal-buy-button">
+                <a href="${card.buyButtonUrl}" target="_blank" class="tmpe-modal-buy-link">
+                  ${card.buyButtonText}
+                </a>
+              </div>
+            `;
+          }
+          
+          finalModalsHTML += `
+  <!-- Modal para ${card.title} -->
+  <div class="tmpe-modal-overlay" id="tmpe-modal-${card.id}" style="display: none;">
+    <div class="tmpe-modal-content">
+      <div class="tmpe-modal-header">
+        <h2 class="tmpe-modal-title">${card.title}</h2>
+        <button class="tmpe-modal-close" onclick="closeTmpeModal('${card.id}')">&times;</button>
+      </div>
+      <div class="tmpe-modal-body">
+        <div class="tmpe-modal-image">
+          <img src="${card.image}" alt="${card.title}">
+          <div class="tmpe-modal-badge">${displayText}</div>
+        </div>
+        <div class="tmpe-modal-info">
+          <div class="tmpe-modal-price">${card.price || ''}</div>
+          <div class="tmpe-modal-details">
+            ${bulletsHtml}
+          </div>
+          ${card.modalDescription ? `<div class="tmpe-modal-description">${card.modalDescription}</div>` : ''}
+        </div>
+      </div>
+      ${buyButtonHtml}
+    </div>
+  </div>`;
+        }
+      });
+
+      const fullCode = `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cards Configurables - Interface</title>
+  <style>
+    ${cssStyles}
+    
+    /* Estilos para modales del código generado */
+    .tmpe-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+
+    .tmpe-modal-content {
+      background: #FFFFFF;
+      border-radius: 12px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
+      position: relative;
+    }
+
+    .tmpe-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 24px 16px 24px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .tmpe-modal-title {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #121212;
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 2%;
+    }
+
+    .tmpe-modal-close {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      cursor: pointer;
+      color: #4a5568;
+      transition: all 0.2s ease;
+    }
+
+    .tmpe-modal-close:hover {
+      background: #e2e8f0;
+      color: #2d3748;
+    }
+
+    .tmpe-modal-body {
+      padding: 20px 24px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .tmpe-modal-image {
+      flex: 0 0 200px;
+      position: relative;
+    }
+
+    .tmpe-modal-image img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .tmpe-modal-badge {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      background: #024DDF;
+      color: #FFFFFF;
+      border: 1px solid #024DDF;
+      border-radius: 4px;
+      padding: 4px 12px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.67;
+      letter-spacing: 2%;
+      text-transform: uppercase;
+    }
+
+    .tmpe-modal-info {
+      flex: 1;
+    }
+
+    .tmpe-modal-price {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: 2%;
+      text-transform: uppercase;
+      color: #121212;
+      margin-bottom: 16px;
+    }
+
+    .tmpe-modal-details {
+      margin-bottom: 16px;
+    }
+
+    .tmpe-modal-detail-item {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.29;
+      letter-spacing: 2%;
+      color: #121212;
+      margin: 0 0 8px 0;
+      position: relative;
+      padding-left: 12px;
+    }
+
+    .tmpe-modal-detail-item::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #121212;
+      font-size: 14px;
+    }
+
+    .tmpe-modal-description {
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.5;
+      color: #4a5568;
+      margin-top: 16px;
+      padding: 16px;
+      background: #f8fafc;
+      border-radius: 8px;
+      border-left: 4px solid #024DDF;
+    }
+
+    .tmpe-modal-buy-button {
+      padding: 0 24px 24px 24px;
+      text-align: center;
+    }
+
+    .tmpe-modal-buy-link {
+      background: #024DDF;
+      color: #FFFFFF;
+      border: 1px solid #024DDF;
+      border-radius: 4px;
+      padding: 12px 24px;
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.5;
+      letter-spacing: 2%;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.2s ease;
+    }
+
+    .tmpe-modal-buy-link:hover {
+      background: #0239c4;
+      border-color: #0239c4;
+    }
+
+    /* Responsive para modales */
+    @media (max-width: 768px) {
+      .tmpe-modal-content {
+        width: 95%;
+        margin: 20px;
+      }
+
+      .tmpe-modal-body {
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .tmpe-modal-image {
+        flex: none;
+      }
+
+      .tmpe-modal-image img {
+        height: 120px;
+      }
+
+      .tmpe-modal-title {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="tmpe-container">
+  <!-- Vista Desktop -->
+  <div class="tmpe-desktop-view">
+    <div class="tmpe-card-grid">
+${desktopCardsHTML}
+    </div>
+  </div>
+  
+  <!-- Vista Mobile -->
+  <div class="tmpe-mobile-view">
+    <div class="tmpe-mobile-card-grid">
+${mobileCardsHTML}
+    </div>
+  </div>
+</div>
+
+${finalModalsHTML}
+
+<script>
+  // Funciones para manejar los modales
+  function openTmpeModal(cardId) {
+    const modal = document.getElementById('tmpe-modal-' + cardId);
+    if (modal) {
+      modal.style.display = 'flex';
+    }
+  }
+
+  function closeTmpeModal(cardId) {
+    const modal = document.getElementById('tmpe-modal-' + cardId);
+    if (modal) {
+      modal.style.display = 'none';
+    }
+  }
+
+  // Cerrar modales al hacer clic fuera
+  window.addEventListener('click', (e) => {
+    if (e.target.classList.contains('tmpe-modal-overlay')) {
+      e.target.style.display = 'none';
+    }
+  });
+
+  // Cerrar modales con tecla Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.tmpe-modal-overlay').forEach(modal => {
+        modal.style.display = 'none';
+      });
+    }
+  });
+</script>
+
+</body>
+</html>\`;
+
+      codeDisplay.textContent = fullCode;
+      codeModal.style.display = 'flex';
+    }
+  </script>
+</body>
+</html> 

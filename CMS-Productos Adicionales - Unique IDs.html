@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CMS Cards Configurables</title>
+  <!-- Resto del código del head... -->
+</head>
+<body>
+  <!-- Resto del código del body... -->
+  <script>
+    // Función para generar IDs únicos
+    function generateUniqueId() {
+      return 'tmpe_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now().toString(36);
+    }
+
+    // Función modificada para generar el código con IDs únicos
+    function generateGlobalCode() {
+      if (cards.length === 0) {
+        alert('No hay cards para generar código');
+        return;
+      }
+
+      // Generar ID único para todo el componente
+      const componentId = generateUniqueId();
+      const containerId = componentId + '_container';
+      const desktopViewId = componentId + '_desktop';
+      const mobileViewId = componentId + '_mobile';
+      const cardGridId = componentId + '_cardgrid';
+      const mobileCardGridId = componentId + '_mobilegrid';
+
+      // Generar cards para desktop
+      let desktopCardsHTML = '';
+      cards.forEach((card, index) => {
+        const status = statusConfig[card.status];
+        const displayText = status.displayText;
+        
+        // Generar IDs únicos para cada card
+        const cardId = componentId + '_card_' + index;
+        const cardImageId = cardId + '_image';
+        const cardBadgeId = cardId + '_badge';
+        const cardTitleId = cardId + '_title';
+        const cardDetailsId = cardId + '_details';
+        const cardFooterId = cardId + '_footer';
+        const cardPriceId = cardId + '_price';
+        const cardButtonId = cardId + '_button';
+        const toggleId = componentId + '_toggle_' + index;
+        
+        // Generar bullets
+        const bulletsHtml = card.bullets ? card.bullets.filter(b => b).map((bullet, bulletIndex) => 
+          `<div id="${cardId}_bullet_${bulletIndex}" class="tmpe-card-detail-item">${bullet}</div>`
+        ).join('') : '';
+        
+        // Determinar el botón según el tipo de acción
+        let buttonElement;
+        if (card.useModal) {
+          buttonElement = `
+            <a href="#${toggleId}" id="${cardButtonId}" class="tmpe-card-button">
+              ${card.ctaText}
+              <svg width="20" height="20" viewBox="0 0 20 20">
+                <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          `;
+        } else {
+          buttonElement = `
+            <a href="${card.actionUrl}" id="${cardButtonId}" class="tmpe-card-button" target="_blank">
+              ${card.ctaText}
+              <svg width="20" height="20" viewBox="0 0 20 20">
+                <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          `;
+        }
+        
+        desktopCardsHTML += `
+      <div id="${cardId}" class="tmpe-card">
+        <div id="${cardImageId}" class="tmpe-card-image" style="background-image: url('${card.image}')">
+          <div id="${cardBadgeId}" class="tmpe-card-badge">${displayText}</div>
+        </div>
+        <div id="${cardTitleId}" class="tmpe-card-title">
+          <h2>${card.title}</h2>
+        </div>
+        ${bulletsHtml ? `<div id="${cardDetailsId}" class="tmpe-card-details">${bulletsHtml}</div>` : ''}
+        <div id="${cardFooterId}" class="tmpe-card-footer">
+          <div id="${cardPriceId}" class="tmpe-card-price">${card.price || ''}</div>
+          ${buttonElement}
+        </div>
+      </div>`;
+      });
+
+      // Generar cards para mobile
+      let mobileCardsHTML = '';
+      cards.forEach((card, index) => {
+        const status = statusConfig[card.status];
+        const displayText = status.displayText;
+        
+        // Generar IDs únicos para cada card mobile
+        const mobileCardId = componentId + '_mobilecard_' + index;
+        const mobileCardImageId = mobileCardId + '_image';
+        const mobileCardBadgeId = mobileCardId + '_badge';
+        const mobileCardTitleId = mobileCardId + '_title';
+        const mobileCardDetailsId = mobileCardId + '_details';
+        const mobileCardFooterId = mobileCardId + '_footer';
+        const mobileCardPriceId = mobileCardId + '_price';
+        const mobileCardButtonId = mobileCardId + '_button';
+        const mobileToggleId = componentId + '_mobiletoggle_' + index;
+        
+        // Generar bullets
+        const bulletsHtml = card.bullets ? card.bullets.filter(b => b).map((bullet, bulletIndex) => 
+          `<div id="${mobileCardId}_bullet_${bulletIndex}" class="tmpe-mobile-card-detail-item">${bullet}</div>`
+        ).join('') : '';
+        
+        // Determinar el botón según el tipo de acción
+        let buttonElement;
+        if (card.useModal) {
+          buttonElement = `
+            <a href="#${mobileToggleId}" id="${mobileCardButtonId}" class="tmpe-mobile-card-button">
+              ${card.ctaText}
+              <svg width="20" height="20" viewBox="0 0 20 20">
+                <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          `;
+        } else {
+          buttonElement = `
+            <a href="${card.actionUrl}" id="${mobileCardButtonId}" class="tmpe-mobile-card-button" target="_blank">
+              ${card.ctaText}
+              <svg width="20" height="20" viewBox="0 0 20 20">
+                <polyline points="7 5 13 10 7 15" fill="none" stroke="#024DDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          `;
+        }
+        
+        mobileCardsHTML += `
+      <div id="${mobileCardId}" class="tmpe-mobile-card">
+        <div id="${mobileCardImageId}" class="tmpe-mobile-card-image" style="background-image: url('${card.image}')">
+          <div id="${mobileCardBadgeId}" class="tmpe-mobile-card-badge">${displayText}</div>
+        </div>
+        <div id="${mobileCardTitleId}" class="tmpe-mobile-card-title">
+          <h2>${card.title}</h2>
+        </div>
+        ${bulletsHtml ? `<div id="${mobileCardDetailsId}" class="tmpe-mobile-card-details">${bulletsHtml}</div>` : ''}
+        <div id="${mobileCardFooterId}" class="tmpe-mobile-card-footer">
+          <div id="${mobileCardPriceId}" class="tmpe-mobile-card-price">${card.price || ''}</div>
+          ${buttonElement}
+        </div>
+      </div>`;
+      });
+
+      // Generar modales con IDs únicos
+      let modalsHTML = '';
+      cards.forEach((card, index) => {
+        if (card.useModal) {
+          const status = statusConfig[card.status];
+          const displayText = status.displayText;
+          
+          // Generar IDs únicos para el modal
+          const modalId = componentId + '_modal_' + index;
+          const modalOverlayId = modalId + '_overlay';
+          const sidebarId = modalId + '_sidebar';
+          const sidebarHeaderId = modalId + '_header';
+          const sidebarContentId = modalId + '_content';
+          const sidebarFooterId = modalId + '_footer';
+          const productImageId = modalId + '_productimage';
+          const productTitleId = modalId + '_producttitle';
+          const productBadgeId = modalId + '_productbadge';
+          const includesSectionId = modalId + '_includes';
+          const sidebarPriceId = modalId + '_price';
+          const buyButtonId = modalId + '_buybutton';
+          const toggleId = componentId + '_toggle_' + index;
+          
+          // Generar bullets para el modal
+          const bulletsHtml = card.bullets ? card.bullets.filter(b => b).map((bullet, bulletIndex) => 
+            `${bullet}<br>`
+          ).join('') : '';
+          
+          // Botón de compra si está activado
+          let buyButtonHtml = '';
+          if (card.showBuyButton) {
+            buyButtonHtml = `
+              <a href="${card.buyButtonUrl}" id="${buyButtonId}" target="_blank" class="tmpe-buy-button">
+                ${card.buyButtonText}
+                <svg width="20" height="20" viewBox="0 0 20 20">
+                  <polyline points="7 5 13 10 7 15" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            `;
+          } else {
+            buyButtonHtml = `
+              <a href="#" id="${buyButtonId}" class="tmpe-buy-button">
+                Más información
+                <svg width="20" height="20" viewBox="0 0 20 20">
+                  <polyline points="7 5 13 10 7 15" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            `;
+          }
+          
+          modalsHTML += `
+<div id="${modalOverlayId}" class="tmpe-modal-overlay tmpe-overlay-${index + 1}">
+  <div id="${sidebarId}" class="tmpe-sidebar-panel">
+    <div id="${sidebarHeaderId}" class="tmpe-sidebar-header">
+      <a href="#" class="tmpe-back-button">
+        <span class="tmpe-arrow-back"></span>
+      </a>
+      <h2 class="tmpe-sidebar-title-text">Más Información</h2>
+      <a href="#" class="tmpe-close-button"></a>
+    </div>
+    <div id="${sidebarContentId}" class="tmpe-sidebar-content">
+      <div class="tmpe-image-section">
+        <div class="tmpe-product-image">
+          <img id="${productImageId}" src="${card.image}" alt="${card.title}" class="tmpe-product-img">
+        </div>
+      </div>
+      <div class="tmpe-product-info">
+        <div class="tmpe-product-header">
+          <h2 id="${productTitleId}" class="tmpe-product-title">${card.title}</h2>
+          <div id="${productBadgeId}" class="tmpe-product-badge">
+            <span class="tmpe-product-badge-text">${displayText}</span>
+          </div>
+        </div>
+        <div id="${includesSectionId}" class="tmpe-includes-section">
+          <div class="tmpe-includes-content">
+            <p class="tmpe-includes-text">
+              ${bulletsHtml ? `<span class="tmpe-includes-label">INCLUYE:</span><br>${bulletsHtml}<br>` : ''}
+              ${card.modalDescription || ''}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="${sidebarFooterId}" class="tmpe-sidebar-footer">
+      <div id="${sidebarPriceId}" class="tmpe-sidebar-price">${card.price || ''}</div>
+      ${buyButtonHtml}
+    </div>
+  </div>
+</div>`;
+        }
+      });
+
+      // Generar anclas para los modales
+      let anchorsHTML = '';
+      cards.forEach((card, index) => {
+        if (card.useModal) {
+          const toggleId = componentId + '_toggle_' + index;
+          anchorsHTML += `<div id="${toggleId}"></div>\n`;
+        }
+      });
+
+      // Generar CSS con selectores únicos
+      const uniqueCSS = `
+    /* CSS Reset básico */
+    #${containerId} *,
+    #${containerId} .tmpe-modal-overlay *,
+    #${containerId} .tmpe-sidebar-panel * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Averta', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    #${containerId} {
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 auto !important;
+      position: relative;
+      z-index: 1;
+      box-sizing: border-box !important;
+      overflow: hidden !important;
+    }
+
+    @media (max-width: 800px) {
+      #${containerId} {
+        width: 100% !important;
+      }
+    }
+
+    /* Default state - Desktop first */
+    #${desktopViewId} {
+      display: block;
+    }
+    
+    #${mobileViewId} {
+      display: none;
+    }
+
+    /* Grid de cards (desktop) */
+    #${cardGridId} {
+      display: grid;
+      grid-template-columns: 343px 343px;
+      gap: 16px;
+      padding: 24px;
+      justify-content: center;
+    }
+
+    /* Resto del CSS con selectores únicos... */
+    `;
+
+      const fullCode = `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ticket Interface - CSS Only</title>
+  <style>
+    ${uniqueCSS}
+  </style>
+</head>
+<body>
+
+<div id="${containerId}" class="tmpe-container">
+  <!-- Vista Desktop -->
+  <div id="${desktopViewId}" class="tmpe-desktop-view">
+    <div id="${cardGridId}" class="tmpe-card-grid">
+${desktopCardsHTML}
+    </div>
+  </div>
+  
+  <!-- Vista Mobile -->
+  <div id="${mobileViewId}" class="tmpe-mobile-view">
+    <div id="${mobileCardGridId}" class="tmpe-mobile-card-grid">
+${mobileCardsHTML}
+    </div>
+  </div>
+</div>
+
+<!-- Anclas para los paneles -->
+${anchorsHTML}
+
+<!-- Sidebars -->
+${modalsHTML}
+
+</body>
+</html>`;
+
+      codeDisplay.textContent = fullCode;
+      codeModal.style.display = 'flex';
+    }
+
+    // ... resto del código ...
+  </script>
+</body>
+</html>
